@@ -16,5 +16,40 @@
       /js/ldBase/util.js
       /js/index.js
     ]>
+    three: <[
+
+      /assets/threejs/BokehPass.js
+      /assets/threejs/OutlineEffect.js
+      /assets/threejs/UnrealBloomPass.js
+      /assets/threejs/points-on-sphere.js
+      /assets/threejs/BokehShader.js
+      /assets/threejs/Projector.js
+      /assets/threejs/d3-color.v1.min.js
+      /assets/threejs/points-sphere.js
+      /assets/threejs/CopyShader.js
+      /assets/threejs/RenderPass.js
+      /assets/threejs/d3-interpolate.v1.min.js
+      /assets/threejs/seedrandom.min.js
+      /assets/threejs/CurveExtras.js
+      /assets/threejs/SVGLoader.js
+      /assets/threejs/d3-scale-chromatic.v1.min.js
+      /assets/threejs/shaderlib.full.js
+      /assets/threejs/EffectComposer.js
+      /assets/threejs/SVGRenderer.js
+      /assets/threejs/easings.js
+      /assets/threejs/svg-mesh.js
+      /assets/threejs/GPUParticleSystem.js
+      /assets/threejs/ShaderPass.js
+      /assets/threejs/hexasphere.js
+      /assets/threejs/text-to-svg.js
+      /assets/threejs/LuminosityHighPassShader.js
+      /assets/threejs/THREE.MarchingCubes.js
+      /assets/threejs/maf.js
+      /assets/threejs/three-tube-geometry.js
+      /assets/threejs/OrbitControls.js
+      /assets/threejs/THREE.OrbitControls.js
+      /assets/threejs/painted.js
+      /assets/threejs/three.min.js
+    ]>
   if module? => module.exports = config
 )!
