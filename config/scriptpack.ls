@@ -2,7 +2,7 @@
   config = css: {}, js: {}
   config.css <<< do
     base: <[
-      /assets/bootstrap/4.0.0-beta/css/bootstrap.min.css
+      /assets/bootstrap/4.0.0/css/bootstrap.min.css
       /assets/fontawesome/4.7.0/css/font-awesome.min.css
       /assets/loading.css/loading.css
       /css/index.css
