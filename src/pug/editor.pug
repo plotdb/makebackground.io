@@ -1,0 +1,47 @@
+//- module
+#download.modal
+  .card
+    .card-body
+      h4 Generated Image
+      small.gray click the download button to download
+      .result: img
+      hr
+      a.btn.btn-lg.btn-outline-success.mr-2(href="#",download="") Download
+      .btn.btn-lg.btn-outline-secondary(onclick="$('#download').modal('hide')") Close
+
+
+include /module/palette-picker.pug
+#editor-option-sample(style="display:none")
+  #editor-option-sample-color.col-sm
+    label Color
+    +color-input('color')
+  #editor-option-sample-number.col-sm
+    label Number
+    +slider
+.editor.float
+  .title
+    big: b "Contour"
+    span &nbsp;/&nbsp;
+    span map-style contour line background.
+  .inner
+    .row
+      .col-sm-3.palette-option
+        label Palette
+        .palette(data-toggle="modal",data-target="#palette-picker")
+          each i in ['#fb4','#fe9','#fdc','#9de']
+            .color(style="background:" + i)
+      .col-sm-2.speed-option
+        label Speed
+        +slider
+      .col-sm-2.width-option
+        label Width
+        +slider
+      .col-sm-2.height-option
+        label Height
+        +slider
+      .col-sm-3
+        label Download
+        .btn-group.download
+          .btn.btn-sm.btn-outline-dark(data-type="png") PNG
+          .btn.btn-sm.btn-outline-dark.disabled(data-type="webm") WebM
+    #editor-custom-options.row

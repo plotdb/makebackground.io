@@ -1,12 +1,23 @@
-@import 'vars'
-@import 'basic'
+@import 'vars.styl'
+@import 'basic.styl'
+
+@font-face
+  font-family: Abel
+  src: url(/assets/fonts/system/Abel-Regular.ttf)
+
+@font-face
+  font-family: Abeezee
+  src: url(/assets/fonts/system/ABeeZee-Regular.ttf)
 
 html,body
   width: 100%
   height: 100%
   margin: 0
   padding: 0
+  font-family: Abeezee
 
-@import 'generic/index'
-@import 'modal/index'
-@import 'component/index'
+
+@import 'generic/index.styl'
+@import 'modal/index.styl'
+@import 'component/index.styl'
+@import 'site/index.styl'

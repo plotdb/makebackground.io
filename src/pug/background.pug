@@ -1,0 +1,15 @@
+//- module
+extends /base.pug
+block body
+  #micro-nav
+    a.title(href="/#gallery") #[i.fa.fa-chevron-left] MAKEBACKGROUND.IO
+  #container
+  include /editor.pug
+  script(src="/js/bk/" + name + ".js")
+  script.
+    var renderer = new ModRenderer("#container");
+    ModManager.load("#{name}")
+      .then(function(it) {
+        renderer.render(it);
+        initEditor(it);
+      });

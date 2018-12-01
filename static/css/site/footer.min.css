@@ -1,0 +1,19 @@
+#footer {
+  background: linear-gradient(45deg, #2f4a7f, #0a7b8d);
+  padding: 40px 10px;
+  color: #fff;
+}
+#footer > .row {
+  max-width: 1024px;
+  width: 90%;
+  margin: auto;
+}
+#footer a {
+  color: #fff;
+}
+#footer a .fa {
+  vertical-align: middle;
+}
+#footer a:hover {
+  color: #ffe;
+}

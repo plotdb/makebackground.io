@@ -1,1 +1,102 @@
-span Hello World!
+extends /base.pug
+block body
+  include list.pug
+  #landing
+    #target: canvas
+    #hero-text
+      //-img(src="/assets/img/landing/text.svg",style="width:100%")
+      .title MAKEBACKGROUND.IO
+      .desc Impress Your Customer with Live, Customizable Animated Background
+    #quick-picker
+      //-.editor.row(style="width:580px;margin:auto;text-align:left")
+        .col-sm-6
+          label Palette
+          .palette(data-toggle="modal",data-target="#palette-picker")
+            each i in ['#fb4','#fe9','#fdc','#9de']
+              .color(style="background:" + i)
+
+      br
+      .thumb(style="background-image:url(/assets/img/bk/trianglify.png)")
+      .thumb(style="background-image:url(/assets/img/bk/snowflake-slow.png)")
+      .thumb(style="background-image:url(/assets/img/bk/contour.png)")
+      .thumb(style="background-image:url(/assets/img/bk/liquid.png)")
+      .thumb(style="background-image:url(/assets/img/bk/cave.png)")
+      .text-center
+        div: small .. more ..
+        img(src="/assets/img/icon/down.svg",style="margin-top: -10px")
+  #gallery
+    br
+    br
+    br
+    .text-center: big Pick the background you want then customize it..
+    br
+    br
+    .list
+      each name in list 
+        a.item(href="/bk/" + name + "/")
+          .thumb(style="background-image:url(/assets/img/bk/sample.png)")
+          .name #{name}
+    br
+    br
+    .text-center
+      div Need more? Help us by sharing it!
+      br
+      .row.w-50.mx-auto
+        .col-sm
+          a.btn.btn-block.btn-outline-primary.mr-2.mb-2(href="https://www.facebook.com/sharer/sharer.php?u=https://makebackground.io",target="_blank") share with facebook #[i.fa.fa-facebook]
+        .col-sm
+          a.btn.btn-block.btn-outline-primary(href="https://twitter.com/share?url=https://makebackground.io&text=super-fast%20live%20background%20generator%20for%20modern%20age",target="_blank") share with twitter #[i.fa.fa-twitter]
+
+  #info: .inner
+    .text-center
+      span.green about this tool
+      h1 Cool Text Generator for Modern Age
+    .sep.huge-gap
+    p Sometimes we just need a decent stylish text in 10 minutes. We don't have Photoshop, we don't have good design in mind. What if there is a web service for us to browse-and-pick a nice effect, then we just customize → download → use it? And yes, maketext.io is born for this purpose.
+
+    p #[span.green Maketext.io] is the modern cool text generator that empowers SVG filters and 800+ open-font-licensed web fonts. While there are already numerous similar websites around, we handcrafted maketext.io with following guideline in mind:
+    ul
+      li Make It Quick, Make It Simple
+      li On the Web, on the Fly
+      li Easily Customizable
+      li Vector Based with Raster Support
+
+    +nbr(2)
+    h2 Technical Consideration
+    .sep
+    p For every fancy text effect, we provide both SVG and PNG format for you to download. Since SVG is well-prepared for everyone to use in HTML5 era, you will still want to know about its limitation so you can choose which one to use between SVG and PNG more wisely.
+    br
+    h3 Browser Compatibility
+    p Just like there are some CSS attributes that are not well-supported by all modern browsers, there might be difference between implementations of browsers to the SVG filter we use, specially of the old browsers like Internet Explorer.
+    p Generally speaking modern browsers like latest versions Chrome, Firefox and Safari should be able to render them correctly, but you should check if you need to support browsers like IE9. For a detail list of browser support for SVG filter, check #[a(href="https://caniuse.com/#feat=svg-filters",target="_blank") Can I Use "SVG filter"] for more information.
+    br
+    h3 Rendering Performance
+    p Rendering SVG can be more CPU-intensive than rendering raster images like PNG or JPG. This is especially true when using complicated SVG filters, and almost all filters here are complicated. Consider using CSS property "#[a(href="https://caniuse.com/#feat=will-change",target="_blank") will-change]" to prevent redundant re-rendering when you use those downloaded SVG files, just like we've done in our stylish text gallery.
+    br
+    h3 Image Quality
+    p While SVG is scalable-vector-based and should be responsive-ready, sometimes there are still unwanted aliasing/jagged edges or not-aligned shapes, due to number rounding / precision issues when rendering. If you use those SVG files with dynamic sizing, remember to check it's visual appearence in different resolution before shipping your works.
+    br
+    h3 Embedded Font
+    p To make custom web font works in SVG files, we actually convert every letter from text into SVG path instead of embedding the whole font file inside it. This can make the file smaller ( if the text is short ), but then it won't be able to change the text after generation of the SVG file, and the SVG file can't be indexed by search engine through its content. You can still use the #[code alt] attribute in #[code img] tag for SEO though.
+    +nbr(2) 
+    h2 Resources
+    .sep
+    p While making stylish text with maketext.io, you may also want to build your own cool text filter. This article "#[a(href="https://www.smashingmagazine.com/2015/05/why-the-svg-filter-is-awesome/") The Art Of SVG Filters And Why It Is Awesome]" provides a comprehensive guide with a lot of example for anyone who want to build a cool text SVG filter from scratch, a definitely must-read. 
+    p Additionally, these filters can actually be used in any shapes, not only for text. For an inspiring example of SVG beyong merely shapes, this talk and slide about "#[a(href="https://www.visualcinnamon.com/2016/05/slides-openvis") SVGs beyond mere shapes]" is the thing you will never want to miss.
+    p The fact that these cool text effects are built with SVG filters makes it possible to couple with other css or javascript libraries. For example, you can use #[a(href="https://loading.io/animation/",target="_blank") loading.css] or #[a(href="https://loading.io/transition/",target="_blank") transition.css] to animate your stylish text. Check #[a(href="https://loading.io/animation/text",target="_blank") loading.io animated text generator] for inspiration of how loading.css can be used in text animation.
+    +nbr(2)
+    h2 Contact
+    .sep
+    p We want to build this service to its best, but there are always bugs or glitches. Feel free to contact us via #[b contact@maketext.io] by mail, or leave your words in the disqus widget below. We always appreciate your feedback and support, by which we could make this service better together.
+    br
+    #subscribe.card
+      .card-body
+        h3 Get on the list
+        .sep
+        p we are constantly building better tools for the web, often with open-sourced libraries for anyone to use. Our portfolio includes data visualization service "#[a(href="https://plotdb.com",target="_blank") PlotDB]", animation service "#[a(href="https://loading.io/") loading.io]", and real-time collaborative web design service "#[a(href="https://makeweb.io") makeweb.io]". Want to get noticed when we release our next service? Just subscribe our newsletter! :)
+        input#email.form-control.form-control-lg.mb-2(type="text",
+        placeholder="Sign up to be the first to hear about the next launch")
+        .btn.btn-block.btn-action.btn-lg(onclick="subscribe()") Get on the list
+
+  script(src="/js/bk/index.js")
+  include module/footer.pug

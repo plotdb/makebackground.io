@@ -283,7 +283,6 @@ base = do
           if newer(des, _src) => continue
           code = fs.read-file-sync(src)toString!
           if /^\/\/- ?(module) ?/.exec(code) => continue
-          console.log \123
           stylus code
             .set \filename, src
             .define 'index', (a, b) ->

@@ -11,15 +11,21 @@ mixin cover-modal(model,className)
     .cover-modal(ng-click=model+".ctrl.toggle(false)")
     .cover-modal-inner
       block
-mixin slider(model,config,size)
+
+mixin slider(size)
   - if(!size) size = "sm"
-  - var value = "slidemode['" + model + "']";
-  .irs-switch(ng-click=value + " = !!!" + value)
-    .icon-form-slider-left(ng-show="!" + value)
-    .icon-form-inputbox(ng-show=value)
-  .up.irs-input: input.form-control(class="input-" + size,
-  ng-ion-slider,ng-value=model,config=config,ng-switch=value,default-switch="false")
-mixin color-input(model,idx,context)
+  .up.irs-input: input.form-control(class="form-control-" + size,
+  config=config,default-switch="false")
+
+mixin color-input(name,size)
+  - if(!size) size = "sm"
+  .color 
+    input.form-control(class="form-control-" + size,
+    name=name,value="#f0f0f0",data-cpclass="no-button compact-palette flat",
+    data-toggle="colorpicker",data-context="random",data-exclusive="true")
+    .inner
+
+mixin ng-color-input(model,idx,context)
   - if(!context) context = "random";
   div(style="position:relative")
     input.form-control(ng-model=model,ng-idx=idx,ldColorPicker

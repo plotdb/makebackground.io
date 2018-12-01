@@ -1,0 +1,66 @@
+(->
+  mod = do
+    name: \contour
+    type: \background
+    desc: "contour line background"
+    tags: <[contour map]>
+    slug: "contour-background-line"
+    license: \CC0
+    edit:
+      background: name: "Background", type: \color, default: \#fff
+      foreground: name: "Foreground", type: \color, default: \#000
+    support: {}
+    init: ({three}) ->
+      mod.obj = obj = {} <<< {animate, controls, renderer, camera, scene, w, h} = three.prepare!
+
+      #renderer.shadowMap.enabled = true
+      #renderer.shadowMap.type = THREE.PCFSoftShadowMap
+      #camera.position.set 1, 1, 100
+      #camera.lookAt 0, 0, 0
+      #scene.background = new THREE.Color 0xffffff
+
+      plane = new THREE.PlaneGeometry 80, 80, 80, 80
+      mat = new THREE.MeshStandardMaterial color: 0xff0000
+      mat = new THREE.ShaderMaterial do
+        uniforms: time: type: \f, value: 0
+        side: THREE.DoubleSide
+        vertexShader: shaderlib.full + """
+        varying vec3 pos;
+        uniform float time;
+        void main() {
+          pos = position;
+          float f = 20. * fbm(time * 0.1 + 0.1 * pos * fbm(pos * 0.001));
+          pos.z = f;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.);
+        }
+        """
+        fragmentShader: shaderlib.full + """
+        varying vec3 pos;
+        uniform float time;
+        void main() {
+          float f = 0.;
+          for(int i=5;i<8;i++) {
+            f = f * pow(float(i),2.) + fbm(pow(float(i), 0.5) * pos * 0.002);
+            // f = f + fbm(pow(float(i), 0.1) * pos * 0.05); // cloudy
+          }
+          f = sin(f) * 0.5 + 0.5;
+          if(f < 0.8) { f = 0.; }
+          gl_FragColor = vec4(f, f, f, 1.);
+        }
+        """
+      mesh = new THREE.Mesh plane, mat
+      scene.add mesh
+      light = new THREE.AmbientLight 0xffffff
+      scene.add light
+
+      start = Date.now!
+      animate ->
+        controls.update!
+        t = (Date.now! - start) * 0.001
+        mat.uniforms.time.value = t
+        renderer.render scene, camera
+
+  if module? => module.exports = mod
+  else if ModManager => ModManager.register mod
+  else return mod
+)!

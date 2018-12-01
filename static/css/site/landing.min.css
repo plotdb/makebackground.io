@@ -1,0 +1,62 @@
+#landing {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  color: #444;
+}
+#landing #hero-text {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 4;
+  font-size: 20px;
+  padding: 180px 20px;
+  font-family: Abel;
+}
+#landing #hero-text .title {
+  font-size: 64px;
+  font-family: Abeezee;
+}
+#target {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+/*
+  background: none
+  border: 0px solid #fff
+  overflow: hidden
+  border-radius: 3px
+  box-shadow: 0 8px 12px rgba(0,0,0,.5)
+  */
+  z-index: 1;
+  padding: 0;
+  margin: 0;
+}
+#target canvas {
+  background: #333;
+  border-bottom: 1px solid #999;
+  width: 100%;
+  height: 100%;
+}
+#quick-picker {
+  position: absolute;
+  z-index: 5;
+  bottom: 30px;
+  width: 100%;
+}
+#quick-picker .thumb {
+  display: inline-block;
+  width: 90px;
+  height: 90px;
+  margin: 5px 10px;
+  background-color: #000;
+  border-radius: 2px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+  background-position: center center;
+  background-size: cover;
+}

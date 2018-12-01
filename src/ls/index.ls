@@ -1,4 +1,4 @@
-angular.module \servlet, <[ldBase backend]>
+/*angular.module \servlet, <[ldBase backend]>
   ..factory \httpRequestInterceptor, <[global]> ++ (global) -> do
     request: (config) ->
       config.headers['X-CSRF-Token'] = global.csrfToken
@@ -74,3 +74,4 @@ angular.module \servlet, <[ldBase backend]>
 
     initWrap.run!
     console.log \loaded
+*/

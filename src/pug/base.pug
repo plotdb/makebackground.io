@@ -21,11 +21,12 @@ html(lang="en")
     block head
     +script("/js/global.js")
     +script("/js/pack/base.js")
+    +script("/js/pack/three.js")
   body(id=rootid,class=rootclass)
-    if navbar
+    //-if navbar
       include /nav.pug
     include /auth/panel.pug
-    #notifications
+    //-#notifications
       .notify(ng-repeat="n in notifications",ng-class="'notify-'+n.type",ng-cloak) {{n.message}}
     block body
     if !debug
