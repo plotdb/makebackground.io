@@ -83,7 +83,40 @@ Array.from(document.querySelectorAll('#quick-picker .thumb')).map (d,i) -> d.add
   load names[i]
 */
 (function(){
-  var ModManager, ModRenderer, renderer, names;
+  var ScriptManager, ModManager, ModRenderer, renderer, names, loadbk;
+  window.ScriptManager = ScriptManager = {
+    hash: {},
+    load: function(type, src){
+      var this$ = this;
+      type == null && (type = 'js');
+      return new Promise(function(res, rej){
+        var script;
+        if (!this$.hash[src]) {
+          this$.hash[src] = {
+            promise: {
+              res: [],
+              rej: []
+            },
+            loaded: false
+          };
+        }
+        this$.hash[src].promise.res.push(res);
+        this$.hash[src].promise.rej.push(rej);
+        if (this$.hash[src].promise.res.length > 1) {
+          return;
+        }
+        script = document.createElement('script');
+        script.src = src;
+        script.onload = function(){
+          this$.hash[src].loaded = true;
+          return this$.hash[src].promise.res.map(function(){
+            return res();
+          });
+        };
+        return document.body.appendChild(script);
+      });
+    }
+  };
   window.ModManager = ModManager = {
     mods: {},
     init: function(){},
@@ -101,13 +134,21 @@ Array.from(document.querySelectorAll('#quick-picker .thumb')).map (d,i) -> d.add
               return this._callback = null, this.name = null, this.node = null, this.res = null, this.rej = null, this;
             },
             callback: function(e, b){
+              var promises, this$ = this;
               this.name = null;
-              if (!(this.rej && this.res)) {
-                return;
+              if (e) {
+                return this.rej ? this.rej(e) : null;
               }
-              return e
-                ? this.rej(e)
-                : this.res(b);
+              promises = b.lib
+                ? b.lib.map(function(it){
+                  return ScriptManager.load(it[0], it[1]);
+                })
+                : [Promise.resolve()];
+              return Promise.all(promises).then(function(){
+                if (this$.res) {
+                  return this$.res(b);
+                }
+              });
             }
           };
         }
@@ -128,12 +169,12 @@ Array.from(document.querySelectorAll('#quick-picker .thumb')).map (d,i) -> d.add
           }, 10000),
           node: document.createElement("script")
         });
-        this$.load.target.node.src = "/js/bk/" + name + ".js";
+        this$.load.target.node.src = "/backgrounds/" + name + "/main.js";
         return document.body.appendChild(this$.load.target.node);
       });
     },
     register: function(mod){
-      if (!mod || !mod.name || this.mods[mod.name]) {
+      if (!mod || !mod.name) {
         console.log("register error: ", mod);
         return this.load.target && this.load.target.callback ? this.load.target.callback(true) : void 8;
       }
@@ -197,6 +238,16 @@ Array.from(document.querySelectorAll('#quick-picker .thumb')).map (d,i) -> d.add
                 mod._renderer = ret.renderer;
                 return ret;
               }
+            },
+            shaderlib: {
+              prepare: function(shaders, option){
+                var renderer;
+                option == null && (option = {});
+                renderer = new ShaderRenderer(shaders, (option.root = this$.target, option));
+                renderer.init();
+                renderer.animate();
+                return mod._renderer = renderer;
+              }
             }
           });
         }))
@@ -232,14 +283,24 @@ Array.from(document.querySelectorAll('#quick-picker .thumb')).map (d,i) -> d.add
   });
   renderer = new ModRenderer();
   names = ['trianglify', 'snowflake-slow', 'contour', 'liquid', 'cave'];
+  names = ['contour', 'contour', 'contour', 'mystery', 'contour'];
+  loadbk = function(name){
+    return ModManager.load(name).then(function(it){
+      var target;
+      target = document.querySelector('#target');
+      target.classList.remove('show');
+      renderer.setContainer('#target');
+      renderer.render(it);
+      return setTimeout(function(){
+        return target.classList.add('show');
+      }, 1000);
+    })['catch'](function(it){
+      return console.log("error: ", it);
+    });
+  };
   return Array.from(document.querySelectorAll('#quick-picker .thumb')).map(function(d, i){
     return d.addEventListener('click', function(){
-      return ModManager.load(names[i]).then(function(it){
-        renderer.setContainer('#target');
-        return renderer.render(it);
-      })['catch'](function(it){
-        return console.log("error: ", it);
-      });
+      return loadbk(names[i]);
     });
   });
 })();

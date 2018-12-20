@@ -8,18 +8,21 @@
       /assets/ldcolorpicker/0.1.4/ldcp.css
       /assets/ion-rangeslider/2.1.7/css/ion.rangeSlider.css
       /assets/ion-rangeslider/2.1.7/css/ion.rangeSlider.skinFlat.css
+      /assets/loading-btn/loading-btn.min.css
       /css/index.css
     ]>
   config.js <<< do
     base: <[
       /assets/jquery/1.10.2/jquery.min.js
-      /assets/popper/1.12.5/index.js
       /assets/bootstrap/4.0.0/js/bootstrap.min.js
       /assets/ion-rangeslider/2.1.7/js/ion.rangeSlider.min.js
       /assets/ldcolorpicker/0.1.4/ldcp.min.js
+      /assets/ldColor/ldColor.min.js
       /assets/palette/palettes.js
       /assets/clusterize/0.18.1/clusterize.min.js
       /assets/smiltool/latest/index.js
+      /assets/gifjs/0.2.0/gif.js
+      /assets/shaderlib/shader.js
       /js/bk/index.js
       /js/bk/editor.js
       /js/index.js

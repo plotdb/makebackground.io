@@ -3,6 +3,7 @@ block body
   include list.pug
   #landing
     #target: canvas
+    .gradient
     #hero-text
       //-img(src="/assets/img/landing/text.svg",style="width:100%")
       .title MAKEBACKGROUND.IO
@@ -16,11 +17,25 @@ block body
               .color(style="background:" + i)
 
       br
-      .thumb(style="background-image:url(/assets/img/bk/trianglify.png)")
-      .thumb(style="background-image:url(/assets/img/bk/snowflake-slow.png)")
-      .thumb(style="background-image:url(/assets/img/bk/contour.png)")
-      .thumb(style="background-image:url(/assets/img/bk/liquid.png)")
-      .thumb(style="background-image:url(/assets/img/bk/cave.png)")
+
+      //for i in [1,2,3,4,5,6,7,8,9]
+        .thumb(style="background-image:url(/assets/img/sample/" + i + ".jpg)")
+      //-for i in [10,11,2,3,13,15,5,16,17]
+      //-for i in [10,11,13,15,16,17]
+      //-
+        for i in [10,11,17,16]
+          .thumb(style="background-image:url(/assets/img/sample/" + i + ".jpg)")
+      .thumb(style="background-image:url(/assets/img/sample/17.jpg)")
+      .thumb(style="background-image:url(/assets/img/sample/16.jpg)")
+      .thumb(style="background-image:url(/assets/img/sample/10.jpg)")
+      .thumb(style="background-image:url(/assets/img/sample/18.jpg)")
+      .thumb(style="background-image:url(/assets/img/sample/11.jpg)")
+      //-
+        .thumb(style="background-image:url(/assets/img/bk/trianglify.png)")
+        .thumb(style="background-image:url(/assets/img/bk/snowflake-slow.png)")
+        .thumb(style="background-image:url(/assets/img/bk/contour.png)")
+        .thumb(style="background-image:url(/assets/img/bk/liquid.png)")
+        .thumb(style="background-image:url(/assets/img/bk/cave.png)")
       .text-center
         div: small .. more ..
         img(src="/assets/img/icon/down.svg",style="margin-top: -10px")
@@ -31,15 +46,37 @@ block body
     .text-center: big Pick the background you want then customize it..
     br
     br
+
     .list
+      a.item(href="/bk/glowing-fall/")
+        .thumb(style="background-image:url(/backgrounds/glowing-fall/index.jpg)")
+        .name Glowing Fall
+      a.item(href="/bk/flying-elves/")
+        .thumb(style="background-image:url(/assets/img/sample/10.jpg)")
+        .name Flying Elves
+
+      each i in [10,20,18,11,15,17,16,19,21,22,23]
+        a.item
+          .thumb(style="background-image:url(/assets/img/sample/" + i + ".jpg)")
+          .name #{i}
       each name in list 
         a.item(href="/bk/" + name + "/")
-          .thumb(style="background-image:url(/assets/img/bk/sample.png)")
+          .thumb(style="background-image:url(/backgrounds/" + name + "/index.png")
           .name #{name}
+      br
+      each i in [1,2,3,4,5,6,7,8,9,10]
+        a.item
+          .thumb(style="background-image:url(/assets/img/sample/" + i + ".jpg)")
+          .name #{i}
+
+
+    br
+    br
     br
     br
     .text-center
       div Need more? Help us by sharing it!
+      br
       br
       .row.w-50.mx-auto
         .col-sm

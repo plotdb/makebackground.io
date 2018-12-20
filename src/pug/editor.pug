@@ -4,7 +4,9 @@
     .card-body
       h4 Generated Image
       small.gray click the download button to download
-      .result: img
+      .result
+        img
+        video(controls)
       hr
       a.btn.btn-lg.btn-outline-success.mr-2(href="#",download="") Download
       .btn.btn-lg.btn-outline-secondary(onclick="$('#download').modal('hide')") Close
@@ -43,5 +45,5 @@ include /module/palette-picker.pug
         label Download
         .btn-group.download
           .btn.btn-sm.btn-outline-dark(data-type="png") PNG
-          .btn.btn-sm.btn-outline-dark.disabled(data-type="webm") WebM
+          .btn.btn-sm.btn-outline-dark(data-type="webm") WebM
     #editor-custom-options.row

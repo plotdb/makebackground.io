@@ -68,6 +68,22 @@ Array.from(document.querySelectorAll('#quick-picker .thumb')).map (d,i) -> d.add
 
 (->
 
+
+  window.ScriptManager = ScriptManager = do
+    hash: {}
+    load: (type = \js, src) -> new Promise (res, rej) ~>
+      if !@hash[src] => 
+        @hash[src] = {promise: {res: [], rej: []}, loaded: false}
+      @hash[src].promise.res.push res
+      @hash[src].promise.rej.push rej
+      if @hash[src].promise.res.length > 1 => return
+      script = document.createElement \script
+      script.src = src
+      script.onload = ~>
+        @hash[src].loaded = true
+        @hash[src].promise.res.map -> res!
+      document.body.appendChild script
+
   window.ModManager = ModManager = do
     mods: {}
     init: ->
@@ -78,8 +94,10 @@ Array.from(document.querySelectorAll('#quick-picker .thumb')).map (d,i) -> d.add
         clear: -> @ <<< _callback: null, name: null, node: null, res: null, rej: null
         callback: (e, b) ->
           @ <<< name: null
-          if !(@rej and @res) => return
-          return if e => @rej e else @res b
+          if e => return if @rej => @rej e else null
+          promises = if b.lib => b.lib.map -> ScriptManager.load it.0, it.1
+          else [Promise.resolve!]
+          Promise.all promises .then ~> if @res => @res b
       if @load.target.timeout => clearTimeout @load.target.timeout
       @load.target <<< do
         res: res, rej: rej
@@ -91,11 +109,11 @@ Array.from(document.querySelectorAll('#quick-picker .thumb')).map (d,i) -> d.add
         ), 10000
         node: document.createElement("script")
 
-      @load.target.node.src = "/js/bk/#name.js"
+      @load.target.node.src = "/backgrounds/#name/main.js"
       document.body.appendChild(@load.target.node)
 
     register: (mod) ->
-      if !mod or !mod.name or @mods[mod.name] =>
+      if !mod or !mod.name =>
         console.log "register error: ", mod
         return if @load.target and @load.target.callback => @load.target.callback true
       @mods[mod.name] = mod
@@ -132,11 +150,18 @@ Array.from(document.querySelectorAll('#quick-picker .thumb')).map (d,i) -> d.add
         console.log "init mod..."
         Promise.resolve!then ~>
           mod.inited = true
-          mod.init {three: prepare: ~> 
-            ret = @prepare!
-            mod._renderer = ret.renderer
-            return ret
-          }
+          mod.init do
+            three: prepare: ~> 
+              ret = @prepare!
+              mod._renderer = ret.renderer
+              return ret
+            shaderlib: prepare: (shaders, option = {}) ~>
+              renderer = new ShaderRenderer shaders, option <<< {root: @target}
+              renderer.init!
+              renderer.animate!
+              mod._renderer = renderer
+
+              
       else Promise.resolve!
       promise.then ~>
         @mod = mod
@@ -159,11 +184,20 @@ Array.from(document.querySelectorAll('#quick-picker .thumb')).map (d,i) -> d.add
   renderer = new ModRenderer!
 
   names = <[trianglify snowflake-slow contour liquid cave]>
-  Array.from(document.querySelectorAll('#quick-picker .thumb')).map (d,i) -> d.addEventListener \click, ->
-    ModManager.load names[i]
+  names = <[contour contour contour mystery contour]>
+  loadbk = (name) ->
+    ModManager.load name
       .then ->
+        target = document.querySelector \#target 
+        target.classList.remove \show
         renderer.setContainer \#target
         renderer.render it
+        setTimeout (-> target.classList.add \show ), 1000
       .catch -> console.log "error: ", it
+
+  Array.from(document.querySelectorAll('#quick-picker .thumb')).map (d,i) ->
+    d.addEventListener \click, -> loadbk names[i]
+
+  #loadbk \contour
 )!
 

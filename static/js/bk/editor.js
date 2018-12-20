@@ -9,6 +9,9 @@ editor = {
     old: {}
   }
 };
+editor.setSize = function(w, h){
+  return mod._renderer.setSize(w, h);
+};
 editor.update = function(name, value){
   var type;
   this.config.old = JSON.parse(JSON.stringify(this.config.cur));
@@ -73,7 +76,7 @@ initColorpicker = function(node, key, value){
   });
 };
 window.initEditor = initEditor = function(mod){
-  var colors, k, v, options, ref$, yet$, node, ref1$;
+  var colors, k, v, options, ref$, yet$, node;
   prepare();
   colors = (function(){
     var ref$, results$ = [];
@@ -133,15 +136,11 @@ window.initEditor = initEditor = function(mod){
     }
     options.appendChild(node);
     setPalette([].concat(colors));
-    for (k in ref1$ = mod.edit) {
-      v = ref1$[k];
-      editor.update(k, v['default']);
-    }
   } if (yet$) {
     options.innerHTML = "<div class='col-sm'><div class='empty'></div></div>";
     setPalette([]);
   }
-  for (k in ref$ = (ref1$ = editor.config).cir || (ref1$.cir = {})) {
+  for (k in ref$ = mod.edit) {
     v = ref$[k];
     editor.update(k, v['default']);
   }
@@ -214,24 +213,66 @@ prepare = function(){
     contentElem: document.querySelector('#palette-picker .clusterize-content'),
     rows_in_block: 50
   });
-  return document.querySelector('.editor .download .btn[data-type="png"]').addEventListener('click', function(e){
+  document.querySelector('.editor .download .btn[data-type="png"]').addEventListener('click', function(e){
     var canvas, dataurl;
-    console.log(document.querySelectorAll('#container canvas'));
-    canvas = document.querySelector('#container canvas');
+    canvas = document.querySelector('#canvas-container canvas');
     dataurl = canvas.toDataURL("image/png");
-    console.log(canvas.width, canvas.height);
     return smiltool.urlToDataurl(dataurl, canvas.width, canvas.height).then(function(it){
       return smiltool.dataurlToBlob(it);
     }).then(function(blob){
-      var url, x$;
+      var url, x$, y$, z$;
       url = URL.createObjectURL(blob);
-      document.querySelector('#download img').setAttribute('src', url);
+      x$ = document.querySelector('#download img');
+      x$.setAttribute('src', url);
+      x$.style.display = 'block';
+      y$ = document.querySelector('#download video');
+      y$.style.display = 'none';
       document.querySelector('#download .result').style.height = 200 + "px";
-      x$ = document.querySelector('#download .btn');
-      x$.setAttribute('href', url);
-      x$.setAttribute('download', (editor.mod.name || 'output') + "." + 'png');
+      z$ = document.querySelector('#download .btn');
+      z$.setAttribute('href', url);
+      z$.setAttribute('download', (editor.mod.name || 'output') + "." + 'png');
       return $('#download').modal('show');
     });
+  });
+  document.querySelector('.editor .download .btn[data-type="webm"]').addEventListener('click', function(e){
+    var canvas, stream, options, blob, mr;
+    canvas = document.querySelector('#canvas-container canvas');
+    stream = canvas.captureStream();
+    options = {
+      mimeType: 'video/webm'
+    };
+    blob = [];
+    mr = new MediaRecorder(stream, options);
+    mr.ondataavailable = function(event){
+      if (event.data && event.data.size > 0) {
+        return blob.push(event.data);
+      }
+    };
+    mr.start();
+    document.querySelector('#loading').classList.add('running');
+    return setTimeout(function(){
+      mr.stop();
+      return setTimeout(function(){
+        var b, url, x$, y$, z$;
+        b = new Blob(blob, {
+          type: 'video/webm'
+        });
+        url = URL.createObjectURL(b);
+        document.querySelector('#loading').classList.remove('running');
+        x$ = document.querySelector('#download video');
+        x$.style.display = 'block';
+        x$.innerHTML = "<source type=\"video/webm\" src=\"" + url + "\"/>";
+        y$ = document.querySelector('#download img');
+        y$.style.display = 'none';
+        z$ = document.querySelector('#download .btn');
+        z$.setAttribute('href', url);
+        z$.setAttribute('download', (editor.mod.name || 'output') + "." + 'webm');
+        return $('#download').modal('show');
+      }, 1000);
+    }, 5000);
+  });
+  return window.addEventListener('resize', function(){
+    return editor.setSize(window.innerWidth, window.innerHeight);
   });
   function fn$(it){
     return "<div class='color' style='background:" + it + "'></div>";

@@ -1,24 +1,35 @@
 //- module
 
 #gallery
+  background: linear-gradient(45deg, #eef, #fee)
+  background-attachment: fixed
+  padding-bottom: 60px
   .list
     text-align: center
     max-width: 1200px
     margin: auto
     .item
       display: inline-block
+      text-decoration: none
       .name
-        font-size: 13px
+        display: none
+        font-size: 15px
         font-weight: light
         color: #444
         text-decoration: none
       .thumb
         cursor: pointer
-        box-shadow: 0 2px 1px rgba(0,0,0,.3)
-        border-radius: 3px
+        //box-shadow: 0 2px 1px rgba(0,0,0,.3)
+        //border-radius: 3px
         width: 200px
         height: 200px
-        margin: 50px 50px 5px 50px
+        background-size: cover
+        //margin: 20px 20px 5px //50px 50px 5px 50px
+        //margin: 0 5px 5px
+        margin: 30px
+        border: 6px solid #fff
+        box-shadow: 0 8px 20px rgba(0,0,0,.2), inset 0 2px 4px rgba(0,0,0,.2)
+        border-radius: 4px
 
 #galleryx
   .list

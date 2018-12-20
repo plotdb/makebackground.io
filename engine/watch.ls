@@ -1,4 +1,4 @@
-require! <[fs fs-extra path chokidar child_process pug stylus js-yaml]>
+require! <[fs fs-extra path chokidar child_process pug stylus js-yaml browserify stream glslify]>
 require! <[colors require-reload markdown jsdom bluebird node-minify]>
 require! 'uglify-js': uglify-js, LiveScript: lsc, 'uglifycss': uglify-css
 require! <[../config/scriptpack]>
@@ -146,6 +146,72 @@ base = do
       .on \change, ~> @watch-handler it
     console.log "[Watcher] monitoring source files...".cyan
 
+  backgrounds: do
+    handle: (src, type) ->
+      logs = []
+      merge = false
+      if type == \jade =>
+        logs.push "[BUILD] recursive from #src:"
+        des = src.replace(/src\/backgrounds/, 'static/backgrounds').replace(/.pug/, '.html')
+        base.pug src, des, null, logs, src
+        merge = true
+      else if type == \ls =>
+        try
+          des = src.replace(/src\/backgrounds/, 'static/backgrounds').replace(/.ls/, '.js')
+          mkdir-recurse path.dirname(des)
+          code = lsc.compile(fs.read-file-sync(src)toString!,{bare:true})
+          s = new stream.Readable!
+          s.push code
+          s.push null
+          bobj = browserify s, {basedir: cwd}
+          bobj.transform \glslify
+          bobj.bundle (e, b) ~>
+            if e =>
+              logs.push "[BUILD] #src failed: "
+              logs.push e
+            else
+              fs.write-file-sync des, b
+              logs.push "[BUILD] #src --> #des"
+              @merge logs
+            @log logs
+        catch e
+          logs.push e.toString!
+      else if type in <[other]> and /\.(gif|png|svg|jpg)$/.exec(src) =>
+        des = src.replace(/src\/backgrounds/, 'static/backgrounds')
+        if newer(des, src) => return
+        fs-extra.copy-sync src, des
+        console.log "[COPY ] #src -> #des"
+
+      if merge => @merge logs
+      @log logs
+
+    merge: (logs) ->
+      obj = {}
+      dirs = fs.readdir-sync \static/backgrounds/
+        .map -> [it, "static/backgrounds/#it"]
+        .filter -> fs.exists-sync(it.1) and fs.stat-sync(it.1).is-directory!
+      config = JSON.parse(fs.read-file-sync \src/backgrounds/config.json .toString!)
+      dirs.sort (a,b) -> config.order.indexOf(b.0) - config.order.indexOf(a.0)
+      dirs
+        .map ->
+          obj[it.0] = {}
+          if fs.exists-sync "#{it.1}/main.js" =>
+            code = fs.read-file-sync("#{it.1}/main.js").toString!
+            module = {}
+            try
+              eval(code)
+              if module.{}exports.debug => return delete obj[it.0]
+            catch e
+              # nothing.
+            obj[it.0].js = code
+          if fs.exists-sync "#{it.1}/index.html" =>
+            obj[it.0].html = fs.read-file-sync("#{it.1}/index.html").toString!
+      fs.write-file-sync \static/backgrounds/background.js, "var background = #{JSON.stringify(obj)}"
+      logs.push "[BUILD] pack backgrounds.js"
+
+    log: (logs) ->
+      if logs.length => console.log logs.join(\\n)
+
   packer: do
     handle: null
     queue: {}
@@ -205,6 +271,7 @@ base = do
     src = src.replace path.join(cwd,\/), ""
     [type,cmd,des] = [ftype(src), "",""]
     if trigger-only => type = \other
+    if /src\/backgrounds\//.exec(src) => return @backgrounds.handle src, type
 
     if type == \md =>
       try

@@ -2,6 +2,9 @@ editor = do
   mod: null
   config: cur: {fontSize: 64}, old: {}
 
+editor.setSize = (w, h) ->
+  mod._renderer.setSize w, h
+
 editor.update = (name, value) ->
   @config.old = JSON.parse JSON.stringify @config.cur
   type = @mod.edit[name].type
@@ -70,11 +73,11 @@ window.init-editor = init-editor = (mod) ->
       init-slider node, k, v
     options.appendChild(node)
     set-palette [] ++ colors
-    for k,v of mod.edit => editor.update k, v.default
   else
     options.innerHTML = "<div class='col-sm'><div class='empty'></div></div>"
     set-palette []
-  for k,v of editor.config.{}cir => editor.update k, v.default
+  for k,v of mod.edit => editor.update k, v.default
+  #for k,v of editor.config.{}cur => editor.update k, v.default
   document.querySelector '.editor .title big b' .innerText = "\"#{mod.name}\""
   document.querySelector '.editor .title span:nth-of-type(2)' .innerText = "#{mod.desc}"
   setTimeout (-> set-palette colors, \Palette), 100
@@ -126,18 +129,51 @@ prepare = ->
     rows_in_block: 50
 
   document.querySelector '.editor .download .btn[data-type="png"]' .addEventListener \click, (e) ->
-    console.log document.querySelectorAll('#container canvas')
-    canvas = document.querySelector('#container canvas')
+    canvas = document.querySelector('#canvas-container canvas')
     dataurl = canvas.toDataURL "image/png"
-    console.log canvas.width, canvas.height
     smiltool.url-to-dataurl dataurl, canvas.width, canvas.height
       .then ->
         smiltool.dataurl-to-blob it
       .then (blob) ->
         url = URL.createObjectURL blob
-        document.querySelector('#download img').setAttribute \src, url
+        document.querySelector('#download img')
+          ..setAttribute \src, url
+          ..style.display = \block
+        document.querySelector('#download video')
+          ..style.display = \none
         document.querySelector('#download .result').style.height = "#{200}px"
         document.querySelector('#download .btn')
           ..setAttribute \href, url
           ..setAttribute \download, "#{editor.mod.name or 'output'}.#{'png'}"
         $(\#download).modal \show
+  document.querySelector '.editor .download .btn[data-type="webm"]' .addEventListener \click, (e) ->
+    canvas = document.querySelector('#canvas-container canvas')
+    stream = canvas.captureStream!
+    options = mimeType: \video/webm
+    blob = []
+    mr = new MediaRecorder(stream, options)
+    mr.ondataavailable = (event) ->
+      if event.data and event.data.size > 0 => blob.push event.data
+    mr.start!
+    document.querySelector '#loading' .classList.add \running
+    setTimeout (->
+      mr.stop!
+      setTimeout (->
+        b = new Blob(blob, type: \video/webm)
+        url = URL.createObjectURL b
+        document.querySelector '#loading' .classList.remove \running
+        document.querySelector('#download video')
+          ..style.display = \block
+          ..innerHTML = """<source type="video/webm" src="#url"/>"""
+        document.querySelector('#download img')
+          ..style.display = \none
+        document.querySelector('#download .btn')
+          ..setAttribute \href, url
+          ..setAttribute \download, "#{editor.mod.name or 'output'}.#{'webm'}"
+        $(\#download).modal \show
+      ), 1000
+    ), 5000
+
+
+  window.addEventListener \resize, ->
+    editor.setSize window.innerWidth, window.innerHeight

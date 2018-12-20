@@ -6,6 +6,7 @@
     desc: "contour line background"
     tags: <[contour map]>
     slug: "contour-background-line"
+    lib: js: <[https://unpkg.com/delaunator@3.0.2/delaunator.min.js]>
     license: \CC0
     support: {}
     init: ({three}) ->
