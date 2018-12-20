@@ -16,9 +16,9 @@
       {
         fragmentShader: glslify '''
           precision highp float;
-          #pragma glslify: noise = require('../../shaderlib/src/noise.shader')
-          #pragma glslify: vignette = require('../../shaderlib/src/vignette.shader')
-          #pragma glslify: gradient = require('../../shaderlib/src/raster/gradient/3d1.shader')
+          #pragma glslify: noise = require("shaderlib/func/noise")
+          #pragma glslify: vignette = require("shaderlib/func/vignette")
+          #pragma glslify: gradient = require("shaderlib/raster/gradient/3d1")
           uniform vec2 uResolution;
           uniform float uTime;
           void main() {

@@ -65,6 +65,7 @@
     "read-chunk": "=2.0.0",
     "request": "^2.87.0",
     "require-reload": "=0.2.2",
+    "shaderlib": "github:zbryikt/shaderlib",
     "sharedb": "^1.0.0-beta.8",
     "sharedb-postgres": "^2.0.0",
     "sharp": "=0.18.0",

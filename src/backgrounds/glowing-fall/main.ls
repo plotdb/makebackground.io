@@ -29,12 +29,11 @@
 
         fragmentShader: glslify '''
           precision highp float;
-          #pragma glslify: aspect_ratio = require("../../shaderlib/src/aspect_ratio.shader")
-          #pragma glslify: quantize = require("../../shaderlib/src/quantize.shader")
-          #pragma glslify: fbm = require("../../shaderlib/src/fbm.shader")
+          #pragma glslify: aspect_ratio = require("shaderlib/func/aspect_ratio")
+          #pragma glslify: quantize = require("shaderlib/func/quantize")
+          #pragma glslify: fbm = require("shaderlib/func/fbm")
           #pragma glslify: noise = require("glsl-noise/simplex/2d")
 
-          // Processing specific input
           uniform float uTime;
           uniform vec2 uResolution;
           uniform vec3 foreground;
