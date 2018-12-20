@@ -48,14 +48,16 @@ block body
     br
 
     .list
-      a.item(href="/bk/glowing-fall/")
-        .thumb(style="background-image:url(/backgrounds/glowing-fall/index.jpg)")
-        .name Glowing Fall
-      a.item(href="/bk/flying-elves/")
-        .thumb(style="background-image:url(/assets/img/sample/10.jpg)")
-        .name Flying Elves
+      each name in ["glowing-fall", "flying-elves", "under-sea"]
+        a.item(href="/bk/" + name + "/")
+          .thumb(style="background-image:url(/backgrounds/" + name + "/index.jpg)")
+          .name= name
+      //-
+        a.item(href="/bk/flying-elves/")
+          .thumb(style="background-image:url(/assets/img/sample/10.jpg)")
+          .name Flying Elves
 
-      each i in [10,20,18,11,15,17,16,19,21,22,23]
+      each i in [18,11,15,17,16,19,21,22,23]
         a.item
           .thumb(style="background-image:url(/assets/img/sample/" + i + ".jpg)")
           .name #{i}
