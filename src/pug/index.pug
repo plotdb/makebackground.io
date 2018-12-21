@@ -48,15 +48,11 @@ block body
     br
 
     .list
-      each name in ["waves", "burning", "glowing-fall", "under-cloud", "flying-elves", "paper-contour", "gradient-wave", "network", "under-sea"]
+      each name in ["waves", "burning", "under-cloud", "glowing-fall", "flying-elves", "paper-contour", "spotlight-gradient", "gradient-wave", "network", "under-sea", "ternary-gradient", "contour"]
         a.item(href="/bk/" + name + "/")
           .thumb(style="background-image:url(/backgrounds/" + name + "/index.jpg)")
           .name= name
 
-      each i in [22,23]
-        a.item
-          .thumb(style="background-image:url(/assets/img/sample/" + i + ".jpg)")
-          .name #{i}
       each name in list 
         a.item(href="/bk/" + name + "/")
           .thumb(style="background-image:url(/backgrounds/" + name + "/index.png")

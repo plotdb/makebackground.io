@@ -1,85 +1,64 @@
 (->
+  require! <[glslify]>
   mod = do
-    name: \contour
+    name: \Contour
     type: \background
-    desc: "contour line background"
+    desc: "Map style contour texture for your next vintage style project"
     tags: <[contour map]>
-    slug: "contour-background-line"
+    slug: "contour-map-vintage-texture"
     license: \CC0
     edit:
-      background: name: "Background", type: \color, default: \#fff
-      foreground: name: "Foreground", type: \color, default: \#000
+      c1: name: "Color 1", type: \color, default: \#000
+      c2: name: "Color 2", type: \color, default: \#eee
+      scale: name: "Scale", type: \number, default: 1, min: 0.05, max: 2, step: 0.01
+      intensity: name: "Intensity", type: \number, default: 2.09, min: 0.01, max: 10, step: 0.01
     support: {}
     watch: (n, o) ->
-      if !mod.obj => return
-      bg = new THREE.Color(n.background)
-      fg = new THREE.Color(n.foreground)
-      uni = mod.obj.sp.uniforms
-      uni.background.value = new THREE.Vector3(bg.r, bg.g, bg.b)
-      uni.foreground.value = new THREE.Vector3(fg.r, fg.g, fg.b)
-      uni.speed.value = n.speed
-    init: ({three}) ->
-      mod.obj = obj = {} <<< {animate, controls, renderer, camera, scene, w, h} = three.prepare!
-
-      camera.position.set 1, 1, 100
-      camera.lookAt 0, 0, 0
-      scene.background = new THREE.Color 0xffffff
-
-      obj.composer = new THREE.EffectComposer renderer
-      rp = new THREE.RenderPass scene, camera
-      obj.sp = sp = new THREE.ShaderPass do
+      u = @shaders.0.uniforms
+      for name in <[c1 c2]> => u[name]value = ldColor.rgbfv(n[name])
+      for name in <[speed scale intensity]> => u[name]value = n[name]
+    shaders: [
+      {
         uniforms:
-          time: type: \f, value: 0
-          speed: type: \f, value: 1
-          resolution: value: new THREE.Vector2(w, h)
-          background: value: new THREE.Vector3(1,1,1)
-          foreground: value: new THREE.Vector3(0,0,0)
-        vertexShader: """
-        varying vec3 vUv;
-        uniform vec2 resolution;
-        void main() {
-          vUv = vec3(uv, .0);
-          if(resolution.x > resolution.y) { 
-            vUv.x = vUv.x * resolution.x / resolution.y;
-          } else {
-            vUv.y = vUv.y * resolution.y / resolution.x;
+          c1: type: \3fv, value: [0, 0, 0]
+          c2: type: \3fv, value: [0.93, 0.93, 0.93]
+          speed: type: \1f, value: 1
+          scale: type: \1f, value: 1
+          intensity: type: \1f, value: 2.09
+        fragmentShader: glslify '''
+          precision highp float;
+          #pragma glslify: aspect_ratio = require("shaderlib/func/aspect_ratio")
+          #pragma glslify: fbm = require("shaderlib/func/fbm")
+
+          uniform float uTime, speed, scale, intensity;
+          uniform vec2 uResolution;
+          uniform vec3 c1, c2;
+
+          void main() {
+            vec3 color = vec3(0., 0., 0.), duv, uv = aspect_ratio(uResolution, 1);
+            float e, f, t = uTime / speed, s = 6. / scale;
+            for(float i=-1.;i<2.;i++) {
+              duv = s * (uv + vec3(uv.z * .2, 0., 0.) * i);
+              e = 20. * fbm(t * .1 + duv + fbm(duv * 0.01));
+              f = e - fract(e);
+              f = f - ((f * 0.5) - fract(f * 0.5)) * 2.;
+              f = clamp(f * 0.1 + 0.8 + fract(e), 0., 1.);
+              color += mix(c1, c2, pow(f, intensity));
+            }
+            gl_FragColor = vec4(color / 3., 1.);
           }
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.);
-        }
-        """
-        fragmentShader: shaderlib.full + """
-        varying vec3 vUv;
-        uniform float time;
-        uniform float speed;
-        uniform vec3 background;
-        uniform vec3 foreground;
-        void main() {
-          float t = time / speed;
-          float e = 20. * fbm(t * .1 + 10. * vUv * fbm(vUv * 0.1));
-          //float f = fbm(t * pos.z + fbm(0.3 * pos * fbm(pos * 0.0001 + t)));
-          //f = pos.z - fract(pos.z);
-          float f = e - fract(e);
-          f = f - ((f * 0.5) - fract(f * 0.5)) * 2.;
-          //f = clamp(f * 0.1 + 0.8 + fract(pos.z), 0., 1.3);
-          f = clamp(f * 0.1 + 0.8 + fract(e), 0., 1.);
-          gl_FragColor = vec4(1., f, f * 0.9, 1.);
-          vec3 color = f * background + (1. - f) * foreground;
-          gl_FragColor = vec4(color, 1.);
-        }
-        """
-      sp.renderToScreen = true
-      obj.composer.addPass rp
-      obj.composer.addPass sp
+
+        '''
+
+      }]
+    init: ({shaderlib}) ->
+      shaderlib.prepare @shaders
 
     step: (t) ->
-      obj = mod.obj
-      obj.controls.update!
-      obj.sp.uniforms.time.value = t
-      obj.composer.render!
 
     destroy: ->
 
   if module? => module.exports = mod
-  else if ModManager => ModManager.register mod
-  else return mod
+  if ModManager => ModManager.register mod
+  return mod
 )!
