@@ -3,8 +3,8 @@
   mod = do
     name: "Burning"
     type: \background
-    desc: "Campfire-like flame and glowing particles "
-    tags: <[contour map]>
+    desc: "Campfire-like flame and glowing particles"
+    tags: <[fire flame flare campfire glowing dust particles]>
     slug: "burning-campfire"
     license: \CC0
     edit:
@@ -14,12 +14,10 @@
     watch: (n, o) ->
       u1 = @shaders.0.uniforms
       u2 = @shaders.1.uniforms
-      bg = ldColor.rgb(n.background)
-      fg = ldColor.rgb(n.foreground)
       u1.speed.value = n.speed
       u2.speed.value = n.speed
-      u1.background.value = [bg.r, bg.g, bg.b].map -> it / 255
-      u2.foreground.value = [fg.r, fg.g, fg.b].map -> it / 255
+      u1.background.value = ldColor.rgbfv(n.background)
+      u2.foreground.value = ldColor.rgbfv(n.foreground)
     shaders: [
       {
         uniforms:

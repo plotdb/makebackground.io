@@ -1,19 +1,31 @@
 (->
   require! <[glslify]>
   mod = do
-    name: \contour
+    name: 'Flying Elves'
     type: \background
-    desc: "contour line background"
+    desc: "Sparkling particles like elves flying in the woods"
     tags: <[contour map]>
-    slug: "contour-background-line"
+    slug: "flying-elves-glowing-particles"
     license: \CC0
     edit:
-      background: name: "Background", type: \color, default: \#fff
-      foreground: name: "Foreground", type: \color, default: \#000
+      bg1: name: "Background 1", type: \color, default: \#f00
+      bg2: name: "Background 2", type: \color, default: \#0f0
+      bg3: name: "Background 3", type: \color, default: \#00f
+      fg: name: "Particle Color", type: \color, default: \#fff
     support: {}
     watch: (n, o) ->
+      u = @shaders.0.uniforms
+      for name in <[bg1 bg2 bg3 fg]> => u[name]value = ldColor.rgbfv(n[name])
+      u.speed.value = n.speed
     shaders: [
       {
+        uniforms:
+          bg1: type: \3fv, value: [1, 0, 0]
+          bg2: type: \3fv, value: [0, 1, 0]
+          bg3: type: \3fv, value: [0, 0, 1]
+          fg: type: \3fv, value: [1, 1, 1]
+          speed: type: \1f, value: 1
+
         fragmentShader: glslify '''
           precision highp float;
           #pragma glslify: noise = require("shaderlib/func/noise")
@@ -21,11 +33,16 @@
           #pragma glslify: gradient = require("shaderlib/raster/gradient/3d1")
           uniform vec2 uResolution;
           uniform float uTime;
+          uniform vec3 bg1;
+          uniform vec3 bg2;
+          uniform vec3 bg3;
+          uniform vec3 fg;
+
           void main() {
             vec2 pos;
             float s, d;
             float c = 0.;
-            float t = uTime * 1.;
+            float t = uTime / speed;
             vec2 uv = gl_FragCoord.xy / uResolution.xy;
             uv.y = uv.y * uResolution.y / uResolution.x;
             uv = uv * 0.8 + vec2(.1, .1);
@@ -49,8 +66,8 @@
             //float vg = 1. - vignette(1.0, 0.5, uv);
             gl_FragColor = vec4(
               vec3(vg * (
-                1.0 * vec3(gradient(uv, vec3(1.,0.,0.), vec3(0.,1.,0.), vec3(0.,0.,1.), 3.)) + 
-                0.8 * vec3(clamp(c, 0., 1.))
+                1.0 * vec3(gradient(uv, bg1, bg2, bg3, 3.)) + 
+                0.8 * fg * clamp(c, 0., 1.)
               )), 1.
             );
             //gl_FragColor = vg * (  vec4(vec3(clamp(c, 0., 1.)), 1.));

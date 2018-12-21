@@ -8,25 +8,20 @@
     slug: "under-the-sea"
     license: \CC0
     edit:
-      background1: name: "Background 1", type: \color, default: \#ffbb19
-      background2: name: "Background 2", type: \color, default: \#664dbd
-      foreground: name: "Foreground", type: \color, default: \#fff
+      bg1: name: "Background 1", type: \color, default: \#ffbb19
+      bg2: name: "Background 2", type: \color, default: \#664dbd
+      fg: name: "Foreground", type: \color, default: \#fff
     support: {}
     watch: (n, o) ->
       u = @shaders.0.uniforms
-      bg1 = ldColor.rgb(n.background1)
-      bg2 = ldColor.rgb(n.background2)
-      fg = ldColor.rgb(n.foreground)
       u.speed.value = n.speed
-      u.background1.value = [bg1.r, bg1.g, bg1.b].map -> it / 255
-      u.background2.value = [bg2.r, bg2.g, bg2.b].map -> it / 255
-      u.foreground.value = [fg.r, fg.g, fg.b].map -> it / 255
+      for name in <[bg1 bg2 fg]> => u[name]value = ldColor.rgbfv(n[name])
     shaders: [
       {
         uniforms:
-          foreground: type: \3fv, value: [1, 1, 1]
-          background1: type: \3fv, value: [1, 0.7, 0.1]
-          background2: type: \3fv, value: [0.4, 0.3, 0.7]
+          fg: type: \3fv, value: [1, 1, 1]
+          bg1: type: \3fv, value: [1, 0.7, 0.1]
+          bg2: type: \3fv, value: [0.4, 0.3, 0.7]
           speed: type: \1f, value: 1
 
         fragmentShader: glslify '''
@@ -39,14 +34,14 @@
           // Processing specific input
           uniform float uTime;
           uniform vec2 uResolution;
-          uniform vec3 foreground;
-          uniform vec3 background1;
-          uniform vec3 background2;
+          uniform vec3 fg;
+          uniform vec3 bg1;
+          uniform vec3 bg2;
           uniform float speed;
 
           void main() {
             vec3 uv = aspect_ratio(uResolution, 1);
-            float t = uTime * .5 * speed;
+            float t = uTime * .5 / speed;
             float len = length(uv.xy - vec2(.5, 1.));
             float c = smoothstep(1., .2, len);
             float a = (acos((uv.y - 1.) / len) + 1.23456) * 4.326;
@@ -74,9 +69,9 @@
               }
 
             }
-            vec3 color1 = background1 * c * p;
-            vec3 color2 = foreground * m * p;
-            vec3 bk = background2;
+            vec3 color1 = bg1 * c * p;
+            vec3 color2 = fg * m * p;
+            vec3 bk = bg2;
             gl_FragColor = vec4(color1 + color2 + bk, 1.);
           }
 

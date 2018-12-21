@@ -6,8 +6,8 @@
   mod = {
     name: "Burning",
     type: 'background',
-    desc: "Campfire-like flame and glowing particles ",
-    tags: ['contour', 'map'],
+    desc: "Campfire-like flame and glowing particles",
+    tags: ['fire', 'flame', 'flare', 'campfire', 'glowing', 'dust', 'particles'],
     slug: "burning-campfire",
     license: 'CC0',
     edit: {
@@ -24,19 +24,13 @@
     },
     support: {},
     watch: function(n, o){
-      var u1, u2, bg, fg;
+      var u1, u2;
       u1 = this.shaders[0].uniforms;
       u2 = this.shaders[1].uniforms;
-      bg = ldColor.rgb(n.background);
-      fg = ldColor.rgb(n.foreground);
       u1.speed.value = n.speed;
       u2.speed.value = n.speed;
-      u1.background.value = [bg.r, bg.g, bg.b].map(function(it){
-        return it / 255;
-      });
-      return u2.foreground.value = [fg.r, fg.g, fg.b].map(function(it){
-        return it / 255;
-      });
+      u1.background.value = ldColor.rgbfv(n.background);
+      return u2.foreground.value = ldColor.rgbfv(n.foreground);
     },
     shaders: [
       {

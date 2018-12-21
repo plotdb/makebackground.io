@@ -8,24 +8,23 @@
     slug: "glowing-fall-sparkles"
     license: \CC0
     edit:
-      background1: name: "Background 1", type: \color, default: \#fff
-      background2: name: "Background 2", type: \color, default: \#fb3
-      foreground: name: "Foreground", type: \color, default: \#fff
+      bg1: name: "Background 1", type: \color, default: \#fff
+      bg2: name: "Background 2", type: \color, default: \#fb3
+      fg: name: "Foreground", type: \color, default: \#fff
     support: {}
     watch: (n, o) ->
       u = @shaders.0.uniforms
-      bg1 = ldColor.rgb(n.background1)
-      bg2 = ldColor.rgb(n.background2)
-      fg = ldColor.rgb(n.foreground)
-      u.background1.value = [bg1.r, bg1.g, bg1.b].map -> it / 255
-      u.background2.value = [bg2.r, bg2.g, bg2.b].map -> it / 255
-      u.foreground.value = [fg.r, fg.g, fg.b].map -> it / 255
+      u.bg1.value = ldColor.rgbfv(n.bg1)
+      u.bg2.value = ldColor.rgbfv(n.bg2)
+      u.fg.value = ldColor.rgbfv(n.fg)
+      u.speed.value = n.speed
     shaders: [
       {
         uniforms:
-          foreground: type: \3fv, value: [1, 1, 1]
-          background1: type: \3fv, value: [1, 1, 1]
-          background2: type: \3fv, value: [1, 0.7, 0.2]
+          fg: type: \3fv, value: [1, 1, 1]
+          bg1: type: \3fv, value: [1, 1, 1]
+          bg2: type: \3fv, value: [1, 0.7, 0.2]
+          speed: type: \1f, value: 1
 
         fragmentShader: glslify '''
           precision highp float;
@@ -36,17 +35,17 @@
 
           uniform float uTime;
           uniform vec2 uResolution;
-          uniform vec3 foreground;
-          uniform vec3 background1;
-          uniform vec3 background2;
+          uniform vec3 fg;
+          uniform vec3 bg1;
+          uniform vec3 bg2;
+          uniform float speed;
 
           void main() {
             vec3 uv = aspect_ratio(uResolution, 1);
             uv.y = 1. - uv.y;
-            float t = uTime * .2;
+            float t = uTime * .2 / speed;
             float m = 0., c=0.;
             for(float i=0.;i<5.;i+=2.) {
-
               float size = 3. + i;
               vec2 id = floor(uv.xy * size);
               vec2 ft = fract(uv.xy * size);
@@ -62,8 +61,8 @@
               c += m;
             }
             c = c * pow((1. -  uv.y), 2.);
-            vec3 color = foreground * c;
-            vec3 bk = mix(background1, background2,  pow(length(uv.xy - vec2(.5, -.2)), 3.));
+            vec3 color = fg * c;
+            vec3 bk = mix(bg1, bg2,  pow(length(uv.xy - vec2(.5, -.2)), 3.));
             gl_FragColor = vec4(color + bk, 1.);
           }
         '''

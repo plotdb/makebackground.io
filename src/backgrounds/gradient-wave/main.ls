@@ -12,11 +12,10 @@
       c2: name: "Color 2", type: \color, default: \#3cf
     support: {}
     watch: (n, o) ->
-      c1 = ldColor.rgb(n.c1)
-      c2 = ldColor.rgb(n.c2)
-      @shaders.0.uniforms.c1.value = [c1.r, c1.g, c1.b].map -> it / 255
-      @shaders.0.uniforms.c2.value = [c2.r, c2.g, c2.b].map -> it / 255
-      @shaders.0.uniforms.speed.value = n.speed
+      u = @shaders.0.uniforms
+      u.c1.value = ldColor.rgbfv(n.c1)
+      u.c2.value = ldColor.rgbfv(n.c2)
+      u.speed.value = n.speed
     shaders: [
       {
         uniforms:
@@ -39,7 +38,7 @@
           void main() {
             vec3 uv = aspect_ratio(uResolution, 1);
             float z1, z2, z3;
-            float time = uTime * speed;
+            float time = uTime / speed;
             vec2 s1, s2, s3;
             uv.z = uv.z * 0.2;
             z1 = 1.2 * ( uv.x + 0.1 ) * pow(uv.y, .5 + cos(time) * 0.1) + pow(uv.y, 6. + 1. * sin(time));
