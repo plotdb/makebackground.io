@@ -51,6 +51,7 @@
         '''
 
       }]
+
     init: ({shaderlib}) ->
       shaderlib.prepare @shaders
 
