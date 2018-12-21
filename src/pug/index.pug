@@ -48,7 +48,7 @@ block body
     br
 
     .list
-      each name in ["glowing-fall", "flying-elves", "under-sea"]
+      each name in ["glowing-fall", "flying-elves", "under-sea", "gradient-wave"]
         a.item(href="/bk/" + name + "/")
           .thumb(style="background-image:url(/backgrounds/" + name + "/index.jpg)")
           .name= name
@@ -57,7 +57,7 @@ block body
           .thumb(style="background-image:url(/assets/img/sample/10.jpg)")
           .name Flying Elves
 
-      each i in [18,11,15,17,16,19,21,22,23]
+      each i in [11,15,17,16,19,21,22,23]
         a.item
           .thumb(style="background-image:url(/assets/img/sample/" + i + ".jpg)")
           .name #{i}
