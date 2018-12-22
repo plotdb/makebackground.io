@@ -4,8 +4,8 @@
     name: "Under the Clouds"
     type: \background
     desc: "Fly high into the sky and surf around with clouds"
-    tags: <[cloud smoke fog sky fly aviation air wind]>
-    slug: "fly-under-clouds"
+    tags: <[cloud smoke fog sky fly aviation air wind orange]>
+    slug: "orange-fly-under-clouds"
     license: \CC0
     edit:
       fg: name: "Foreground", type: \color, default: \#ffb27f

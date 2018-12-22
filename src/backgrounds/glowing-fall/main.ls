@@ -4,8 +4,8 @@
     name: "Glowing Fall"
     type: \background
     desc: "Glorious falling sparkles"
-    tags: <[contour map]>
-    slug: "glowing-fall-sparkles"
+    tags: <[glowing fall flow fluid gold yellow]>
+    slug: "yellow-golden-glowing-fall-sparkles"
     license: \CC0
     edit:
       bg1: name: "Background 1", type: \color, default: \#fff

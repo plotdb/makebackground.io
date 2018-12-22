@@ -4,7 +4,7 @@
     name: 'Flying Elves'
     type: \background
     desc: "Sparkling particles like elves flying in the woods"
-    tags: <[contour map]>
+    tags: <[woods forest elf flying dot dust light]>
     slug: "flying-elves-glowing-particles"
     license: \CC0
     edit:

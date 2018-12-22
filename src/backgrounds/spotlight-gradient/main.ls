@@ -5,7 +5,7 @@
     type: \background
     desc: "Spotlight style gradient in two colors"
     tags: <[fire flame flare campfire glowing dust particles]>
-    slug: "spotlight-gradient"
+    slug: "cyan-spotlight-gradient"
     license: \CC0
     edit:
       c1: name: "Color 1", type: \color, default: \#c1e8ce

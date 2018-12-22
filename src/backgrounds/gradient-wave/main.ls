@@ -4,8 +4,8 @@
     name: 'Gradient Wave'
     type: \background
     desc: "Moving wave with gradient colors"
-    tags: <[contour map]>
-    slug: "gradient-wave"
+    tags: <[gradient wave blue curve abstract]>
+    slug: "blue-gradient-wave"
     license: \CC0
     edit:
       c1: name: "Color 1", type: \color, default: \#000

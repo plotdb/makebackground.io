@@ -7,8 +7,8 @@
     name: "Network",
     type: 'background',
     desc: "web-like interconnection between nodes for your technology project",
-    tags: ['network', 'graph', 'social', 'media', 'internet', 'map'],
-    slug: "network-graph",
+    tags: ['network', 'graph', 'social', 'media', 'internet', 'map', 'blue', 'connection'],
+    slug: "blue-network-connection-graph",
     license: 'CC0',
     edit: {
       bg1: {

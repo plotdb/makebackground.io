@@ -7,8 +7,8 @@
     name: "Ternary Gradient",
     type: 'background',
     desc: "Smooth Gradient with three colors from different directions.",
-    tags: ['fire', 'flame', 'flare', 'campfire', 'glowing', 'dust', 'particles'],
-    slug: "ternary-rainbow-gradient",
+    tags: ['gradient', 'red', 'purple', 'yellow', 'ternary'],
+    slug: "purple-ternary-rainbow-gradient",
     license: 'CC0',
     edit: {
       c1: {

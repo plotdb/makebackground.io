@@ -4,8 +4,8 @@
     name: "Under the Sea"
     type: \background
     desc: "Dive into the tropical coral reef..."
-    tags: <[contour map]>
-    slug: "under-the-sea"
+    tags: <[pink sea light flow wave ocean nautical]>
+    slug: "pink-under-the-sea"
     license: \CC0
     edit:
       bg1: name: "Background 1", type: \color, default: \#ffbb19

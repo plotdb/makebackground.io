@@ -4,8 +4,8 @@
     name: "Burning"
     type: \background
     desc: "Campfire-like flame and glowing particles"
-    tags: <[fire flame flare campfire glowing dust particles]>
-    slug: "burning-campfire"
+    tags: <[fire flame flare campfire glowing dust particles red]>
+    slug: "red-burning-campfire-sparkles"
     license: \CC0
     edit:
       background: name: "Background", type: \color, default: \#ff1933
@@ -156,11 +156,9 @@
         '''
       }
     ]
+
     init: ({shaderlib}) -> @ <<< shaderlib.prepare @shaders
-
-
     step: (t) -> @renderer.render t
-
     destroy: ->
 
   if module? => module.exports = mod

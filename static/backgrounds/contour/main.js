@@ -8,7 +8,7 @@
     type: 'background',
     desc: "Map style contour texture for your next vintage style project",
     tags: ['contour', 'map'],
-    slug: "contour-map-vintage-texture",
+    slug: "gray-contour-map-vintage-texture",
     license: 'CC0',
     edit: {
       c1: {

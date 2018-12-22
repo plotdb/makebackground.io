@@ -5,7 +5,7 @@
     type: \background
     desc: "Contour curve in paper cut style with gradient colors"
     tags: <[network graph social media internet map]>
-    slug: "contour-paper-cut"
+    slug: "green-contour-paper-cut"
     license: \CC0
     edit:
       c1: name: "Color 1", type: \color, default: \#18ff87

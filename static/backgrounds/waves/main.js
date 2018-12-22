@@ -7,7 +7,7 @@
     name: "Waves",
     type: 'background',
     desc: "Elegant flowing waves with simple colors and composition",
-    tags: ['fire', 'flame', 'flare', 'campfire', 'glowing', 'dust', 'particles'],
+    tags: ['wave', 'flow', 'line', 'curve', 'tide'],
     slug: "flowing-waves",
     license: 'CC0',
     edit: {
