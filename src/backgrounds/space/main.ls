@@ -103,6 +103,6 @@
       renderer.render scene, camera
 
   if module? => module.exports = mod
-  else if ModManager => ModManager.register mod
-  else return mod
+  if ModManager => ModManager.register mod
+  return mod
 )!

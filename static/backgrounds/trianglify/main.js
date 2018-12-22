@@ -152,12 +152,12 @@
     }
   };
   if (typeof module != 'undefined' && module !== null) {
-    return module.exports = mod;
-  } else if (ModManager) {
-    return ModManager.register(mod);
-  } else {
-    return mod;
+    module.exports = mod;
   }
+  if (ModManager) {
+    ModManager.register(mod);
+  }
+  return mod;
 })();
 function import$(obj, src){
   var own = {}.hasOwnProperty;
