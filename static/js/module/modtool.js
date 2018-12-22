@@ -119,7 +119,6 @@
     setContainer: function(root){
       var box;
       this.root = typeof root === typeof '' ? document.querySelector(root) : root;
-      console.log(this.root, root);
       if (this.root) {
         box = this.root.getBoundingClientRect();
         return this.w = box.width, this.h = box.height, this;

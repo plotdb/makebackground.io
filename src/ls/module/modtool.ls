@@ -61,7 +61,6 @@
     setSize: (w, h) -> @ <<< {w, h}
     setContainer: (root) -> 
       @root = if typeof(root) == typeof('') => document.querySelector(root) else root
-      console.log @root, root
       if @root =>
         box = @root.getBoundingClientRect!
         @ <<< {w: box.width, h: box.height}
