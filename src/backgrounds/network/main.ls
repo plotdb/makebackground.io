@@ -11,21 +11,22 @@
       bg1: name: "Background 1", type: \color, default: \#00111a
       bg2: name: "Background 2", type: \color, default: \#002966
       fg: name: "Foreground", type: \color, default: \#b7efff
-      size: name: "Grid Size", type: \number, default: 12
+      size: name: "Grid Size", type: \number, default: 12, min: 1, max: 100, step: 1
+      connectivity: name: "Connectivity", type: \number, default: 0.6, min: 0.21, max: 1, step: 0.01
     support: {}
     watch: (n, o) ->
       u = @shaders.0.uniforms
       for name in <[bg1 bg2 fg]> => u[name]value = ldColor.rgbfv(n[name])
-      u.speed.value = n.speed
-      u.size.value = n.size
+      for name in <[speed size connectivity]> => u[name]value = n[name]
     shaders: [
       {
         uniforms:
-          bg1: type: \3fv, value: [0, 0, 0]
-          bg2: type: \3fv, value: [0, 0, 0]
-          fg: type: \3fv, value: [1, 1, 1]
+          bg1: type: \3fv, value: [0, 0.07, 0.1]
+          bg2: type: \3fv, value: [0, 0.16, 0.4]
+          fg: type: \3fv, value: [0.72, 0.94, 1]
           speed: type: \1f, value: 1
-          size: type: \1f, value: 1
+          size: type: \1f, value: 12
+          connectivity: type: \1f, value: 0.6
         fragmentShader: glslify '''
           precision highp float;
           #pragma glslify: aspect_ratio = require("shaderlib/func/aspect_ratio")
@@ -34,13 +35,9 @@
           #pragma glslify: vignette = require("shaderlib/func/vignette")
           #pragma glslify: distance_line = require("shaderlib/distance/line")
 
-          uniform float uTime;
+          uniform float uTime, size, connectivity, speed;
           uniform vec2 uResolution;
-          uniform float speed;
-          uniform vec3 bg1;
-          uniform vec3 bg2;
-          uniform vec3 fg;
-          uniform float size;
+          uniform vec3 bg1, bg2, fg;
 
           float line(vec2 p, vec2 a, vec2 b) {
             float d = distance_line(p, a, b);
@@ -66,14 +63,15 @@
               }
             }
             d = length(uv - p[4]);
-            f = smoothstep(0.09, 0.03, d);
+            f = smoothstep(0.09, 0.08, d);
             for(float i=0.;i<9.;i++) {
-              f += line(uv, p[4], p[int(i)]) * smoothstep(0.7, 0.2, 0.4 * length(p[int(i)] - p[4]));
+              f += line(uv, p[4], p[int(i)]) * smoothstep(connectivity, 0.2, 0.4 * length(p[int(i)] - p[4]));
             }
-            f += line(uv, p[1], p[3]) * smoothstep(0.6, 0.2, 0.4 * length(p[3] - p[1]));
-            f += line(uv, p[1], p[5]) * smoothstep(0.6, 0.2, 0.4 * length(p[5] - p[1]));
-            f += line(uv, p[7], p[3]) * smoothstep(0.6, 0.2, 0.4 * length(p[3] - p[7]));
-            f += line(uv, p[7], p[5]) * smoothstep(0.6, 0.2, 0.4 * length(p[5] - p[7]));
+            f += line(uv, p[1], p[3]) * smoothstep(connectivity, 0.2, 0.4 * length(p[3] - p[1]));
+            f += line(uv, p[1], p[5]) * smoothstep(connectivity, 0.2, 0.4 * length(p[5] - p[1]));
+            f += line(uv, p[7], p[3]) * smoothstep(connectivity, 0.2, 0.4 * length(p[3] - p[7]));
+            f += line(uv, p[7], p[5]) * smoothstep(connectivity, 0.2, 0.4 * length(p[5] - p[7]));
+
             f = clamp(f, 0., 1.);
             vec3 bg = vec3(.0, 0., .0);
             float c = cloud(vec2(uv3), t * 100., vec2(1., 0.), 0.1) * 0.9;
@@ -83,11 +81,9 @@
         '''
       }
     ]
-    init: ({shaderlib}) ->
-      shaderlib.prepare @shaders
 
-    step: (t) ->
-
+    init: ({shaderlib}) -> @ <<< shaderlib.prepare @shaders
+    step: (t) -> @renderer.render t
     destroy: ->
 
   if module? => module.exports = mod

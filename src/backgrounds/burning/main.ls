@@ -156,11 +156,10 @@
         '''
       }
     ]
-    init: ({shaderlib}) ->
-      shaderlib.prepare @shaders
+    init: ({shaderlib}) -> @ <<< shaderlib.prepare @shaders
 
 
-    step: (t) ->
+    step: (t) -> @renderer.render t
 
     destroy: ->
 

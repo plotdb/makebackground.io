@@ -106,9 +106,11 @@
     init: function(arg$){
       var shaderlib;
       shaderlib = arg$.shaderlib;
-      return shaderlib.prepare(this.shaders);
+      return import$(this, shaderlib.prepare(this.shaders));
     },
-    step: function(t){},
+    step: function(t){
+      return this.renderer.render(t);
+    },
     destroy: function(){}
   };
   if (typeof module != 'undefined' && module !== null) {
@@ -119,6 +121,11 @@
   }
   return mod;
 })();
+function import$(obj, src){
+  var own = {}.hasOwnProperty;
+  for (var key in src) if (own.call(src, key)) obj[key] = src[key];
+  return obj;
+}
 },{"glslify":2}],2:[function(require,module,exports){
 module.exports = function(strings) {
   if (typeof strings === 'string') strings = [strings]

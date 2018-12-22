@@ -63,11 +63,8 @@
         '''
       }
     ]
-    init: ({shaderlib}) ->
-      shaderlib.prepare @shaders
-
-    step: (t) ->
-
+    init: ({shaderlib}) -> @ <<< shaderlib.prepare @shaders
+    step: (t) -> @renderer.render t
     destroy: ->
 
   if module? => module.exports = mod

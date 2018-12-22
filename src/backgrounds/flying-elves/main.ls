@@ -32,11 +32,8 @@
           #pragma glslify: vignette = require("shaderlib/func/vignette")
           #pragma glslify: gradient = require("shaderlib/raster/gradient/3d1")
           uniform vec2 uResolution;
-          uniform float uTime;
-          uniform vec3 bg1;
-          uniform vec3 bg2;
-          uniform vec3 bg3;
-          uniform vec3 fg;
+          uniform float uTime, speed;
+          uniform vec3 bg1, bg2, bg3, fg;
 
           void main() {
             vec2 pos;
@@ -75,12 +72,9 @@
         '''
       }
     ]
-    init: ({shaderlib}) ->
-      shaderlib.prepare @shaders
 
-
-    step: (t) ->
-
+    init: ({shaderlib}) -> @ <<< shaderlib.prepare @shaders
+    step: (t) -> @renderer.render t
     destroy: ->
 
   if module? => module.exports = mod

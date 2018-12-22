@@ -23,9 +23,8 @@
       /assets/smiltool/latest/index.js
       /assets/gifjs/0.2.0/gif.js
       /assets/shaderlib/shader.js
-      /js/bk/index.js
-      /js/bk/editor.js
-      /js/index.js
+      /js/module/modtool.js
+      /js/module/editor.js
     ]>
     three: <[
       /assets/threejs/three.min.js

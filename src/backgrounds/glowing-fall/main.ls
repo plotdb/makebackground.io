@@ -67,14 +67,11 @@
           }
         '''
       }]
-    init: ({shaderlib}) ->
-      shaderlib.prepare @shaders
 
-
-    step: (t) ->
-      obj = mod.obj
-
+    init: ({shaderlib}) -> @ <<< shaderlib.prepare @shaders 
+    step: (t) -> @renderer.render t
     destroy: ->
+
   if module? => module.exports = mod
   if ModManager => ModManager.register mod
   return mod

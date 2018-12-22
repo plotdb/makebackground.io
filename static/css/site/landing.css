@@ -5,14 +5,14 @@
   height: 100%;
   text-align: center;
   color: #444;
-}
-#landing .gradient {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  z-index: 1;
-  background: linear-gradient(45deg, rgba(0,0,0,0.2), rgba(255,255,255,0.8));
-  box-shadow: inset 0 -5px 10px rgba(0,0,0,0.2);
+/*.gradient
+    width: 100%
+    height: 100%
+    position: absolute
+    z-index: 1
+    background: linear-gradient(45deg,rgba(0,0,0,.2),rgba(255,255,255,.8))
+    box-shadow: inset 0 -5px 10px rgba(0,0,0,.2)
+  */
 }
 #landing #hero-text {
   width: 100%;
@@ -28,14 +28,12 @@
   font-family: Abeezee;
   text-shadow: -10px 10px 18px rgba(0,0,0,0.3), 10px -10px 30px rgba(192,128,255,0.1);
 }
-#target {
+#landing-demo {
   position: absolute;
   top: 0%;
   left: 0%;
   width: 100%;
   height: 100%;
-  opacity: 0;
-  transition: none;
 /*
   background: none
   border: 0px solid #fff
@@ -47,11 +45,25 @@
   padding: 0;
   margin: 0;
 }
-#target.show {
+#landing-demo div {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: none;
+  transition: opacity 1s ease-in-out;
+}
+#landing-demo div.show {
   transition: opacity 1s ease-in-out;
   opacity: 1;
 }
-#target canvas {
+#landing-demo div.fade {
+  transition: opacity 1s ease-in-out;
+  opacity: 0;
+}
+#landing-demo canvas {
   background: #fff;
   border-bottom: 1px solid #999;
   width: 100%;
@@ -71,7 +83,7 @@
   background-color: #000;
   border-radius: 2px;
   margin-bottom: 10px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3), 0 -10px 30px 25px rgba(255,255,255,0.2);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.6);
   background-position: center center;
   background-size: cover;
 }

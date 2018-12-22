@@ -1,74 +1,4 @@
-init = (name="unnamed", w = window.innerWidth, h = window.innerHeight) ->
-  camera = new THREE.PerspectiveCamera 45, w/h, 1, 10000
-  scene = new THREE.Scene!
-  renderer = new THREE.WebGLRenderer antialias: true
-  renderer.setSize w, h
-  document.body.appendChild renderer.domElement
-  controls = new THREE.OrbitControls camera, renderer.domElement
-  controls.enabled = false
-  animate = (render-func) ->
-    _animate = (value) ->
-      requestAnimationFrame _animate
-      render-func value
-    _animate!
-  return {camera, scene, renderer, w, h, controls, animate}
-
-/*
-hash = {}
-
-clear = ->
-  Array.from(document.querySelectorAll \canvas).map -> it.parentNode.removeChild it
-
-
-
-runner = do
-  target-name: null
-  is-running: false
-  target-func: null
-  start: (name, target-func) ->
-    @ <<< {name, target-func, is-running: true}
-    @thread!
-  stop: -> @is-running = false
-  thread: ->
-    _animate = (value) ~>
-      requestAnimationFrame _animate
-      if @target-func => @target-func value
-    if @is-running => _animate!
-
-revoke = (name) ->
-  if !hash[name] or !hash[name].destroy => return
-  hash[name].destroy!
-
-invoke = (name) ->
-  clear!
-  if runner.target-name => revoke that
-  runner.start name, hash[mod.func]
-
-register = (name, mod) ->
-  hash[name] = mod
-  if mod.init and !mod.inited =>
-    mod.init!
-    mod.inited = true
-  invoke name
-
-load = (name)->
-  if !hash[name] =>
-    script = document.createElement("script")
-    script.src = "/js/bk/#name.js"
-    document.body.appendChild(script)
-  else
-    invoke name
-
-names = <[moving-cloud snowflake-slow contour]>
-Array.from(document.querySelectorAll('#quick-picker .thumb')).map (d,i) -> d.addEventListener \click, ->
-  load names[i]
-*/
-
-
-
 (->
-
-
   window.ScriptManager = ScriptManager = do
     hash: {}
     load: (type = \js, src) -> new Promise (res, rej) ~>
@@ -108,7 +38,6 @@ Array.from(document.querySelectorAll('#quick-picker .thumb')).map (d,i) -> d.add
           rej!
         ), 10000
         node: document.createElement("script")
-
       @load.target.node.src = "/backgrounds/#name/main.js"
       document.body.appendChild(@load.target.node)
 
@@ -123,15 +52,18 @@ Array.from(document.querySelectorAll('#quick-picker .thumb')).map (d,i) -> d.add
 
   ModManager.init!
 
-  window.ModRenderer = ModRenderer = (target) ->
-    @setContainer target
+  window.ModRenderer = ModRenderer = (root, options = {}) ->
+    @options = {scale: 1} <<< options
+    @setContainer root
     @
+
   ModRenderer.prototype <<< do
     setSize: (w, h) -> @ <<< {w, h}
-    setContainer: (target) -> 
-      @target = if typeof(target) == typeof('') => document.querySelector(target) else target
-      if @target =>
-        box = @target.getBoundingClientRect!
+    setContainer: (root) -> 
+      @root = if typeof(root) == typeof('') => document.querySelector(root) else root
+      console.log @root, root
+      if @root =>
+        box = @root.getBoundingClientRect!
         @ <<< {w: box.width, h: box.height}
 
     prepare: (w, h) ->
@@ -145,6 +77,8 @@ Array.from(document.querySelectorAll('#quick-picker .thumb')).map (d,i) -> d.add
       controls.enabled = false
       return {camera, scene, renderer, w, h, controls}
 
+    getDom: -> @mod._renderer.domElement
+
     render: (mod) ->
       promise = if !mod.inited =>
         console.log "init mod..."
@@ -156,10 +90,10 @@ Array.from(document.querySelectorAll('#quick-picker .thumb')).map (d,i) -> d.add
               mod._renderer = ret.renderer
               return ret
             shaderlib: prepare: (shaders, option = {}) ~>
-              renderer = new ShaderRenderer shaders, option <<< {root: @target}
+              renderer = new ShaderRenderer shaders, option <<< {root: @root, scale: @options.scale}
               renderer.init!
-              renderer.animate!
               mod._renderer = renderer
+              return {renderer}
 
               
       else Promise.resolve!
@@ -170,8 +104,8 @@ Array.from(document.querySelectorAll('#quick-picker .thumb')).map (d,i) -> d.add
     running: false
 
     start: ->
-      for i from @target.childNodes.length - 1 to 0 by -1 => @target.removeChild @target.childNodes[i]
-      @target.appendChild @mod._renderer.domElement
+      for i from @root.childNodes.length - 1 to 0 by -1 => @root.removeChild @root.childNodes[i]
+      @root.appendChild @mod._renderer.domElement
       if @running => return
       @running = true
       _animate = (time) ~>
@@ -181,23 +115,5 @@ Array.from(document.querySelectorAll('#quick-picker .thumb')).map (d,i) -> d.add
 
     stop: -> @running = false
 
-  renderer = new ModRenderer!
-
-  names = <[trianglify snowflake-slow contour liquid cave]>
-  names = <[contour contour contour mystery contour]>
-  loadbk = (name) ->
-    ModManager.load name
-      .then ->
-        target = document.querySelector \#target 
-        target.classList.remove \show
-        renderer.setContainer \#target
-        renderer.render it
-        setTimeout (-> target.classList.add \show ), 1000
-      .catch -> console.log "error: ", it
-
-  Array.from(document.querySelectorAll('#quick-picker .thumb')).map (d,i) ->
-    d.addEventListener \click, -> loadbk names[i]
-
-  #loadbk \contour
 )!
 

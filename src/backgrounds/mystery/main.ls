@@ -1,79 +1,63 @@
 (->
+  require! <[glslify]>
   mod = do
-    name: \mystery
+    name: 'Mystery'
     type: \background
-    desc: "fluid circular liquid background"
-    tags: <[liquid flow water smoke]>
-    slug: "liquid-background"
+    desc: "Mysterious clouds spin around"
+    tags: <[cloud fog dust moist]>
+    slug: "mysterious-clouds"
     license: \CC0
     support: {}
     edit:
-      color1: name: "Color 1", type: \color, default: \#0056ff
-      color2: name: "Color 2", type: \color, default: \#ff8c00
-      color3: name: "Color 3", type: \color, default: \#c20000
-    init: ({three}) ->
-      mod.obj = obj = {} <<< {animate, controls, renderer, camera, scene, w, h} = three.prepare!
+      c1: name: "Color 1", type: \color, default: \#0056ff
+      c2: name: "Color 2", type: \color, default: \#ff8c00
+      c3: name: "Color 3", type: \color, default: \#c20000
+    watch: (n, o) ->
+      u = @shaders.0.uniforms
+      for name in <[c1 c2 c3]> => u[name]value = ldColor.rgbfv(n[name])
+      for name in <[speed]> => u[name]value = n[name]
+    shaders: [
+      {
+        uniforms:
+          c1: type: \3fv, value: [0, 0.34, 1]
+          c2: type: \3fv, value: [1, 0.55, 0]
+          c3: type: \3fv, value: [0.76, 0, 0]
+          speed: type: \1f, value: 2
+        fragmentShader: glslify '''
+          precision highp float;
+          #pragma glslify: aspect_ratio = require("shaderlib/func/aspect_ratio")
 
-      camera.position.set 1, 1, 10
-      camera.lookAt 0, 0, 0
-      scene.background = new THREE.Color 0x222222
+          uniform vec2 uResolution;
+          uniform float uTime, speed;
+          uniform vec3 c1;
+          uniform vec3 c2;
+          uniform vec3 c3;
 
-      CustomShader = do
-        uniforms: {
-          resolution: { value: new THREE.Vector2(w, h) }
-          c1: { value: new THREE.Vector3(1, 1, 1) }
-          c2: { value: new THREE.Vector3(1, 1, 1) }
-          c3: { value: new THREE.Vector3(1, 1, 1) }
-          time: {type: \f, value: 0}
-        }
-        vertexShader: """
-        varying vec2 vUv;
-        void main() {
-          vUv = uv;
-          gl_Position = vec4(position, 1.);
-        }
-        """
-        fragmentShader: """
-        uniform vec2 resolution;
-        uniform float time;
-        varying vec2 vUv;
-        uniform vec3 c1;
-        uniform vec3 c2;
-        uniform vec3 c3;
-        void main() {
-          vec2 p = ( max(resolution.x, resolution.y) * vUv.xy - resolution ) / max( resolution.x,resolution.y );
-          float j;
-          float t = fract(time);
-          for(int i=1;i<50;i++) {
-            j = float(i);
-            p.x += 0.005 * cos( 0.3 * j + p.y * j + time) + 0.001;
-            p.y += 0.005 * sin( 0.3 * j + p.x * j + time) - 0.001;
+          void main() {
+            vec3 uv = aspect_ratio(uResolution, 1);
+            vec2 p = (uv.xy - vec2(.7, .7))* uResolution.x * 0.001;
+            float j, t = uTime / speed;
+            for(float i=1.0;i<50.;i++) {
+              p.x += 0.005 * cos( 0.3 * i + p.y * i + t) + 0.001;
+              p.y += 0.005 * sin( 0.3 * i + p.x * i + t) - 0.001;
+            }
+            vec3 col = vec3(
+              0.5 * sin( 3.0 * p.x + p.y) + 0.5,
+              0.5 * cos( 3.0 * p.y + p.x * 3.5) + 0.5,
+              sin(p.x * p.y + p.x) * 0.5 + 0.5
+            ); 
+            col = ((col.x * c1) + (col.y * c2) + (col.z * c3)) / 3.;
+            gl_FragColor = vec4(col, 1.0);
           }
-          vec3 col = vec3(
-            0.5 * sin( 3.0 * p.x + p.y) + 0.5,
-            0.5 * cos( 3.0 * p.y + p.x * 3.5) + 0.5,
-            sin(p.x * p.y + p.x) * 0.5 + 0.5
-          ); 
-          col = ((col.x * c1) + (col.y * c2) + (col.z * c3)) / 3.;
-          gl_FragColor = vec4(col, 1.0);
-        }
-        """
+        '''
+      }
+    ]
 
-      obj.composer = composer = new THREE.EffectComposer renderer
-      composer.addPass new THREE.RenderPass scene, camera
-      obj.effect = effect = new THREE.ShaderPass CustomShader
-      effect.renderToScreen = true
-      composer.addPass effect
-    watch: (n) ->
-      {effect} = mod.obj
-      for i from 1 to 3 => effect.uniforms["c#i"].value = new THREE.Color n["color#i"]
-    step: (t) ->
-      obj = mod.obj
-      obj.controls.update!
-      obj.effect.uniforms.time.value = t
-      obj.composer.render!
+    init: ({shaderlib}) -> @ <<< shaderlib.prepare @shaders
+    step: (t) -> @renderer.render t
+    destroy: ->
 
   if module? => module.exports = mod
-  else if ModManager => ModManager.register mod
-  else return mod
+  if ModManager => ModManager.register mod
+  return mod
 )!

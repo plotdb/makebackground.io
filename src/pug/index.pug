@@ -2,40 +2,17 @@ extends /base.pug
 block body
   include list.pug
   #landing
-    #target: canvas
+    #landing-demo #[div] #[div]
     .gradient
     #hero-text
       //-img(src="/assets/img/landing/text.svg",style="width:100%")
       .title MAKEBACKGROUND.IO
       .desc Impress Your Customer with Live, Customizable Animated Background
     #quick-picker
-      //-.editor.row(style="width:580px;margin:auto;text-align:left")
-        .col-sm-6
-          label Palette
-          .palette(data-toggle="modal",data-target="#palette-picker")
-            each i in ['#fb4','#fe9','#fdc','#9de']
-              .color(style="background:" + i)
-
       br
+      for item in ["burning", "under-sea", "glowing-fall", "flying-elves", "network"]
+        .thumb(style="background-image:url(/backgrounds/" + item + "/index.jpg)",data-name=item)
 
-      //for i in [1,2,3,4,5,6,7,8,9]
-        .thumb(style="background-image:url(/assets/img/sample/" + i + ".jpg)")
-      //-for i in [10,11,2,3,13,15,5,16,17]
-      //-for i in [10,11,13,15,16,17]
-      //-
-        for i in [10,11,17,16]
-          .thumb(style="background-image:url(/assets/img/sample/" + i + ".jpg)")
-      .thumb(style="background-image:url(/assets/img/sample/17.jpg)")
-      .thumb(style="background-image:url(/assets/img/sample/16.jpg)")
-      .thumb(style="background-image:url(/assets/img/sample/10.jpg)")
-      .thumb(style="background-image:url(/assets/img/sample/18.jpg)")
-      .thumb(style="background-image:url(/assets/img/sample/11.jpg)")
-      //-
-        .thumb(style="background-image:url(/assets/img/bk/trianglify.png)")
-        .thumb(style="background-image:url(/assets/img/bk/snowflake-slow.png)")
-        .thumb(style="background-image:url(/assets/img/bk/contour.png)")
-        .thumb(style="background-image:url(/assets/img/bk/liquid.png)")
-        .thumb(style="background-image:url(/assets/img/bk/cave.png)")
       .text-center
         div: small .. more ..
         img(src="/assets/img/icon/down.svg",style="margin-top: -10px")
@@ -53,7 +30,7 @@ block body
           .thumb(style="background-image:url(/backgrounds/" + name + "/index.jpg)")
           .name= name
 
-      each name in list 
+      //-each name in list 
         a.item(href="/bk/" + name + "/")
           .thumb(style="background-image:url(/backgrounds/" + name + "/index.png")
           .name #{name}
@@ -128,6 +105,5 @@ block body
         input#email.form-control.form-control-lg.mb-2(type="text",
         placeholder="Sign up to be the first to hear about the next launch")
         .btn.btn-block.btn-action.btn-lg(onclick="subscribe()") Get on the list
-
-  script(src="/js/bk/index.js")
   include module/footer.pug
+  script(src="/js/index.js")
