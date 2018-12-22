@@ -9894,14 +9894,6 @@ h6.tag {
   height: 100%;
   text-align: center;
   color: #444;
-/*.gradient
-    width: 100%
-    height: 100%
-    position: absolute
-    z-index: 1
-    background: linear-gradient(45deg,rgba(0,0,0,.2),rgba(255,255,255,.8))
-    box-shadow: inset 0 -5px 10px rgba(0,0,0,.2)
-  */
 }
 #landing #hero-text {
   width: 100%;
@@ -9923,13 +9915,6 @@ h6.tag {
   left: 0%;
   width: 100%;
   height: 100%;
-/*
-  background: none
-  border: 0px solid #fff
-  overflow: hidden
-  border-radius: 3px
-  box-shadow: 0 8px 12px rgba(0,0,0,.5)
-  */
   z-index: 1;
   padding: 0;
   margin: 0;
