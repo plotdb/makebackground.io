@@ -1,114 +1,133 @@
 (->
+  require! <[glslify]>
   mod = do
-    name: \contour
+    name: "Spotlight Gradient"
     type: \background
-    desc: "contour line background"
-    tags: <[contour map]>
-    slug: "contour-background-line"
+    desc: "Spotlight style gradient in two colors"
+    tags: <[fire flame flare campfire glowing dust particles]>
+    slug: "cyan-spotlight-gradient"
     license: \CC0
     lib: [<[js https://unpkg.com/delaunator@3.0.2/delaunator.min.js]>]
     edit:
-      color1: name: "Color 1", type: \color, default: \#fff
-      color2: name: "Color 2", type: \color, default: \#000
-      variance: name: "Variance", type: \number, default: 0.4, min: 0, max: 1, step: 0.01
-      gridsize: name: "Grid Size", type: \number, default: 0.6, min: 0.3, max: 0.7, step: 0.05
+      c1: name: "Color 1", type: \color, default: \#1a0134
+      c2: name: "Color 2", type: \color, default: \#b83959
+      c3: name: "Color 2", type: \color, default: \#ffd082
+      speed: default: 2
+      dyn: name : "Dynamics", type: \number, default: 0.05, min: 0, max: 0.1, step: 0.01
+      angle: name: "Angle", type: \number, default: 3.71, min: 0.0, max: 6.28, step: 0.01
+      radius: name: "Radius", type: \number, default: 1.06, min: 0, max: 2, step: 0.01
+      range: name: "Range", type: \number, default: 0.87, min: 0.1, max: 5, step: 0.01
+      #grid: name: "Grid Size", type: \number, default: 0.1, min: 0.01, max: 0.5, step: 0.01
     support: {}
     watch: (n, o) ->
-      {uniforms} = @obj
-      uniforms.color1.value = @obj.color1 = new THREE.Color n.color1
-      uniforms.color2.value = @obj.color2 = new THREE.Color n.color2
-      if n.variance != o.variance or n.gridsize != o.gridsize => @prepare n.variance, n.gridsize
+      u = @shaders.0.uniforms
+      for name in <[c1 c2 c3]> => u[name]value = ldColor.rgbfv(n[name])
+      for name in <[speed dyn angle radius range grid]> => u[name]value = n[name]
 
-    init: ({three}) ->
-      mod.obj = obj = {} <<< {animate, controls, renderer, camera, scene, w, h} = three.prepare!
-      @prepare!
+    shaders: [
+      {
+        uniforms:
+          c1: type: \3fv, value: [0.76, 0.91, 0.81]
+          c2: type: \3fv, value: [0.06, 0.45, 0.83]
+          c3: type: \3fv, value: [0.06, 0.45, 0.83]
+          speed: type: \1f, value: 2
+          dyn: type: \1f, value: 0.05
+          angle: type: \1f, value: 3.58
+          radius: type: \1f, value: 1.16
+          range: type: \1f, value: 1.41
+          grid: type: \1f, value: 0.1
 
-    prepare: (variance = 0.4, gridsize = 0.6) ->
-      {camera, scene} = mod.obj
-      scene.background = new THREE.Color 0xffffff
-      if mod.obj.list => mod.obj.list.map -> scene.remove it
-      mod.obj.list = list = []
-      d = gridsize
-      rc = 12
-      cc = 18
-      rc = Math.floor(rc / d)
-      cc = Math.floor(cc / d)
-      rc2 = Math.round(rc/2)
-      cc2 = Math.round(cc/2)
-      camera.position.set 0, 0, -10
-      camera.lookAt 0, 0, 0
-      light = new THREE.AmbientLight 0xffff00
-      scene.add light
-      list.push light
-      pts = []
-      for r from -rc2 to rc2 => for c from -cc2 to cc2 =>
-        pts.push [c * d + (Math.random! - 0.5) * variance, r * d + (Math.random! - 0.5) * variance]
-      delaunay = Delaunator.from(pts)
-      console.log delaunay
-      geom = new THREE.Geometry!
-      box = [delaunay.coords.0, delaunay.coords.0, delaunay.coords.1, delaunay.coords.1]
-      for i from 1 til delaunay.coords.length by 2 =>
-        if box.0 > delaunay.coords[i] => box.0 = delaunay.coords[i]
-        if box.1 < delaunay.coords[i] => box.1 = delaunay.coords[i]
-        if box.2 < delaunay.coords[i + 1] => box.2 = delaunay.coords[i + 1]
-        if box.3 > delaunay.coords[i + 1] => box.3 = delaunay.coords[i + 1]
+        buffer: (renderer, program) ->
+          pts = []
+          variance = 0.5
+          [sx, sy] = [0.2, 0.2]
+          {width, height} = renderer{width, height}
+          if width > height => sx = sx * height / width
+          else sy = sy * width / height
 
-      count = 0
-      for i from 0 til delaunay.triangles.length by 3 =>
-        tri = delaunay.triangles
-        sx = 0
-        for j from 0 til 3 =>
-          sx += delaunay.coords[tri[i + j] * 2]
-        for j from 0 til 3 =>
-          [x, y] = [delaunay.coords[tri[i + j] * 2],delaunay.coords[tri[i + j] * 2 + 1]]
-          z = (sx / 3 - box.0) / (box.1 - box.0)
-          geom.vertices.push new THREE.Vector3(x, y, z)
-        geom.faces.push new THREE.Face3(count, count + 1, count + 2)
-        count += 3
-      @obj.uniforms = uniforms = do
-        color1: value: @obj.color1 or new THREE.Vector3(1, 1, 1)
-        color2: value: @obj.color2 or new THREE.Vector3(0, 0, 0)
-      mat = new THREE.ShaderMaterial do
-        uniforms: uniforms
-        vertexShader: """
-        varying float c;
-        varying float x;
+          for r from -1 - sy to 1 + sy by sy => for c from -1 - sx to 1 + sx by sx =>
+            v = variance
+            pts.push [c + (Math.random! - 0.5) * v * sx, r + (Math.random! - 0.5) * v * sy]
+          delaunay = Delaunator.from(pts)
+          npt = []
+          tri = delaunay.triangles
+          for i from 0 til delaunay.triangles.length by 3 =>
+            [cx, cy] = [0, 0]
+            for j from 0 til 3 =>
+              cx += delaunay.coords[tri[i + j] * 2] / 3
+              cy += delaunay.coords[tri[i + j] * 2 + 1] / 3
+            for j from 0 til 3 =>
+              npt.push delaunay.coords[tri[i + j] * 2]
+              npt.push delaunay.coords[tri[i + j] * 2 + 1]
+              npt.push cx
+              npt.push cy
+          gl = renderer.gl
+          program.data.array = new Float32Array(npt)
+          program.data.buffer = buffer = gl.createBuffer!
+          gl.bindBuffer gl.ARRAY_BUFFER, buffer
+          gl.bufferData gl.ARRAY_BUFFER, program.data.array, gl.STATIC_DRAW
+          positionLocation = gl.getAttribLocation program.obj, "position"
+          gl.enableVertexAttribArray positionLocation
+          gl.vertexAttribPointer positionLocation, 4, gl.FLOAT, false, 0, 0
+        render: (renderer, program) ->
+          gl = renderer.gl
+          gl.clearColor 1,0,0,1
+          gl.clear gl.COLOR_BUFFER_BIT
+          gl.drawArrays gl.TRIANGLES, 0, program.data.array.length / 4
+
+
+        vertexShader: glslify '''
+        #pragma glslify: fbm = require("shaderlib/func/fbm")
+        attribute vec4 position;
+        varying vec4 pos;
+        uniform float uTime, speed, dyn;
         void main() {
-          vec3 pos = position;
-          c = pos.z;
-          x = pos.x;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(pos.x, pos.y, 0, 1.);
+          float t = uTime / speed;
+          pos = position;
+          pos.x = pos.x + sin(t + 9.42 * fbm(pos.y * 3.)) * clamp(pow(1. - abs(pos.x), 1.5 - dyn * 7.), 0., 1.) * dyn;
+          pos.y = pos.y + cos(t + 9.42 * fbm(pos.x * 3.)) * clamp(pow(1. - abs(pos.y), 1.5 - dyn * 7.), 0., 1.) * dyn;
+          gl_Position = vec4(vec2(pos), 0., 1.);
         }
-        """
-        fragmentShader: """
-        uniform vec3 color1;
-        uniform vec3 color2;
-        varying float c;
-        varying float x;
-        void main() {
-          float t = c;
-          vec3 col = (1. - t) * color1 + t * color2;
-          gl_FragColor = vec4(col, 1.);
-        }
-        """
-      mesh = new THREE.Mesh geom, mat
-      scene.add mesh
-      list.push mesh
-      wireframe = new THREE.WireframeGeometry geom
-      line = new THREE.LineSegments wireframe
-      scene.add line
-      list.push line
+        '''
 
-    step: (t) ->
-      {controls, composer, renderer, camera, scene} = mod.obj
-      controls.update!
-      #obj.sp.uniforms.time.value = t
-      #composer.render!
-      renderer.render scene, camera
+        fragmentShader: glslify '''
+          precision highp float;
+          #pragma glslify: aspect_ratio = require("shaderlib/func/aspect_ratio")
+          #pragma glslify: quantize = require("shaderlib/func/quantize")
+          #pragma glslify: fbm = require("shaderlib/func/fbm")
+          #pragma glslify: noise = require("glsl-noise/simplex/2d")
+          #pragma glslify: gradient = require("shaderlib/raster/gradient/3d1")
 
+          uniform float uTime, speed, range, angle, radius;
+          uniform vec2 uResolution;
+          uniform vec3 c1, c2, c3;
+          varying vec4 pos;
+
+          void main() {
+            vec3 uv = aspect_ratio(uResolution, 1);
+            float a = sin(uTime / speed) * 0.19634;
+            mat2 rm = mat2( cos(a), -sin(a), sin(a), cos(a));
+            uv.xy = ((uv.xy - vec2(.5)) * rm) + vec2(.5);
+            float f;
+            f = fbm(pos.zw);
+            f = smoothstep(-1.2, 1.2, pos.w);
+            vec2 rpt = vec2(radius, 0.) * mat2(cos(angle), -sin(angle), sin(angle), cos(angle));
+            f = smoothstep(0., 2.4, length(pos.zw - rpt));
+            if(f<0.5) {
+              gl_FragColor = vec4(mix(c1, c2, pow(f * 2., range)), 1.);
+            } else {
+              gl_FragColor = vec4(mix(c2, c3, pow((f - 0.5) * 2., range)), 1.);
+            }
+          }
+        '''
+      }
+    ]
+
+    init: ({shaderlib}) -> @ <<< shaderlib.prepare @shaders
+    step: (t) -> @renderer.render t
+    destroy: ->
 
   if module? => module.exports = mod
   if ModManager => ModManager.register mod
   return mod
 )!
-
