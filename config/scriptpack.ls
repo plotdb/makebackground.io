@@ -20,6 +20,7 @@
       /assets/ldColor/ldColor.min.js
       /assets/palette/palettes.js
       /assets/clusterize/0.18.1/clusterize.min.js
+      /assets/visibility/1.2.4/visibility.min.js
       /assets/smiltool/latest/index.js
       /assets/gifjs/0.2.0/gif.js
       /assets/shaderlib/shader.js
