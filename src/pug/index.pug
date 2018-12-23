@@ -25,23 +25,10 @@ block body
     br
 
     .list
-      each name in ["waves", "burning", "autumn-leaves", "under-cloud", "glowing-fall", "mystery", "flying-elves", "polygon", "paper-contour", "spotlight-gradient", "cloudy-sky", "gradient-wave", "snow", "network", "under-sea", "trianglify", "ternary-gradient", "contour", "smooth-contour"]
+      each name in ["waves", "burning", "autumn-leaves", "under-cloud", "glowing-fall", "mystery", "flying-elves", "polygon", "paper-contour", "spotlight-gradient", "above-clouds", "cloudy-sky", "gradient-wave", "snow", "network", "under-sea", "trianglify", "ternary-gradient", "contour", "smooth-contour"]
         a.item(href="/bk/" + name + "/")
           .thumb(style="background-image:url(/backgrounds/" + name + "/index.jpg)")
           .name= name
-
-      //-each name in list 
-        a.item(href="/bk/" + name + "/")
-          .thumb(style="background-image:url(/backgrounds/" + name + "/index.png")
-          .name #{name}
-      //-
-        br
-        each i in [1,2,3,4,5,6,7,8,9,10]
-          a.item
-            .thumb(style="background-image:url(/assets/img/sample/" + i + ".jpg)")
-            .name #{i}
-
-
     br
     br
     br
