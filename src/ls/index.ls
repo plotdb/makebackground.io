@@ -9,7 +9,7 @@
     renderer.options.scale = options.scale
     ModManager.load name
       .then ->
-        renderer.render it
+        renderer.init-mod it
         setTimeout (->
           renderer.root.classList.add \show
           renderers[1 - idx].root.classList.remove \show

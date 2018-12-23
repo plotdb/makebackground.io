@@ -17,7 +17,7 @@
     }, options);
     renderer.options.scale = options.scale;
     return ModManager.load(name).then(function(it){
-      renderer.render(it);
+      renderer.initMod(it);
       return setTimeout(function(){
         renderer.root.classList.add('show');
         renderers[1 - idx].root.classList.remove('show');
