@@ -78,7 +78,7 @@
 
     getDom: -> @mod._renderer.domElement
 
-    render: (mod) ->
+    init-mod: (mod) ->
       promise = if !mod.inited =>
         console.log "init mod..."
         Promise.resolve!then ~>
@@ -102,14 +102,16 @@
 
     running: false
 
+    render: (t) -> @mod.step if t? => t else @time * 0.001
     start: ->
       for i from @root.childNodes.length - 1 to 0 by -1 => @root.removeChild @root.childNodes[i]
       @root.appendChild @mod._renderer.domElement
       if @running => return
       @running = true
-      _animate = (time) ~>
+      _animate = (t) ~>
         if @running => requestAnimationFrame _animate
-        @mod.step time * 0.001
+        @mod.step t * 0.001
+        @time = t
       _animate 0
 
     stop: -> @running = false

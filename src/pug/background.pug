@@ -8,12 +8,4 @@ block body
   //-script(src="/js/bk/" + name + ".js")
   script(src="/backgrounds/" + name + "/main.js")
   script.
-    var renderer = new ModRenderer("#canvas-container");
-    var mod = null;
-    ModManager.load("#{name}")
-      .then(function(it) {
-        mod = it;
-        renderer.render(it);
-      }).then(function() {
-        initEditor(mod);
-      });
+    initEditor("#{name}");

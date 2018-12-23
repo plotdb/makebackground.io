@@ -149,7 +149,7 @@
     getDom: function(){
       return this.mod._renderer.domElement;
     },
-    render: function(mod){
+    initMod: function(mod){
       var promise, this$ = this;
       promise = !mod.inited
         ? (console.log("init mod..."), Promise.resolve().then(function(){
@@ -184,6 +184,11 @@
       });
     },
     running: false,
+    render: function(t){
+      return this.mod.step(t != null
+        ? t
+        : this.time * 0.001);
+    },
     start: function(){
       var i$, i, _animate, this$ = this;
       for (i$ = this.root.childNodes.length - 1; i$ >= 0; --i$) {
@@ -195,11 +200,12 @@
         return;
       }
       this.running = true;
-      _animate = function(time){
+      _animate = function(t){
         if (this$.running) {
           requestAnimationFrame(_animate);
         }
-        return this$.mod.step(time * 0.001);
+        this$.mod.step(t * 0.001);
+        return this$.time = t;
       };
       return _animate(0);
     },
