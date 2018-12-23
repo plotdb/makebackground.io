@@ -15,17 +15,20 @@
       c1: {
         name: "Color 1",
         type: 'color',
-        'default': '#0056ff'
+        'default': '#a9903e'
       },
       c2: {
         name: "Color 2",
         type: 'color',
-        'default': '#ff8c00'
+        'default': '#ffe17a'
       },
       c3: {
         name: "Color 3",
         type: 'color',
-        'default': '#c20000'
+        'default': '#a98200'
+      },
+      speed: {
+        'default': 2
       }
     },
     watch: function(n, o){
@@ -45,22 +48,22 @@
       uniforms: {
         c1: {
           type: '3fv',
-          value: [0, 0.34, 1]
+          value: [0.66, 0.56, 0.24]
         },
         c2: {
           type: '3fv',
-          value: [1, 0.55, 0]
+          value: [1, 0.88, 0.48]
         },
         c3: {
           type: '3fv',
-          value: [0.76, 0, 0]
+          value: [0.66, 0.51, 0]
         },
         speed: {
           type: '1f',
           value: 2
         }
       },
-      fragmentShader: glslify(["precision highp float;\n#define GLSLIFY 1\n/* z: pixel size */\nvec3 aspect_ratio_1540259130(vec2 res, int iscover) {\n  // iscover: 0 = contains, 1 = cover\n  float r;\n  vec3 ret = vec3((gl_FragCoord.xy / res.xy),0);\n  if(iscover == 0 ^^ res.x > res.y) {\n    r = res.y / res.x;\n    ret.y = ret.y * r - (r - 1.) * 0.5;\n    ret.z = 1. / (iscover == 0 ? res.x : res.y);\n  } else {\n    r = res.x / res.y;\n    ret.x = (ret.x * r) - (r - 1.) * 0.5;\n    ret.z = 1. / (iscover == 0 ? res.y : res.x);\n  }\n  return ret;\n}\n\nuniform vec2 uResolution;\nuniform float uTime, speed;\nuniform vec3 c1;\nuniform vec3 c2;\nuniform vec3 c3;\n\nvoid main() {\n  vec3 uv = aspect_ratio_1540259130(uResolution, 1);\n  vec2 p = (uv.xy - vec2(.7, .7))* uResolution.x * 0.001;\n  float j, t = uTime / speed;\n  for(float i=1.0;i<50.;i++) {\n    p.x += 0.005 * cos( 0.3 * i + p.y * i + t) + 0.001;\n    p.y += 0.005 * sin( 0.3 * i + p.x * i + t) - 0.001;\n  }\n  vec3 col = vec3(\n    0.5 * sin( 3.0 * p.x + p.y) + 0.5,\n    0.5 * cos( 3.0 * p.y + p.x * 3.5) + 0.5,\n    sin(p.x * p.y + p.x) * 0.5 + 0.5\n  ); \n  col = ((col.x * c1) + (col.y * c2) + (col.z * c3)) / 3.;\n  gl_FragColor = vec4(col, 1.0);\n}"])
+      fragmentShader: glslify(["precision highp float;\n#define GLSLIFY 1\n/* z: pixel size */\nvec3 aspect_ratio_1540259130(vec2 res, int iscover) {\n  // iscover: 0 = contains, 1 = cover, 2 = stretch\n  float r;\n  vec3 ret = vec3((gl_FragCoord.xy / res.xy), 0.);\n  if(iscover == 2) {\n    ret.z = 1. / max(res.x, res.y);\n  } else if(iscover == 0 ^^ res.x > res.y) {\n    r = res.y / res.x;\n    ret.y = ret.y * r - (r - 1.) * 0.5;\n    ret.z = 1. / (iscover == 0 ? res.x : res.y);\n  } else {\n    r = res.x / res.y;\n    ret.x = (ret.x * r) - (r - 1.) * 0.5;\n    ret.z = 1. / (iscover == 0 ? res.y : res.x);\n  } \n  return ret;\n}\n\n/*\nret.y = ret.y * res.y / res.x\nret.x = ret.x * res.x / res.x\nret.xy = ret.xy * res.yx / max(res.x, res.y)\n\nfloat base;\nbase = res.xy / (iscover == 0 ? min(res.x, res.y) : max(res.x, res.y));\nret.z = 1. / base;\nret.xy = ( ret.xy * res.yx / base ) - ret.xy / base;\n*/\n\nuniform vec2 uResolution;\nuniform float uTime, speed;\nuniform vec3 c1;\nuniform vec3 c2;\nuniform vec3 c3;\n\nvoid main() {\n  vec3 uv = aspect_ratio_1540259130(uResolution, 1);\n  vec2 p = (uv.xy - vec2(.7, .7))* uResolution.x * 0.001;\n  float j, t = uTime / speed;\n  for(float i=1.0;i<50.;i++) {\n    p.x += 0.005 * cos( 0.3 * i + p.y * i + t) + 0.001;\n    p.y += 0.005 * sin( 0.3 * i + p.x * i + t) - 0.001;\n  }\n  vec3 col = vec3(\n    0.5 * sin( 3.0 * p.x + p.y) + 0.5,\n    0.5 * cos( 3.0 * p.y + p.x * 3.5) + 0.5,\n    sin(p.x * p.y + p.x) * 0.5 + 0.5\n  ); \n  col = ((col.x * c1) + (col.y * c2) + (col.z * c3)) / 3.;\n  gl_FragColor = vec4(col, 1.0);\n  float r = sin(p.x * p.y * 6.2831853) * 0.5 + 0.5;\n  if(r < 0.5) {\n    gl_FragColor = vec4(mix(c1, c2, r * 2.), 1.0);\n  } else {\n    gl_FragColor = vec4(mix(c2, c3, (r - 0.5) * 2.), 1.0);\n  }\n}"])
     }],
     init: function(arg$){
       var shaderlib;

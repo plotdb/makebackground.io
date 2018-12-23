@@ -9,9 +9,10 @@
     license: \CC0
     support: {}
     edit:
-      c1: name: "Color 1", type: \color, default: \#0056ff
-      c2: name: "Color 2", type: \color, default: \#ff8c00
-      c3: name: "Color 3", type: \color, default: \#c20000
+      c1: name: "Color 1", type: \color, default: \#a9903e
+      c2: name: "Color 2", type: \color, default: \#ffe17a
+      c3: name: "Color 3", type: \color, default: \#a98200
+      speed: default: 2
     watch: (n, o) ->
       u = @shaders.0.uniforms
       for name in <[c1 c2 c3]> => u[name]value = ldColor.rgbfv(n[name])
@@ -19,9 +20,9 @@
     shaders: [
       {
         uniforms:
-          c1: type: \3fv, value: [0, 0.34, 1]
-          c2: type: \3fv, value: [1, 0.55, 0]
-          c3: type: \3fv, value: [0.76, 0, 0]
+          c1: type: \3fv, value: [0.66, 0.56, 0.24]
+          c2: type: \3fv, value: [1, 0.88, 0.48]
+          c3: type: \3fv, value: [0.66, 0.51, 0]
           speed: type: \1f, value: 2
         fragmentShader: glslify '''
           precision highp float;
@@ -48,6 +49,12 @@
             ); 
             col = ((col.x * c1) + (col.y * c2) + (col.z * c3)) / 3.;
             gl_FragColor = vec4(col, 1.0);
+            float r = sin(p.x * p.y * 6.2831853) * 0.5 + 0.5;
+            if(r < 0.5) {
+              gl_FragColor = vec4(mix(c1, c2, r * 2.), 1.0);
+            } else {
+              gl_FragColor = vec4(mix(c2, c3, (r - 0.5) * 2.), 1.0);
+            }
           }
         '''
       }

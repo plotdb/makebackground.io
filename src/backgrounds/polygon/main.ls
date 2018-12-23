@@ -1,15 +1,16 @@
 (->
   require! <[glslify]>
   mod = do
-    name: "Network"
+    name: "Polygon"
     type: \background
-    desc: "web-like interconnection between nodes for your technology project"
-    tags: <[network graph social media internet map blue connection]>
-    slug: "blue-network-connection-graph"
+    desc: "Morphing polygons with gradient colors"
+    tags: <[polygon trianglify gradient green]>
+    slug: "green-gradient-polygon"
     license: \CC0
     edit:
-      bg: name: "Background", type: \color, default: \#00111a
-      fg: name: "Foreground", type: \color, default: \#b7efff
+      c1: name: "Color 1", type: \color, default: \#073d31
+      c2: name: "Color 2", type: \color, default: \#4b9c48
+      c3: name: "Color 3", type: \color, default: \#ffe9b7
       size: name: "Grid Size", type: \number, default: 19, min: 1, max: 100, step: 1
       rand: name: "Randomness", type: \number, default: 0.4, min: 0.0, max: 1, step: 0.01
       jam: name: "Jamming", type: \number, default: 0.08, min: 0.0, max: 1, step: 0.01
@@ -17,13 +18,14 @@
     support: {}
     watch: (n, o) ->
       u = @shaders.0.uniforms
-      for name in <[bg fg]> => u[name]value = ldColor.rgbfv(n[name])
+      for name in <[c1 c2 c3]> => u[name]value = ldColor.rgbfv(n[name])
       for name in <[speed size rand jam shadow]> => u[name]value = n[name]
     shaders: [
       {
         uniforms:
-          bg: type: \3fv, value: [0, 0.07, 0.1]
-          fg: type: \3fv, value: [0.72, 0.94, 1]
+          c1: type: \3fv, value: [0.03, 0.24, 0.19]
+          c2: type: \3fv, value: [0.29, 0.61, 0.28]
+          c3: type: \3fv, value: [1, 0.91, 0.72]
           speed: type: \1f, value: 1
           size: type: \1f, value: 12
           rand: type: \1f, value: 0.5
@@ -40,7 +42,7 @@
 
           uniform float uTime, size, speed, rand, jam, shadow;
           uniform vec2 uResolution;
-          uniform vec3 bg, fg;
+          uniform vec3 c1, c2, c3;
 
           float line(vec2 p, vec2 a, vec2 b) {
             float d = distance_line(p, a, b);
@@ -89,7 +91,11 @@
             ), noise(mv), jam), 1.0);
             f = clamp(f, 0., 1.);
             f = f - pow((auv.x - mv.x / size) * 2. * shadow, 2.);
-            gl_FragColor = vec4(mix(bg, fg, f), 1.);
+            if(f < 0.5) {
+              gl_FragColor = vec4(mix(c1, c2, f * 2.), 1.);
+            } else {
+              gl_FragColor = vec4(mix(c2, c3, (f - 0.5) * 2.), 1.);
+            }
           }
 
         '''

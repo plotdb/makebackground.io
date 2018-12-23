@@ -1,17 +1,17 @@
 (->
   mod = do
-    name: \fall
+    name: 'Autumn Leaves'
     type: \background
     desc: "falling leaves in autumn season"
     tags: <[contour map]>
-    slug: "contour-background-line"
+    slug: "falling-autumn-leaves"
     license: \CC0
     support: {}
     edit:
-      background: name: "Background", type: \color, default: \#b61
-      color1: name: "Color 1", type: \color, default: \#f92
-      color2: name: "Color 2", type: \color, default: \#ea8
-      color3: name: "Color 3", type: \color, default: \#db9
+      background: name: "Background", type: \color, default: \#ff8c00
+      color1: name: "Color 1", type: \color, default: \#ff3434
+      color2: name: "Color 2", type: \color, default: \#fffe9f
+      color3: name: "Color 3", type: \color, default: \#ffffff
     init: ({three}) ->
       mod.obj = obj = {} <<< {animate, controls, renderer, camera, scene, w, h} = three.prepare!
 
@@ -19,7 +19,7 @@
       renderer.shadowMap.type = THREE.PCFSoftShadowMap
       camera.position.set 0, 0, 70
       camera.lookAt 0, 0, 0
-      scene.background = new THREE.Color 0xbb6611
+      scene.background = new THREE.Color 0xff8c00
 
       light = new THREE.DirectionalLight 0xffffff
       light.position.set 5, 5, 50
