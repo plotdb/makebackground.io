@@ -22,8 +22,7 @@
   document.addEventListener \DOMContentLoaded, -> loadbk \contour, {delay: 0, scale: 0.65}
   idx = 1
   thumbs = document.querySelectorAll '#quick-picker .thumb'
-  setInterval (->
+  Visibility.every 3000, ->
     loadbk thumbs[idx].getAttribute(\data-name), {delay: 0, scale: 0.65}
     idx := ( idx + 1 ) % 5
-  ), 3000
 )!
