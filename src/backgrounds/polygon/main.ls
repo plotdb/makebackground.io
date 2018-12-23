@@ -10,15 +10,15 @@
     edit:
       bg: name: "Background", type: \color, default: \#00111a
       fg: name: "Foreground", type: \color, default: \#b7efff
-      size: name: "Grid Size", type: \number, default: 12, min: 1, max: 100, step: 1
-      rand: name: "Randomness", type: \number, default: 0.5, min: 0.0, max: 1, step: 0.01
-      jam: name: "Jamming", type: \number, default: 0.06, min: 0.0, max: 1, step: 0.01
-      offset: name: "Offset", type: \number, default: 0.0, min: -1, max: 1, step: 0.01
+      size: name: "Grid Size", type: \number, default: 19, min: 1, max: 100, step: 1
+      rand: name: "Randomness", type: \number, default: 0.4, min: 0.0, max: 1, step: 0.01
+      jam: name: "Jamming", type: \number, default: 0.08, min: 0.0, max: 1, step: 0.01
+      shadow: name: "Shadow", type: \number, default: 0.92, min: 0, max: 2, step: 0.01
     support: {}
     watch: (n, o) ->
       u = @shaders.0.uniforms
       for name in <[bg fg]> => u[name]value = ldColor.rgbfv(n[name])
-      for name in <[speed size rand jam offset]> => u[name]value = n[name]
+      for name in <[speed size rand jam shadow]> => u[name]value = n[name]
     shaders: [
       {
         uniforms:
@@ -28,7 +28,7 @@
           size: type: \1f, value: 12
           rand: type: \1f, value: 0.5
           jam: type: \1f, value: 0.06
-          offset: type: \1f, value: 0.25
+          shadow: type: \1f, value: 1
         fragmentShader: glslify '''
           precision highp float;
           #pragma glslify: aspect_ratio = require("shaderlib/func/aspect_ratio")
@@ -38,7 +38,7 @@
           #pragma glslify: vignette = require("shaderlib/func/vignette")
           #pragma glslify: distance_line = require("shaderlib/distance/line")
 
-          uniform float uTime, size, speed, rand, jam, offset;
+          uniform float uTime, size, speed, rand, jam, shadow;
           uniform vec2 uResolution;
           uniform vec3 bg, fg;
 
@@ -80,7 +80,6 @@
                 }
               }
             }
-            mv += vec2(size, size) * offset;
             d = length(uv - p[4]);
             f = smoothstep(0.09, 0.08, d);
             f = pow(mix(pow(
@@ -89,7 +88,7 @@
               0.5
             ), noise(mv), jam), 1.0);
             f = clamp(f, 0., 1.);
-            f = f - (auv.x - mv.x / size) * 0.5;
+            f = f - pow((auv.x - mv.x / size) * 2. * shadow, 2.);
             gl_FragColor = vec4(mix(bg, fg, f), 1.);
           }
 
