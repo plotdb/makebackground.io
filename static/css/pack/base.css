@@ -10336,6 +10336,10 @@ h6.tag {
   .editor.float {
     width: 90%;
   }
+  .editor.float .inner {
+    max-height: 260px;
+    overflow: scroll;
+  }
   .editor.float .row > div {
     margin-bottom: 15px;
   }
