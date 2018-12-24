@@ -14,6 +14,7 @@
   config.js <<< do
     base: <[
       /assets/jquery/1.10.2/jquery.min.js
+      /assets/popper/1.12.5/index.js
       /assets/bootstrap/4.0.0/js/bootstrap.min.js
       /assets/ion-rangeslider/2.1.7/js/ion.rangeSlider.min.js
       /assets/ldcolorpicker/0.1.4/ldcp.min.js

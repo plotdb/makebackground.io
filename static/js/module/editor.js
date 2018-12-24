@@ -236,7 +236,6 @@
       }).then(function(blob){
         var url, x$, y$, z$;
         url = URL.createObjectURL(blob);
-        console.log(url);
         x$ = document.querySelector('#download img');
         x$.setAttribute('src', url);
         x$.style.display = 'block';
@@ -249,42 +248,45 @@
         return $('#download').modal('show');
       });
     });
-    document.querySelector('.editor .download .btn[data-type="webm"]').addEventListener('click', function(e){
-      var canvas, stream, options, blob, mr;
-      canvas = document.querySelector('#canvas-container canvas');
-      stream = canvas.captureStream();
-      options = {
-        mimeType: 'video/webm'
-      };
-      blob = [];
-      mr = new MediaRecorder(stream, options);
-      mr.ondataavailable = function(event){
-        if (event.data && event.data.size > 0) {
-          return blob.push(event.data);
-        }
-      };
-      mr.start();
-      document.querySelector('#loading').classList.add('running');
-      return setTimeout(function(){
-        mr.stop();
+    Array.from(document.querySelectorAll('.editor .download a[data-type="webm"]')).map(function(node){
+      return node.addEventListener('click', function(e){
+        var duration, canvas, stream, options, blob, mr;
+        duration = (+node.getAttribute('data-dur') || 4) * 1000;
+        canvas = document.querySelector('#canvas-container canvas');
+        stream = canvas.captureStream();
+        options = {
+          mimeType: 'video/webm'
+        };
+        blob = [];
+        mr = new MediaRecorder(stream, options);
+        mr.ondataavailable = function(event){
+          if (event.data && event.data.size > 0) {
+            return blob.push(event.data);
+          }
+        };
+        mr.start();
+        document.querySelector('#loading').classList.add('running');
         return setTimeout(function(){
-          var b, url, x$, y$, z$;
-          b = new Blob(blob, {
-            type: 'video/webm'
-          });
-          url = URL.createObjectURL(b);
-          document.querySelector('#loading').classList.remove('running');
-          x$ = document.querySelector('#download video');
-          x$.style.display = 'block';
-          x$.innerHTML = "<source type=\"video/webm\" src=\"" + url + "\"/>";
-          y$ = document.querySelector('#download img');
-          y$.style.display = 'none';
-          z$ = document.querySelector('#download .btn');
-          z$.setAttribute('href', url);
-          z$.setAttribute('download', (editor.mod.name || 'output') + "." + 'webm');
-          return $('#download').modal('show');
-        }, 1000);
-      }, 5000);
+          mr.stop();
+          return setTimeout(function(){
+            var b, url, x$, y$, z$;
+            b = new Blob(blob, {
+              type: 'video/webm'
+            });
+            url = URL.createObjectURL(b);
+            document.querySelector('#loading').classList.remove('running');
+            x$ = document.querySelector('#download video');
+            x$.style.display = 'block';
+            x$.outerHTML = "<video controls><source type=\"video/webm\" src=\"" + url + "\"/></video>";
+            y$ = document.querySelector('#download img');
+            y$.style.display = 'none';
+            z$ = document.querySelector('#download .btn');
+            z$.setAttribute('href', url);
+            z$.setAttribute('download', (editor.mod.name || 'output') + "." + 'webm');
+            return $('#download').modal('show');
+          }, 1000);
+        }, duration);
+      });
     });
     return window.addEventListener('resize', function(){
       return editor.setSize(window.innerWidth, window.innerHeight);

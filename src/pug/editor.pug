@@ -45,5 +45,13 @@ include /module/palette-picker.pug
         label Download
         .btn-group.download
           .btn.btn-sm.btn-outline-dark(data-type="png") PNG
-          .btn.btn-sm.btn-outline-dark(data-type="webm") WebM
+          .dropdown
+            .btn.btn-sm.btn-outline-dark.dropdown-toggle(href="#",data-toggle="dropdown") WebM
+            .dropdown-menu
+              a.dropdown-item Chrome Only #[i.fa.fa-flask]
+              .dropdown-divider
+              a.dropdown-item(data-type="webm",data-dur="1",href="#") 1 sec
+              a.dropdown-item(data-type="webm",data-dur="2",href="#") 2 sec
+              a.dropdown-item(data-type="webm",data-dur="4",href="#") 4 sec
+              a.dropdown-item(data-type="webm",data-dur="8",href="#") 8 sec
     #editor-custom-options.row

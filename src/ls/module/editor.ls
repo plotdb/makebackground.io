@@ -146,7 +146,6 @@
           smiltool.dataurl-to-blob it
         .then (blob) ->
           url = URL.createObjectURL blob
-          console.log url
           document.querySelector('#download img')
             ..setAttribute \src, url
             ..style.display = \block
@@ -157,33 +156,35 @@
             ..setAttribute \href, url
             ..setAttribute \download, "#{editor.mod.name or 'output'}.#{'png'}"
           $(\#download).modal \show
-    document.querySelector '.editor .download .btn[data-type="webm"]' .addEventListener \click, (e) ->
-      canvas = document.querySelector('#canvas-container canvas')
-      stream = canvas.captureStream!
-      options = mimeType: \video/webm
-      blob = []
-      mr = new MediaRecorder(stream, options)
-      mr.ondataavailable = (event) ->
-        if event.data and event.data.size > 0 => blob.push event.data
-      mr.start!
-      document.querySelector '#loading' .classList.add \running
-      setTimeout (->
-        mr.stop!
+    Array.from(document.querySelectorAll '.editor .download a[data-type="webm"]').map (node)->
+      node.addEventListener \click, (e) ->
+        duration = (+node.getAttribute(\data-dur) or 4) * 1000
+        canvas = document.querySelector('#canvas-container canvas')
+        stream = canvas.captureStream!
+        options = mimeType: \video/webm
+        blob = []
+        mr = new MediaRecorder(stream, options)
+        mr.ondataavailable = (event) ->
+          if event.data and event.data.size > 0 => blob.push event.data
+        mr.start!
+        document.querySelector '#loading' .classList.add \running
         setTimeout (->
-          b = new Blob(blob, type: \video/webm)
-          url = URL.createObjectURL b
-          document.querySelector '#loading' .classList.remove \running
-          document.querySelector('#download video')
-            ..style.display = \block
-            ..innerHTML = """<source type="video/webm" src="#url"/>"""
-          document.querySelector('#download img')
-            ..style.display = \none
-          document.querySelector('#download .btn')
-            ..setAttribute \href, url
-            ..setAttribute \download, "#{editor.mod.name or 'output'}.#{'webm'}"
-          $(\#download).modal \show
-        ), 1000
-      ), 5000
+          mr.stop!
+          setTimeout (->
+            b = new Blob(blob, type: \video/webm)
+            url = URL.createObjectURL b
+            document.querySelector '#loading' .classList.remove \running
+            document.querySelector('#download video')
+              ..style.display = \block
+              ..outerHTML = """<video controls><source type="video/webm" src="#url"/></video>"""
+            document.querySelector('#download img')
+              ..style.display = \none
+            document.querySelector('#download .btn')
+              ..setAttribute \href, url
+              ..setAttribute \download, "#{editor.mod.name or 'output'}.#{'webm'}"
+            $(\#download).modal \show
+          ), 1000
+        ), duration
 
     window.addEventListener \resize, ->
       editor.setSize window.innerWidth, window.innerHeight
