@@ -6,7 +6,7 @@ block body
     .gradient
     #hero-text
       h1.title MAKEBACKGROUND.IO
-      h2.desc Impress Your Customers with Live, Customized Backgrounds / Wallpapers / Videos Created in Seconds.
+      h2.desc Impress Your Customers with Live, Customized Backgrounds / Wallpapers / Videos.
     #quick-picker
       br
       for item in ["burning", "under-sea", "glowing-fall", "flying-elves", "network"]
@@ -40,21 +40,23 @@ block body
       span.green about this service
       h2 Live Background Generator You've Never Seen Before
     .sep.huge-gap
-    p Ever see animated background in some amazing websites? Live background can impress your customer and bring your design to the next level. But it's not always easy to make, even if you have sophisticated software like Adobe After Effect Blender.
+    p Have you ever see live backgrounds in some amazing websites or landing pages? Live backgrounds can impress your customers, and bring your design to the next level. But it's not always easy to make, even if you have sophisticated softwares like Adobe After Effect or Blender.
 
-    p #[span.green Makebackground.io] provides 20 carefully crafted animated backgrounds in both #[span.green PNG] and #[span.green Webm] format for supporting both static image and live videostream to fully power you with the modern age technology, while we still do our best to focus on these guideline:
+    p #[span.green Makebackground.io] provides 20 carefully crafted animated backgrounds in both #[span.green PNG] and #[span.green Webm] format for supporting both #[span.green static wallpaper] and #[span.green motion graphics] to fully power your projects with stunning, aesthetic backgrounds, with guideline in mind when we built it:
     ul
-      li Make It Quick, Make It Simple
+      li Make It Quick and Beautiful
       li On the Web, on the Fly
-      li Easily Customizable for Your Creativity
+      li Easily Customizable for Your Own Style
       li Optimized, with WebGL
+
+    p To further power up websites with optimized payload size, we also plan to release source codes for all these images with friendly API for web developers. Just Stay tune!
 
     +nbr(2)
     h2 Technical Consideration
     .sep
-    p To optimize rendering we use WebGL, a widely adopted technology in nowaday browsers. However, some old browsers don't support WebGL such as older version (<=10) of Microsoft Internet Explorer. Performance may also vary across browsers due to their different implementation or running environment.
+    p To optimize rendering we use WebGL, a widely adopted technology in nowaday browsers. However, some old browsers don't support WebGL such as older version (<=10) of Microsoft Internet Explorer. Performance may also vary across browsers due to their different implementation or their running environment.
 
-    p For now we only support Webm video generation with Google Chrome browser, but you can still convert it to mp4 using other web service. We expect to support more format and browsers for video generation.
+    p For now we only support Webm video generation with Google Chrome browser, but you can still convert webm to mp4 using other tools. We will support more formats (like #[span.green MP4] or #[span.green GIF]) and browsers for video generation.
     br
     h4 Browser Compatibility
     p Webm video format is currently supported by browsers including Google Chrome, Mozilla Firefox, Opera and (partially) Microsoft Edge. Unfortunately Safari doesn't support it.
@@ -63,10 +65,9 @@ block body
     h2 License
     .sep
     p tl;dr - #[span.green free for both personal and commercial use].
-
-    p We expect makebackground.io to grow and become sustainable by itself, while it's for now a "proof of concept" and not even a MVP. Thus, all generated images / videos are free for both personal or commercial usage. This is subject to change in the future, but you #[span.green keep the right] if you download them before we change the rule.
-    p Additionally, we expect to also open the source code used to generate all these assets; it will, then, be dual license - free for personal use, charge for commercial use. We will make it more clearer once we are ready for it.
-    p You can check the #[a(href="/license/") license page] for more detail about licensing.
+    p We expect makebackground.io to grow and become sustainable by itself, while it's for now a "proof of concept" and not even a MVP. Thus, all generated images / videos are free for both personal or commercial use. This is subject to change in the future, but you #[span.green keep the right] if you download them before we change the rule.
+    p Additionally, we also plan to open the source code used to generate all these backgrounds; it will, then, be dual license - free for personal use, charge for commercial use. We will make it more clearer once we are ready for it.
+    //-p You can check the #[a(href="/license/") license page] for more detail about licensing.
 
     +nbr(2) 
 
