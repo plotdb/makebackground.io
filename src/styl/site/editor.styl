@@ -10,14 +10,16 @@
   width: 1024px
   .title
     color: rgba(0,0,0,.7)
-    text-shadow: -1px -1px 0px rgba(255,255,255,.2), 0px -1px 0px rgba(255,255,255,.2), 1px -1px 0px rgba(255,255,255,.2), -1px 0px 0px rgba(255,255,255,.2), 1px 0px 0px rgba(255,255,255,.2), -1px 1px 0px rgba(255,255,255,.2), 0px 1px 0px rgba(255,255,255,.2), -1px 1px 0px rgba(255,255,255,.2)
+    //-text-shadow: -1px -1px 0px rgba(255,255,255,.2), 0px -1px 0px rgba(255,255,255,.2), 1px -1px 0px rgba(255,255,255,.2), -1px 0px 0px rgba(255,255,255,.2), 1px 0px 0px rgba(255,255,255,.2), -1px 1px 0px rgba(255,255,255,.2), 0px 1px 0px rgba(255,255,255,.2), -1px 1px 0px rgba(255,255,255,.2)
   & > .inner
-    background: rgba(255,255,255,0.4)
-    border: 1px solid rgba(0,0,0,.4)
+    opacity: 0.8
+    background: rgba(255,255,255,0.3)
+    border: 1px solid rgba(0,0,0,.3)
     border-radius: 3px
     padding: 15px 15px
-    transition: background 0.3s ease-in-out
+    transition: background 0.3s ease-in-out, opacity 0.3s ease-in-out
     &:hover
+      opacity: 1
       background: rgba(255,255,255,1)
       border: 1px solid #ccc
       box-shadow: 0 2px 3px rgba(0,0,0,.2)
@@ -123,3 +125,8 @@
       margin-bottom: 15px
     .color .inner
       height: 17px
+    .title span
+      font-size: 12px
+    .title span:last-of-type
+      display: block
+      margin: -3px 5px 3px

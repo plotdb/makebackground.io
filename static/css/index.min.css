@@ -2508,20 +2508,21 @@ h6.tag {
 }
 .editor.float .title {
   color: rgba(0,0,0,0.7);
-  text-shadow: -1px -1px 0px rgba(255,255,255,0.2), 0px -1px 0px rgba(255,255,255,0.2), 1px -1px 0px rgba(255,255,255,0.2), -1px 0px 0px rgba(255,255,255,0.2), 1px 0px 0px rgba(255,255,255,0.2), -1px 1px 0px rgba(255,255,255,0.2), 0px 1px 0px rgba(255,255,255,0.2), -1px 1px 0px rgba(255,255,255,0.2);
 }
 .editor.float > .inner {
-  background: rgba(255,255,255,0.4);
-  border: 1px solid rgba(0,0,0,0.4);
+  opacity: 0.8;
+  background: rgba(255,255,255,0.3);
+  border: 1px solid rgba(0,0,0,0.3);
   border-radius: 3px;
   padding: 15px 15px;
-  -ms-transition: background 0.3s ease-in-out;
-  -moz-transition: background 0.3s ease-in-out;
-  -webkit-transition: background 0.3s ease-in-out;
-  -o-transition: background 0.3s ease-in-out;
-  transition: background 0.3s ease-in-out;
+  -ms-transition: background 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  -moz-transition: background 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  -webkit-transition: background 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  -o-transition: background 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  transition: background 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 .editor.float > .inner:hover {
+  opacity: 1;
   background: #fff;
   border: 1px solid #ccc;
   box-shadow: 0 2px 3px rgba(0,0,0,0.2);
@@ -2648,6 +2649,13 @@ h6.tag {
   }
   .editor.float .color .inner {
     height: 17px;
+  }
+  .editor.float .title span {
+    font-size: 12px;
+  }
+  .editor.float .title span:last-of-type {
+    display: block;
+    margin: -3px 5px 3px;
   }
 }
 #disqus_thread {
