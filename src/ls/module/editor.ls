@@ -14,6 +14,7 @@
       @config.cur[name] = parseInt("0x" + ("" + value).substring(1))
     else @config.cur[name] = value
     if @mod.inited and @mod and @mod.watch => @mod.watch @config.cur, @config.old
+    if name == \width or name == \height => editor.setSize @config.cur.width, @config.cur.height
 
   init-sliders = ->
     Array.from(document.querySelectorAll '.irs-input input')
@@ -61,8 +62,8 @@
         options.innerHTML = ''
         editor.mod = mod
         mod.edit.speed  = {min: 0.1, max: 20, step: 0.1, default: 1} <<< mod.edit.speed or {}
-        mod.edit.width  = {min: 1, max: 1920, step: 1, default: 800} <<< mod.edit.width or {}
-        mod.edit.height = {min: 1, max: 1280, step: 1, default: 600} <<< mod.edit.height or {}
+        mod.edit.width  = {min: 1, max: 1920, step: 1, default: window.innerWidth} <<< mod.edit.width or {}
+        mod.edit.height = {min: 1, max: 1280, step: 1, default: window.innerHeight} <<< mod.edit.height or {}
         init-slider document.querySelector('.editor .speed-option'), \speed, mod.edit.speed
         init-slider document.querySelector('.editor .width-option'), \width, mod.edit.width
         init-slider document.querySelector('.editor .height-option'), \height, mod.edit.height

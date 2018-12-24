@@ -5,9 +5,8 @@ block body
     #landing-demo #[div] #[div]
     .gradient
     #hero-text
-      //-img(src="/assets/img/landing/text.svg",style="width:100%")
-      .title MAKEBACKGROUND.IO
-      .desc Impress Your Customer with Live, Customizable Animated Background
+      h1.title MAKEBACKGROUND.IO
+      h2.desc Impress Your Customers with Live, Customized Backgrounds / Wallpapers / Videos Created in Seconds.
     #quick-picker
       br
       for item in ["burning", "under-sea", "glowing-fall", "flying-elves", "network"]
@@ -17,26 +16,19 @@ block body
         div: small .. more ..
         img(src="/assets/img/icon/down.svg",style="margin-top: -10px")
   #gallery
-    br
-    br
-    br
-    .text-center: big Pick the background you want then customize it..
-    br
-    br
+    +nbr(3)
+    .text-center: big Pick your favor background to customize it..
+    +nbr(2)
 
     .list
       each name in ["waves", "burning", "autumn-leaves", "under-cloud", "glowing-fall", "mystery", "flying-elves", "polygon", "paper-contour", "spotlight-gradient", "above-clouds", "cloudy-sky", "gradient-wave", "snow", "network", "under-sea", "trianglify", "ternary-gradient", "contour", "smooth-contour"]
         a.item(href="/bk/" + name + "/")
           .thumb(style="background-image:url(/backgrounds/" + name + "/index.jpg)")
           .name= name
-    br
-    br
-    br
-    br
+    +nbr(4)
     .text-center
       div Need more? Help us by sharing it!
-      br
-      br
+      +nbr(2)
       .row.w-50.mx-auto
         .col-sm
           a.btn.btn-block.btn-outline-primary.mr-2.mb-2(href="https://www.facebook.com/sharer/sharer.php?u=https://makebackground.io",target="_blank") share with facebook #[i.fa.fa-facebook]
@@ -45,53 +37,69 @@ block body
 
   #info: .inner
     .text-center
-      span.green about this tool
-      h1 Cool Text Generator for Modern Age
+      span.green about this service
+      h2 Live Background Generator You've Never Seen Before
     .sep.huge-gap
-    p Sometimes we just need a decent stylish text in 10 minutes. We don't have Photoshop, we don't have good design in mind. What if there is a web service for us to browse-and-pick a nice effect, then we just customize → download → use it? And yes, maketext.io is born for this purpose.
+    p Ever see animated background in some amazing websites? Live background can impress your customer and bring your design to the next level. But it's not always easy to make, even if you have sophisticated software like Adobe After Effect Blender.
 
-    p #[span.green Maketext.io] is the modern cool text generator that empowers SVG filters and 800+ open-font-licensed web fonts. While there are already numerous similar websites around, we handcrafted maketext.io with following guideline in mind:
+    p #[span.green Makebackground.io] provides 20 carefully crafted animated backgrounds in both #[span.green PNG] and #[span.green Webm] format for supporting both static image and live videostream to fully power you with the modern age technology, while we still do our best to focus on these guideline:
     ul
       li Make It Quick, Make It Simple
       li On the Web, on the Fly
-      li Easily Customizable
-      li Vector Based with Raster Support
+      li Easily Customizable for Your Creativity
+      li Optimized, with WebGL
 
     +nbr(2)
     h2 Technical Consideration
     .sep
-    p For every fancy text effect, we provide both SVG and PNG format for you to download. Since SVG is well-prepared for everyone to use in HTML5 era, you will still want to know about its limitation so you can choose which one to use between SVG and PNG more wisely.
+    p To optimize rendering we use WebGL, a widely adopted technology in nowaday browsers. However, some old browsers don't support WebGL such as older version (<=10) of Microsoft Internet Explorer. Performance may also vary across browsers due to their different implementation or running environment.
+
+    p For now we only support Webm video generation with Google Chrome browser, but you can still convert it to mp4 using other web service. We expect to support more format and browsers for video generation.
     br
-    h3 Browser Compatibility
-    p Just like there are some CSS attributes that are not well-supported by all modern browsers, there might be difference between implementations of browsers to the SVG filter we use, specially of the old browsers like Internet Explorer.
-    p Generally speaking modern browsers like latest versions Chrome, Firefox and Safari should be able to render them correctly, but you should check if you need to support browsers like IE9. For a detail list of browser support for SVG filter, check #[a(href="https://caniuse.com/#feat=svg-filters",target="_blank") Can I Use "SVG filter"] for more information.
+    h4 Browser Compatibility
+    p Webm video format is currently supported by browsers including Google Chrome, Mozilla Firefox, Opera and (partially) Microsoft Edge. Unfortunately Safari doesn't support it.
+
     br
-    h3 Rendering Performance
-    p Rendering SVG can be more CPU-intensive than rendering raster images like PNG or JPG. This is especially true when using complicated SVG filters, and almost all filters here are complicated. Consider using CSS property "#[a(href="https://caniuse.com/#feat=will-change",target="_blank") will-change]" to prevent redundant re-rendering when you use those downloaded SVG files, just like we've done in our stylish text gallery.
-    br
-    h3 Image Quality
-    p While SVG is scalable-vector-based and should be responsive-ready, sometimes there are still unwanted aliasing/jagged edges or not-aligned shapes, due to number rounding / precision issues when rendering. If you use those SVG files with dynamic sizing, remember to check it's visual appearence in different resolution before shipping your works.
-    br
-    h3 Embedded Font
-    p To make custom web font works in SVG files, we actually convert every letter from text into SVG path instead of embedding the whole font file inside it. This can make the file smaller ( if the text is short ), but then it won't be able to change the text after generation of the SVG file, and the SVG file can't be indexed by search engine through its content. You can still use the #[code alt] attribute in #[code img] tag for SEO though.
+    h2 License
+    .sep
+    p tl;dr - #[span.green free for both personal and commercial use].
+
+    p We expect makebackground.io to grow and become sustainable by itself, while it's for now a "proof of concept" and not even a MVP. Thus, all generated images / videos are free for both personal or commercial usage. This is subject to change in the future, but you #[span.green keep the right] if you download them before we change the rule.
+    p Additionally, we expect to also open the source code used to generate all these assets; it will, then, be dual license - free for personal use, charge for commercial use. We will make it more clearer once we are ready for it.
+    p You can check the #[a(href="/license/") license page] for more detail about licensing.
+
     +nbr(2) 
+
     h2 Resources
     .sep
-    p While making stylish text with maketext.io, you may also want to build your own cool text filter. This article "#[a(href="https://www.smashingmagazine.com/2015/05/why-the-svg-filter-is-awesome/") The Art Of SVG Filters And Why It Is Awesome]" provides a comprehensive guide with a lot of example for anyone who want to build a cool text SVG filter from scratch, a definitely must-read. 
-    p Additionally, these filters can actually be used in any shapes, not only for text. For an inspiring example of SVG beyong merely shapes, this talk and slide about "#[a(href="https://www.visualcinnamon.com/2016/05/slides-openvis") SVGs beyond mere shapes]" is the thing you will never want to miss.
-    p The fact that these cool text effects are built with SVG filters makes it possible to couple with other css or javascript libraries. For example, you can use #[a(href="https://loading.io/animation/",target="_blank") loading.css] or #[a(href="https://loading.io/transition/",target="_blank") transition.css] to animate your stylish text. Check #[a(href="https://loading.io/animation/text",target="_blank") loading.io animated text generator] for inspiration of how loading.css can be used in text animation.
+    p WebGL and Shader language is quite complicated comparing to plain JavaScript, but you may still want to learn more about them. We curated a #[a(href="#") awesome-webgl] list for you to learn more about it, including libraries, tutorials, and people that are also working on creative art.
+    p Animation is always an interesting topic for people who want to make interactive content. We also provide online icon animation with #[a(href="https://loading.io") loading.io]. It also provides open sourced solution including #[a(href="https://loading.io/animation/") loading css] and #[a(href="https://loading.io/transition") transition.css].
+
+    p We expect to integrate #[a(href="https://maketext.io") maketext.io] for a more sophisticated animation builder, before that you may want to take a look of it.
+
     +nbr(2)
     h2 Contact
     .sep
-    p We want to build this service to its best, but there are always bugs or glitches. Feel free to contact us via #[b contact@maketext.io] by mail, or leave your words in the disqus widget below. We always appreciate your feedback and support, by which we could make this service better together.
+    p We want to build this service to its best, but there are always bugs or glitches. Feel free to contact us via #[b contact@makebackground.io] by mail, or leave your words in the disqus widget below. We always appreciate your feedback and support, by which we could make this service better together.
     br
     #subscribe.card
       .card-body
         h3 Get on the list
         .sep
-        p we are constantly building better tools for the web, often with open-sourced libraries for anyone to use. Our portfolio includes data visualization service "#[a(href="https://plotdb.com",target="_blank") PlotDB]", animation service "#[a(href="https://loading.io/") loading.io]", and real-time collaborative web design service "#[a(href="https://makeweb.io") makeweb.io]". Want to get noticed when we release our next service? Just subscribe our newsletter! :)
+        p we are constantly building better tools for the web, often with open-sourced libraries for anyone to use. Our portfolio includes animation service "#[a(href="https://loading.io",target="_blank") loading.io]", text styling service "#[a(href="https://maketext.io/") maketext.io]", and data visualization service "#[a(href="https://plotdb.com") plotdb.com]". Want to get noticed when we release our next service? Just subscribe our newsletter! :)
         input#email.form-control.form-control-lg.mb-2(type="text",
         placeholder="Sign up to be the first to hear about the next launch")
         .btn.btn-block.btn-action.btn-lg(onclick="subscribe()") Get on the list
+    +nbr(3)
+    .text-center any background you need but we don't have? welcome to suggest below!
+
+  #disqus_thread
+  script.
+    var disqus_config = function () {
+    this.page.url = "https://makebackground.io/";
+    this.page.identifier = "/";
+    };
+  include /module/disqus.pug
+
   include module/footer.pug
   script(src="/js/index.js")

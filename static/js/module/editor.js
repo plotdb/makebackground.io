@@ -26,7 +26,10 @@
       this.config.cur[name] = value;
     }
     if (this.mod.inited && this.mod && this.mod.watch) {
-      return this.mod.watch(this.config.cur, this.config.old);
+      this.mod.watch(this.config.cur, this.config.old);
+    }
+    if (name === 'width' || name === 'height') {
+      return editor.setSize(this.config.cur.width, this.config.cur.height);
     }
   };
   initSliders = function(){
@@ -112,13 +115,13 @@
         min: 1,
         max: 1920,
         step: 1,
-        'default': 800
+        'default': window.innerWidth
       }, mod.edit.width) || {};
       mod.edit.height = import$({
         min: 1,
         max: 1280,
         step: 1,
-        'default': 600
+        'default': window.innerHeight
       }, mod.edit.height) || {};
       initSlider(document.querySelector('.editor .speed-option'), 'speed', mod.edit.speed);
       initSlider(document.querySelector('.editor .width-option'), 'width', mod.edit.width);

@@ -16,13 +16,19 @@
           setTimeout (-> renderers[1 - idx].stop!), 1000
         ), options.delay
       .catch -> console.log "error: ", it
+
+  skip = false
   Array.from(document.querySelectorAll('#quick-picker .thumb')).map (d,i) ->
     name = d.getAttribute \data-name
-    d.addEventListener \click, -> loadbk (name or \contour), {delay: 0, scale: 0.65}
+    d.addEventListener \click, ->
+      skip := true
+      loadbk (name or \contour), {delay: 0, scale: 0.65}
   document.addEventListener \DOMContentLoaded, -> loadbk \contour, {delay: 0, scale: 0.65}
   idx = 1
   thumbs = document.querySelectorAll '#quick-picker .thumb'
   Visibility.every 3000, ->
-    loadbk thumbs[idx].getAttribute(\data-name), {delay: 0, scale: 0.65}
-    idx := ( idx + 1 ) % 5
+    if !skip =>
+      loadbk thumbs[idx].getAttribute(\data-name), {delay: 0, scale: 0.65}
+      idx := ( idx + 1 ) % 5
+    skip := false
 )!
