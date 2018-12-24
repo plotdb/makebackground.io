@@ -75,3 +75,19 @@
   background-position: center center;
   background-size: cover;
 }
+@media (max-width: 480px) {
+  #landing #quick-picker .thumb {
+    width: 52px;
+    height: 52px;
+    margin: 5px;
+  }
+  #landing #hero-text .title {
+    font-size: 34px;
+  }
+  #landing #hero-text .title span {
+    display: none;
+  }
+  #landing #hero-text .desc {
+    font-size: 17px;
+  }
+}

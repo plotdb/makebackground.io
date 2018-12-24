@@ -14,6 +14,12 @@ body {
   padding: 0;
   font-family: Abeezee;
 }
+@media (max-width: 480px) {
+  html,
+  body {
+    font-size: 14px;
+  }
+}
  {
   width: 100%;
 }
@@ -2283,6 +2289,22 @@ h6.tag {
   background-position: center center;
   background-size: cover;
 }
+@media (max-width: 480px) {
+  #landing #quick-picker .thumb {
+    width: 52px;
+    height: 52px;
+    margin: 5px;
+  }
+  #landing #hero-text .title {
+    font-size: 34px;
+  }
+  #landing #hero-text .title span {
+    display: none;
+  }
+  #landing #hero-text .desc {
+    font-size: 17px;
+  }
+}
 #footer {
   background: linear-gradient(45deg, #010305, #323334);
   padding: 40px 10px;
@@ -2301,6 +2323,11 @@ h6.tag {
 }
 #footer a:hover {
   color: #ffe;
+}
+@media (max-width: 480px) {
+  #footer h1 {
+    font-size: 1.75em;
+  }
 }
 #gallery {
   background: linear-gradient(45deg, #eef, #fee);
@@ -2359,6 +2386,12 @@ h6.tag {
   background-position: center center;
   background-size: cover;
 }
+@media (max-width: 480px) {
+  #gallery .list .item .thumb {
+    width: 260px;
+    height: 260px;
+  }
+}
 #info {
   background: linear-gradient(315deg, #e3fbfd, #f5fafa, #fff) fixed;
   border-top: 1px solid #ccc;
@@ -2370,6 +2403,11 @@ h6.tag {
   margin: auto;
   width: 90%;
   max-width: 1024px;
+}
+@media (max-width: 480px) {
+  #info > .inner {
+    font-size: 15px;
+  }
 }
 .editor label {
   text-transform: capitalize;
@@ -2596,6 +2634,17 @@ h6.tag {
   bottom: 0;
   margin: auto;
   z-index: 0;
+}
+@media (max-width: 480px) {
+  .editor.float {
+    width: 90%;
+  }
+  .editor.float .row > div {
+    margin-bottom: 15px;
+  }
+  .editor.float .color .inner {
+    height: 17px;
+  }
 }
 #disqus_thread {
   max-width: 1024px;
