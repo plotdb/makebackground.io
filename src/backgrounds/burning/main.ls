@@ -48,14 +48,14 @@
           #pragma glslify: aspect_ratio = require("shaderlib/func/aspect_ratio")
           #pragma glslify: fbm = require("shaderlib/func/fbm")
 
-          uniform float uTime;
+          uniform float uTime, speed;
           uniform vec2 uResolution;
           uniform vec3 background;
 
           void main() {
             vec3 uv = aspect_ratio(uResolution, 1);
             float c = 0.;
-            float t, time = uTime;
+            float t, time = uTime / speed;
             c = pow(smoothstep(1., 0., length(vec2(uv))), 1.5) * fbm(uv * 7.) * 2.5;
             //c = smoothstep(0.5, 0., clamp(length( gl_PointCoord - 0.5 ), 0., 1.));
             //gl_FragColor = vec4(c * vec3(1., .1, .2), 1.0);
@@ -98,11 +98,11 @@
         vertexShader: glslify '''
           #pragma glslify: fbm = require("shaderlib/func/fbm")
           attribute vec3 position;
-          uniform float uTime;
+          uniform float uTime, speed;
           varying float ps;
           varying vec3 pos;
           void main() {
-            float time = uTime * 0.33;
+            float time = uTime * 0.33 / speed;
             gl_PointSize = fbm(position) * 50.;
             ps = gl_PointSize;
             pos = vec3(
@@ -119,7 +119,7 @@
           #pragma glslify: fbm = require("shaderlib/func/fbm")
           #pragma glslify: blend = require("shaderlib/blend/screen")
 
-          uniform float uTime;
+          uniform float uTime, speed;
           uniform vec2 uResolution;
           uniform sampler2D uIn1;
           uniform vec3 foreground;
@@ -129,7 +129,7 @@
           void main() {
             vec3 color, uv = aspect_ratio(uResolution, 1);
             float c = 0., opacity = 1.;
-            float t = uTime;
+            float t = uTime / speed;
             vec4 s = texture2D(uIn1, vec2(uv));
             float len = smoothstep(.6, 0., length( gl_PointCoord - 0.5 ));
             float d = smoothstep(1., 0., length(uv.xy - vec2(0., 0.)));
