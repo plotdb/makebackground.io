@@ -44,7 +44,7 @@
           void main() {
             vec3 uv = aspect_ratio(uResolution, 1);
             uv.y = 1. - uv.y;
-            float t = uTime * .2 / speed;
+            float t = uTime * .2 * speed;
             float m = 0., c=0.;
             for(float i=0.;i<5.;i+=2.) {
               float size = 3. + i;

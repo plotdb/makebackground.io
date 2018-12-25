@@ -99,7 +99,7 @@
           value: 1
         }
       },
-      fragmentShader: glslify('precision highp float;\n#pragma glslify: aspect_ratio = require("shaderlib/func/aspect_ratio")\n#pragma glslify: fbm = require("shaderlib/func/fbm")\n#pragma glslify: noise = require("glsl-noise/simplex/2d")\nuniform float uTime, speed, scale, rough, gap, bias;\nuniform vec2 uResolution;\nuniform vec3 c1, c2;\nvoid main() {\n  float n, f = 0., t = uTime * 0.1 / speed;\n  vec3 uv = aspect_ratio(uResolution, 1);\n  for(float i=-1.;i<=1.;i++) {\n    n = noise(\n      10. / scale +\n      0.5 * fbm(uv.xy * rough / scale + vec2(uv.z *  i * 0.1, .0) + t) +\n      (uv.xy / scale + vec2(uv.z * i * 0.1, .0) / scale)\n    );\n    f += n;\n  }\n  f = pow(fract(f * gap), bias);\n  if(f > 0.5) { f = 1.; }\n  else { f = 0.; }\n  gl_FragColor = vec4(mix(c1, c2, f), 1.);\n}')
+      fragmentShader: glslify('precision highp float;\n#pragma glslify: aspect_ratio = require("shaderlib/func/aspect_ratio")\n#pragma glslify: fbm = require("shaderlib/func/fbm")\n#pragma glslify: noise = require("glsl-noise/simplex/2d")\nuniform float uTime, speed, scale, rough, gap, bias;\nuniform vec2 uResolution;\nuniform vec3 c1, c2;\nvoid main() {\n  float n, f = 0., t = uTime * 0.1 * speed;\n  vec3 uv = aspect_ratio(uResolution, 1);\n  for(float i=-1.;i<=1.;i++) {\n    n = noise(\n      10. / scale +\n      0.5 * fbm(uv.xy * rough / scale + vec2(uv.z *  i * 0.1, .0) + t) +\n      (uv.xy / scale + vec2(uv.z * i * 0.1, .0) / scale)\n    );\n    f += n;\n  }\n  f = pow(fract(f * gap), bias);\n  if(f > 0.5) { f = 1.; }\n  else { f = 0.; }\n  gl_FragColor = vec4(mix(c1, c2, f), 1.);\n}')
     }],
     init: function(arg$){
       var shaderlib;

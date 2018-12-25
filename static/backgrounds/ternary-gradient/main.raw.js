@@ -27,7 +27,7 @@
         'default': '#e54cb2'
       },
       speed: {
-        'default': 3
+        'default': 0.66
       }
     },
     support: {},
@@ -56,10 +56,10 @@
         },
         speed: {
           type: '1f',
-          value: 3
+          value: 0.66
         }
       },
-      fragmentShader: glslify('precision highp float;\n#pragma glslify: aspect_ratio = require("shaderlib/func/aspect_ratio")\n#pragma glslify: quantize = require("shaderlib/func/quantize")\n#pragma glslify: fbm = require("shaderlib/func/fbm")\n#pragma glslify: noise = require("glsl-noise/simplex/2d")\n#pragma glslify: gradient = require("shaderlib/raster/gradient/3d1")\n\nuniform float uTime, speed;\nuniform vec2 uResolution;\nuniform vec3 c1, c2, c3;\n\nvoid main() {\n  vec3 uv = aspect_ratio(uResolution, 1);\n  float a = uTime / speed;\n  mat2 rm = mat2(\n    cos(a), -sin(a),\n    sin(a), cos(a)\n  );\n  uv.xy = ((uv.xy - vec2(.5)) * rm) + vec2(.5);\n  vec3 c = vec3(\n    pow(0. + uv.x, 0.7) * pow(0. + uv.y, 1.0),\n    pow(1. - uv.x, 1.0) * (1. - length(0.5 - uv.y) * .2),\n    pow(0. + uv.x, 0.8) * pow(1. - uv.y, 0.5)\n  );\n  gl_FragColor = vec4(c.x * c1 + c.y * c2 + c.z * c3, 1.);\n}\n')
+      fragmentShader: glslify('precision highp float;\n#pragma glslify: aspect_ratio = require("shaderlib/func/aspect_ratio")\n#pragma glslify: quantize = require("shaderlib/func/quantize")\n#pragma glslify: fbm = require("shaderlib/func/fbm")\n#pragma glslify: noise = require("glsl-noise/simplex/2d")\n#pragma glslify: gradient = require("shaderlib/raster/gradient/3d1")\n\nuniform float uTime, speed;\nuniform vec2 uResolution;\nuniform vec3 c1, c2, c3;\n\nvoid main() {\n  vec3 uv = aspect_ratio(uResolution, 1);\n  float a = uTime * speed;\n  mat2 rm = mat2(\n    cos(a), -sin(a),\n    sin(a), cos(a)\n  );\n  uv.xy = ((uv.xy - vec2(.5)) * rm) + vec2(.5);\n  vec3 c = vec3(\n    pow(0. + uv.x, 0.7) * pow(0. + uv.y, 1.0),\n    pow(1. - uv.x, 1.0) * (1. - length(0.5 - uv.y) * .2),\n    pow(0. + uv.x, 0.8) * pow(1. - uv.y, 0.5)\n  );\n  gl_FragColor = vec4(c.x * c1 + c.y * c2 + c.z * c3, 1.);\n}\n')
     }],
     init: function(arg$){
       var shaderlib;

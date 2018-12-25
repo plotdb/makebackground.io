@@ -44,7 +44,7 @@
           uniform float uTime, speed, s, r, step, bias, shadow;
 
           void main() {
-            float c, n, t = uTime * 0.1 / speed;
+            float c, n, t = uTime * 0.1 * speed;
             vec2 v;
             vec3 uv = aspect_ratio(uResolution, 1);
             //uv.xy = uv.xy + vec2(sin(t), cos(t)) * .1;

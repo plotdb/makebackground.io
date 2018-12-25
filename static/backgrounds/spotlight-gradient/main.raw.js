@@ -78,7 +78,7 @@
           value: 2
         }
       },
-      fragmentShader: glslify('precision highp float;\n#pragma glslify: aspect_ratio = require("shaderlib/func/aspect_ratio")\n#pragma glslify: quantize = require("shaderlib/func/quantize")\n#pragma glslify: fbm = require("shaderlib/func/fbm")\n#pragma glslify: noise = require("glsl-noise/simplex/2d")\n#pragma glslify: gradient = require("shaderlib/raster/gradient/3d1")\n\nuniform float uTime, speed, range, curve;\nuniform vec2 uResolution;\nuniform vec3 c1, c2;\n\nvoid main() {\n  vec3 uv = aspect_ratio(uResolution, 1);\n  float a = sin(uTime / speed) * 0.19634;\n  mat2 rm = mat2( cos(a), -sin(a), sin(a), cos(a));\n  uv.xy = ((uv.xy - vec2(.5)) * rm) + vec2(.5);\n  float f = pow(pow(uv.x, curve) - pow(uv.y, curve), range);\n  gl_FragColor = vec4(mix(c1, c2, f), 1.);\n}')
+      fragmentShader: glslify('precision highp float;\n#pragma glslify: aspect_ratio = require("shaderlib/func/aspect_ratio")\n#pragma glslify: quantize = require("shaderlib/func/quantize")\n#pragma glslify: fbm = require("shaderlib/func/fbm")\n#pragma glslify: noise = require("glsl-noise/simplex/2d")\n#pragma glslify: gradient = require("shaderlib/raster/gradient/3d1")\n\nuniform float uTime, speed, range, curve;\nuniform vec2 uResolution;\nuniform vec3 c1, c2;\n\nvoid main() {\n  vec3 uv = aspect_ratio(uResolution, 1);\n  float a = sin(uTime * speed) * 0.19634;\n  mat2 rm = mat2( cos(a), -sin(a), sin(a), cos(a));\n  uv.xy = ((uv.xy - vec2(.5)) * rm) + vec2(.5);\n  float f = pow(pow(uv.x, curve) - pow(uv.y, curve), range);\n  gl_FragColor = vec4(mix(c1, c2, f), 1.);\n}')
     }],
     init: function(arg$){
       var shaderlib;

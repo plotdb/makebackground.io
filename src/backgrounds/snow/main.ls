@@ -51,7 +51,7 @@
           }
 
           void main() {
-            float t = (uTime / speed) + 1324.78, f, d;
+            float t = (uTime * speed) + 1324.78, f, d;
             float size = 20., s;
             vec3 uv3 = aspect_ratio(uResolution, 0);
             vec2 uv, id, pt, duv;

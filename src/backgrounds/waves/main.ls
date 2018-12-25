@@ -50,7 +50,7 @@
           uniform float variance;
 
           void main() {
-            float f = 0., v, d, t = uTime * 0.25 / speed;
+            float f = 0., v, d, t = uTime * 0.25 * speed;
             vec3 uv = aspect_ratio(uResolution, 1);
             float c[3];
 

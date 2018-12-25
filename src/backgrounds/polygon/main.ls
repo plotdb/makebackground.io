@@ -57,7 +57,7 @@
           }
 
           void main() {
-            float r, f, d, t = (uTime + 2586.9363) * 2. / speed;
+            float r, f, d, t = (uTime + 2586.9363) * 2. * speed;
             vec2 auv = gl_FragCoord.xy / uResolution.xy;
             vec2 duv;
             if(uResolution.x > uResolution.y) {

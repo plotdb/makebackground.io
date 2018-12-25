@@ -39,7 +39,7 @@
           uniform vec2 uResolution;
           uniform vec3 c1, c2;
           void main() {
-            float n, f = 0., t = uTime * 0.1 / speed;
+            float n, f = 0., t = uTime * 0.1 * speed;
             vec3 uv = aspect_ratio(uResolution, 1);
             for(float i=-1.;i<=1.;i++) {
               n = noise(

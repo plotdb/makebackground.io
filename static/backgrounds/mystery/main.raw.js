@@ -28,7 +28,7 @@
         'default': '#a98200'
       },
       speed: {
-        'default': 2
+        'default': 0.75
       }
     },
     watch: function(n, o){
@@ -60,10 +60,10 @@
         },
         speed: {
           type: '1f',
-          value: 2
+          value: 0.75
         }
       },
-      fragmentShader: glslify('precision highp float;\n#pragma glslify: aspect_ratio = require("shaderlib/func/aspect_ratio")\n\nuniform vec2 uResolution;\nuniform float uTime, speed;\nuniform vec3 c1;\nuniform vec3 c2;\nuniform vec3 c3;\n\nvoid main() {\n  vec3 uv = aspect_ratio(uResolution, 1);\n  vec2 p = (uv.xy - vec2(.7, .7))* uResolution.x * 0.001;\n  float j, t = uTime / speed;\n  for(float i=1.0;i<50.;i++) {\n    p.x += 0.005 * cos( 0.3 * i + p.y * i + t) + 0.001;\n    p.y += 0.005 * sin( 0.3 * i + p.x * i + t) - 0.001;\n  }\n  vec3 col = vec3(\n    0.5 * sin( 3.0 * p.x + p.y) + 0.5,\n    0.5 * cos( 3.0 * p.y + p.x * 3.5) + 0.5,\n    sin(p.x * p.y + p.x) * 0.5 + 0.5\n  ); \n  col = ((col.x * c1) + (col.y * c2) + (col.z * c3)) / 3.;\n  gl_FragColor = vec4(col, 1.0);\n  float r = sin(p.x * p.y * 6.2831853) * 0.5 + 0.5;\n  if(r < 0.5) {\n    gl_FragColor = vec4(mix(c1, c2, r * 2.), 1.0);\n  } else {\n    gl_FragColor = vec4(mix(c2, c3, (r - 0.5) * 2.), 1.0);\n  }\n}')
+      fragmentShader: glslify('precision highp float;\n#pragma glslify: aspect_ratio = require("shaderlib/func/aspect_ratio")\n\nuniform vec2 uResolution;\nuniform float uTime, speed;\nuniform vec3 c1;\nuniform vec3 c2;\nuniform vec3 c3;\n\nvoid main() {\n  vec3 uv = aspect_ratio(uResolution, 1);\n  vec2 p = (uv.xy - vec2(.7, .7))* uResolution.x * 0.001;\n  float j, t = uTime * speed;\n  for(float i=1.0;i<50.;i++) {\n    p.x += 0.005 * cos( 0.3 * i + p.y * i + t) + 0.001;\n    p.y += 0.005 * sin( 0.3 * i + p.x * i + t) - 0.001;\n  }\n  vec3 col = vec3(\n    0.5 * sin( 3.0 * p.x + p.y) + 0.5,\n    0.5 * cos( 3.0 * p.y + p.x * 3.5) + 0.5,\n    sin(p.x * p.y + p.x) * 0.5 + 0.5\n  ); \n  col = ((col.x * c1) + (col.y * c2) + (col.z * c3)) / 3.;\n  gl_FragColor = vec4(col, 1.0);\n  float r = sin(p.x * p.y * 6.2831853) * 0.5 + 0.5;\n  if(r < 0.5) {\n    gl_FragColor = vec4(mix(c1, c2, r * 2.), 1.0);\n  } else {\n    gl_FragColor = vec4(mix(c2, c3, (r - 0.5) * 2.), 1.0);\n  }\n}')
     }],
     init: function(arg$){
       var shaderlib;

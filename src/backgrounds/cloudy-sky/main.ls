@@ -68,7 +68,7 @@
 
     step: (t) ->
       {controls, count, renderer, scene, camera, mat-list, group-list, x, y} = mod.obj
-      t = t / (mod.obj.speed or 1)
+      t = t * (mod.obj.speed or 1)
       camera.lookAt -15, 5, 0
       for i from 0 til count =>
         g = group-list[i]

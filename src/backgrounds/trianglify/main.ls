@@ -13,7 +13,7 @@
       c1: name: "Color 1", type: \color, default: \#1a0134
       c2: name: "Color 2", type: \color, default: \#b83959
       c3: name: "Color 2", type: \color, default: \#ffd082
-      speed: default: 2
+      speed: default: 0.75
       dyn: name : "Dynamics", type: \number, default: 0.05, min: 0, max: 0.1, step: 0.01
       angle: name: "Angle", type: \number, default: 3.71, min: 0.0, max: 6.28, step: 0.01
       radius: name: "Radius", type: \number, default: 1.06, min: 0, max: 2, step: 0.01
@@ -31,7 +31,7 @@
           c1: type: \3fv, value: [0.76, 0.91, 0.81]
           c2: type: \3fv, value: [0.06, 0.45, 0.83]
           c3: type: \3fv, value: [0.06, 0.45, 0.83]
-          speed: type: \1f, value: 2
+          speed: type: \1f, value: 0.75
           dyn: type: \1f, value: 0.05
           angle: type: \1f, value: 3.58
           radius: type: \1f, value: 1.16
@@ -83,7 +83,7 @@
         varying vec4 pos;
         uniform float uTime, speed, dyn;
         void main() {
-          float t = uTime / speed;
+          float t = uTime * speed;
           pos = position;
           pos.x = pos.x + sin(t + 9.42 * fbm(pos.y * 3.)) * clamp(pow(1. - abs(pos.x), 1.5 - dyn * 7.), 0., 1.) * dyn;
           pos.y = pos.y + cos(t + 9.42 * fbm(pos.x * 3.)) * clamp(pow(1. - abs(pos.y), 1.5 - dyn * 7.), 0., 1.) * dyn;
@@ -106,7 +106,7 @@
 
           void main() {
             vec3 uv = aspect_ratio(uResolution, 1);
-            float a = sin(uTime / speed) * 0.19634;
+            float a = sin(uTime * speed) * 0.19634;
             mat2 rm = mat2( cos(a), -sin(a), sin(a), cos(a));
             uv.xy = ((uv.xy - vec2(.5)) * rm) + vec2(.5);
             float f;

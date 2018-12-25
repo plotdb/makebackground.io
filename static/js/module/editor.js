@@ -106,9 +106,9 @@
       options.innerHTML = '';
       editor.mod = mod;
       mod.edit.speed = import$({
-        min: 0.1,
-        max: 20,
-        step: 0.1,
+        min: 0.01,
+        max: 10,
+        step: 0.01,
         'default': 1
       }, mod.edit.speed) || {};
       mod.edit.width = import$({

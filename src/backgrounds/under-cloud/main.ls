@@ -39,7 +39,7 @@
           void main() {
             vec3 uv = aspect_ratio(uResolution, 1);
             float c = 0.;
-            float t, time = uTime / speed;
+            float t, time = uTime * speed;
             for(float i=1.;i<4.;i++) {
               t = time / pow(i, 1.5);
               // dual side

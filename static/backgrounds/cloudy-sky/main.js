@@ -112,7 +112,7 @@
     step: function(t){
       var ref$, controls, count, renderer, scene, camera, matList, groupList, x, y, i$, i, g, dx;
       ref$ = mod.obj, controls = ref$.controls, count = ref$.count, renderer = ref$.renderer, scene = ref$.scene, camera = ref$.camera, matList = ref$.matList, groupList = ref$.groupList, x = ref$.x, y = ref$.y;
-      t = t / (mod.obj.speed || 1);
+      t = t * (mod.obj.speed || 1);
       camera.lookAt(-15, 5, 0);
       for (i$ = 0; i$ < count; ++i$) {
         i = i$;

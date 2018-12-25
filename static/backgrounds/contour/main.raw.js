@@ -75,7 +75,7 @@
           value: 2.09
         }
       },
-      fragmentShader: glslify('precision highp float;\n#pragma glslify: aspect_ratio = require("shaderlib/func/aspect_ratio")\n#pragma glslify: fbm = require("shaderlib/func/fbm")\n\nuniform float uTime, speed, scale, intensity;\nuniform vec2 uResolution;\nuniform vec3 c1, c2;\n\nvoid main() {\n  vec3 color = vec3(0., 0., 0.), duv, uv = aspect_ratio(uResolution, 1);\n  float e, f, t = uTime / speed, s = 6. / scale;\n  for(float i=-1.;i<2.;i++) {\n    duv = s * (uv + vec3(uv.z * .2, 0., 0.) * i);\n    e = 20. * fbm(t * .1 + duv + fbm(duv * 0.01));\n    f = e - fract(e);\n    f = f - ((f * 0.5) - fract(f * 0.5)) * 2.;\n    f = clamp(f * 0.1 + 0.8 + fract(e), 0., 1.);\n    color += mix(c1, c2, pow(f, intensity));\n  }\n  gl_FragColor = vec4(color / 3., 1.);\n}\n')
+      fragmentShader: glslify('precision highp float;\n#pragma glslify: aspect_ratio = require("shaderlib/func/aspect_ratio")\n#pragma glslify: fbm = require("shaderlib/func/fbm")\n\nuniform float uTime, speed, scale, intensity;\nuniform vec2 uResolution;\nuniform vec3 c1, c2;\n\nvoid main() {\n  vec3 color = vec3(0., 0., 0.), duv, uv = aspect_ratio(uResolution, 1);\n  float e, f, t = uTime * speed, s = 6. / scale;\n  for(float i=-1.;i<2.;i++) {\n    duv = s * (uv + vec3(uv.z * .2, 0., 0.) * i);\n    e = 20. * fbm(t * .1 + duv + fbm(duv * 0.01));\n    f = e - fract(e);\n    f = f - ((f * 0.5) - fract(f * 0.5)) * 2.;\n    f = clamp(f * 0.1 + 0.8 + fract(e), 0., 1.);\n    color += mix(c1, c2, pow(f, intensity));\n  }\n  gl_FragColor = vec4(color / 3., 1.);\n}\n')
     }],
     init: function(arg$){
       var shaderlib;

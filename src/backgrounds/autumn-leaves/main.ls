@@ -86,7 +86,7 @@
 
     step: (t) ->
       {x,y,z,cx,cy,camera,controls,group-list,mat-list,renderer,scene,camera,count,speed} = mod.obj
-      t = t * 0.1 / (speed or 1)
+      t = t * 0.1 * (speed or 1)
       camera.position.set 0 + cx, 0 + cy, 100
       camera.lookAt 0, 0, 0
       controls.update!

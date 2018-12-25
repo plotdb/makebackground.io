@@ -13,7 +13,7 @@
       c1: name: "Color 1", type: \color, default: \#a9903e
       c2: name: "Color 2", type: \color, default: \#ffe17a
       c3: name: "Color 3", type: \color, default: \#a98200
-      speed: default: 2
+      speed: default: 0.75
     watch: (n, o) ->
       u = @shaders.0.uniforms
       for name in <[c1 c2 c3]> => u[name]value = ldColor.rgbfv(n[name])
@@ -24,7 +24,7 @@
           c1: type: \3fv, value: [0.66, 0.56, 0.24]
           c2: type: \3fv, value: [1, 0.88, 0.48]
           c3: type: \3fv, value: [0.66, 0.51, 0]
-          speed: type: \1f, value: 2
+          speed: type: \1f, value: 0.75
         fragmentShader: glslify '''
           precision highp float;
           #pragma glslify: aspect_ratio = require("shaderlib/func/aspect_ratio")
@@ -38,7 +38,7 @@
           void main() {
             vec3 uv = aspect_ratio(uResolution, 1);
             vec2 p = (uv.xy - vec2(.7, .7))* uResolution.x * 0.001;
-            float j, t = uTime / speed;
+            float j, t = uTime * speed;
             for(float i=1.0;i<50.;i++) {
               p.x += 0.005 * cos( 0.3 * i + p.y * i + t) + 0.001;
               p.y += 0.005 * sin( 0.3 * i + p.x * i + t) - 0.001;

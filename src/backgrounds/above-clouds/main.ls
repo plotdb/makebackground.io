@@ -89,7 +89,7 @@
 
     step: (t) ->
       {renderer, scene, camera, layers, controls, speed} = mod.obj
-      t = t / (speed or 1)
+      t = t * (speed or 1)
       controls.update!
       camera.lookAt 0, 4, 0
       for i from 0 til layers.length =>

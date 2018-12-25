@@ -41,7 +41,7 @@
 
           void main() {
             vec3 uv = aspect_ratio(uResolution, 1);
-            float a = sin(uTime / speed) * 0.19634;
+            float a = sin(uTime * speed) * 0.19634;
             mat2 rm = mat2( cos(a), -sin(a), sin(a), cos(a));
             uv.xy = ((uv.xy - vec2(.5)) * rm) + vec2(.5);
             float f = pow(pow(uv.x, curve) - pow(uv.y, curve), range);

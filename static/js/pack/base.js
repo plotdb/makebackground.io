@@ -3683,12 +3683,32 @@ function in$(x, xs){
   window.ModManager = ModManager = {
     mods: {},
     init: function(){},
+    loadLib: function(mod){
+      return Promise.resolve().then(function(){
+        var promises;
+        if (!mod.lib || mod.lib.inited) {
+          return null;
+        }
+        promises = mod.lib
+          ? mod.lib.map(function(it){
+            return ScriptManager.load(it[0], it[1]);
+          })
+          : [Promise.resolve()];
+        return Promise.all(promises).then(function(){
+          if (mod.lib != null) {
+            return mod.lib.inited = true;
+          }
+        });
+      });
+    },
     load: function(name){
       var this$ = this;
       return new Promise(function(res, rej){
         var that;
         if (that = this$.mods[name]) {
-          return res(that);
+          return ModManager.loadLib(that).then(function(){
+            return res(this$.mods[name]);
+          });
         }
         console.log("first time load " + name + ". load it from web...");
         if (!this$.load.target) {
@@ -3697,17 +3717,12 @@ function in$(x, xs){
               return this._callback = null, this.name = null, this.node = null, this.res = null, this.rej = null, this;
             },
             callback: function(e, b){
-              var promises, this$ = this;
+              var this$ = this;
               this.name = null;
               if (e) {
                 return this.rej ? this.rej(e) : null;
               }
-              promises = b.lib
-                ? b.lib.map(function(it){
-                  return ScriptManager.load(it[0], it[1]);
-                })
-                : [Promise.resolve()];
-              return Promise.all(promises).then(function(){
+              return ModManager.loadLib(b).then(function(){
                 if (this$.res) {
                   return this$.res(b);
                 }
@@ -3973,9 +3988,9 @@ function import$(obj, src){
       options.innerHTML = '';
       editor.mod = mod;
       mod.edit.speed = import$({
-        min: 0.1,
-        max: 20,
-        step: 0.1,
+        min: 0.01,
+        max: 10,
+        step: 0.01,
         'default': 1
       }, mod.edit.speed) || {};
       mod.edit.width = import$({

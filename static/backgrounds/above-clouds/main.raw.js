@@ -123,7 +123,7 @@
     step: function(t){
       var ref$, renderer, scene, camera, layers, controls, speed, i$, to$, i, item;
       ref$ = mod.obj, renderer = ref$.renderer, scene = ref$.scene, camera = ref$.camera, layers = ref$.layers, controls = ref$.controls, speed = ref$.speed;
-      t = t / (speed || 1);
+      t = t * (speed || 1);
       controls.update();
       camera.lookAt(0, 4, 0);
       for (i$ = 0, to$ = layers.length; i$ < to$; ++i$) {

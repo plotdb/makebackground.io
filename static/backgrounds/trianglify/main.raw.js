@@ -28,7 +28,7 @@
         'default': '#ffd082'
       },
       speed: {
-        'default': 2
+        'default': 0.75
       },
       dyn: {
         name: "Dynamics",
@@ -93,7 +93,7 @@
         },
         speed: {
           type: '1f',
-          value: 2
+          value: 0.75
         },
         dyn: {
           type: '1f',
@@ -173,8 +173,8 @@
         gl.clear(gl.COLOR_BUFFER_BIT);
         return gl.drawArrays(gl.TRIANGLES, 0, program.data.array.length / 4);
       },
-      vertexShader: glslify('#pragma glslify: fbm = require("shaderlib/func/fbm")\nattribute vec4 position;\nvarying vec4 pos;\nuniform float uTime, speed, dyn;\nvoid main() {\n  float t = uTime / speed;\n  pos = position;\n  pos.x = pos.x + sin(t + 9.42 * fbm(pos.y * 3.)) * clamp(pow(1. - abs(pos.x), 1.5 - dyn * 7.), 0., 1.) * dyn;\n  pos.y = pos.y + cos(t + 9.42 * fbm(pos.x * 3.)) * clamp(pow(1. - abs(pos.y), 1.5 - dyn * 7.), 0., 1.) * dyn;\n  gl_Position = vec4(vec2(pos), 0., 1.);\n}'),
-      fragmentShader: glslify('precision highp float;\n#pragma glslify: aspect_ratio = require("shaderlib/func/aspect_ratio")\n#pragma glslify: quantize = require("shaderlib/func/quantize")\n#pragma glslify: fbm = require("shaderlib/func/fbm")\n#pragma glslify: noise = require("glsl-noise/simplex/2d")\n#pragma glslify: gradient = require("shaderlib/raster/gradient/3d1")\n\nuniform float uTime, speed, range, angle, radius;\nuniform vec2 uResolution;\nuniform vec3 c1, c2, c3;\nvarying vec4 pos;\n\nvoid main() {\n  vec3 uv = aspect_ratio(uResolution, 1);\n  float a = sin(uTime / speed) * 0.19634;\n  mat2 rm = mat2( cos(a), -sin(a), sin(a), cos(a));\n  uv.xy = ((uv.xy - vec2(.5)) * rm) + vec2(.5);\n  float f;\n  f = fbm(pos.zw);\n  f = smoothstep(-1.2, 1.2, pos.w);\n  vec2 rpt = vec2(radius, 0.) * mat2(cos(angle), -sin(angle), sin(angle), cos(angle));\n  f = smoothstep(0., 2.4, length(pos.zw - rpt));\n  if(f<0.5) {\n    gl_FragColor = vec4(mix(c1, c2, pow(f * 2., range)), 1.);\n  } else {\n    gl_FragColor = vec4(mix(c2, c3, pow((f - 0.5) * 2., range)), 1.);\n  }\n}')
+      vertexShader: glslify('#pragma glslify: fbm = require("shaderlib/func/fbm")\nattribute vec4 position;\nvarying vec4 pos;\nuniform float uTime, speed, dyn;\nvoid main() {\n  float t = uTime * speed;\n  pos = position;\n  pos.x = pos.x + sin(t + 9.42 * fbm(pos.y * 3.)) * clamp(pow(1. - abs(pos.x), 1.5 - dyn * 7.), 0., 1.) * dyn;\n  pos.y = pos.y + cos(t + 9.42 * fbm(pos.x * 3.)) * clamp(pow(1. - abs(pos.y), 1.5 - dyn * 7.), 0., 1.) * dyn;\n  gl_Position = vec4(vec2(pos), 0., 1.);\n}'),
+      fragmentShader: glslify('precision highp float;\n#pragma glslify: aspect_ratio = require("shaderlib/func/aspect_ratio")\n#pragma glslify: quantize = require("shaderlib/func/quantize")\n#pragma glslify: fbm = require("shaderlib/func/fbm")\n#pragma glslify: noise = require("glsl-noise/simplex/2d")\n#pragma glslify: gradient = require("shaderlib/raster/gradient/3d1")\n\nuniform float uTime, speed, range, angle, radius;\nuniform vec2 uResolution;\nuniform vec3 c1, c2, c3;\nvarying vec4 pos;\n\nvoid main() {\n  vec3 uv = aspect_ratio(uResolution, 1);\n  float a = sin(uTime * speed) * 0.19634;\n  mat2 rm = mat2( cos(a), -sin(a), sin(a), cos(a));\n  uv.xy = ((uv.xy - vec2(.5)) * rm) + vec2(.5);\n  float f;\n  f = fbm(pos.zw);\n  f = smoothstep(-1.2, 1.2, pos.w);\n  vec2 rpt = vec2(radius, 0.) * mat2(cos(angle), -sin(angle), sin(angle), cos(angle));\n  f = smoothstep(0., 2.4, length(pos.zw - rpt));\n  if(f<0.5) {\n    gl_FragColor = vec4(mix(c1, c2, pow(f * 2., range)), 1.);\n  } else {\n    gl_FragColor = vec4(mix(c2, c3, pow((f - 0.5) * 2., range)), 1.);\n  }\n}')
     }],
     init: function(arg$){
       var shaderlib;

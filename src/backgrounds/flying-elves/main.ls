@@ -40,7 +40,7 @@
             vec2 pos;
             float s, d;
             float c = 0.;
-            float t = uTime / speed;
+            float t = uTime * speed;
             vec2 uv = gl_FragCoord.xy / uResolution.xy;
             uv.y = uv.y * uResolution.y / uResolution.x;
             uv = uv * 0.8 + vec2(.1, .1);

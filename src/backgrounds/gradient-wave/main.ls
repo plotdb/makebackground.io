@@ -39,7 +39,7 @@
           void main() {
             vec3 uv = aspect_ratio(uResolution, 1);
             float z1, z2, z3;
-            float time = uTime / speed;
+            float time = uTime * speed;
             vec2 s1, s2, s3;
             uv.z = uv.z * 0.2;
             z1 = 1.2 * ( uv.x + 0.1 ) * pow(uv.y, .5 + cos(time) * 0.1) + pow(uv.y, 6. + 1. * sin(time));

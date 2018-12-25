@@ -42,7 +42,7 @@
 
           void main() {
             vec3 uv = aspect_ratio(uResolution, 1);
-            float t = uTime * .5 / speed;
+            float t = uTime * .5 * speed;
             float len = length(uv.xy - vec2(.5, 1.));
             float c = smoothstep(1., .2, len);
             float a = (acos((uv.y - 1.) / len) + 1.23456) * 4.326;

@@ -17,17 +17,22 @@
   window.ModManager = ModManager = do
     mods: {}
     init: ->
+    load-lib: (mod) -> Promise.resolve!then ->
+      if !mod.lib or mod.lib.inited => return null
+      promises = if mod.lib => mod.lib.map -> ScriptManager.load it.0, it.1
+      else [Promise.resolve!]
+      Promise.all promises .then -> if mod.lib? => mod.lib.inited = true
+
     load: (name) -> new Promise (res, rej) ~>
-      if @mods[name] => return res that
+      if @mods[name] => return ModManager.load-lib that .then ~> res @mods[name]
       console.log "first time load #name. load it from web..."
       if !@load.target => @load.target = do
         clear: -> @ <<< _callback: null, name: null, node: null, res: null, rej: null
         callback: (e, b) ->
           @ <<< name: null
           if e => return if @rej => @rej e else null
-          promises = if b.lib => b.lib.map -> ScriptManager.load it.0, it.1
-          else [Promise.resolve!]
-          Promise.all promises .then ~> if @res => @res b
+          ModManager.load-lib b .then ~> if @res => @res b
+
       if @load.target.timeout => clearTimeout @load.target.timeout
       @load.target <<< do
         res: res, rej: rej

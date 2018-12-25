@@ -12,7 +12,7 @@
       c1: name: "Color 1", type: \color, default: \#ff3
       c2: name: "Color 2", type: \color, default: \#ff4c4c
       c3: name: "Color 3", type: \color, default: \#e54cb2
-      speed: default: 3
+      speed: default: 0.66
     support: {}
     watch: (n, o) ->
       u = @shaders.0.uniforms
@@ -24,7 +24,7 @@
           c1: type: \3fv, value: [1, 1, 0.2]
           c2: type: \3fv, value: [1, 0.3, 0.3]
           c3: type: \3fv, value: [0.9, 0.3, 0.7]
-          speed: type: \1f, value: 3
+          speed: type: \1f, value: 0.66
         fragmentShader: glslify '''
           precision highp float;
           #pragma glslify: aspect_ratio = require("shaderlib/func/aspect_ratio")
@@ -39,7 +39,7 @@
 
           void main() {
             vec3 uv = aspect_ratio(uResolution, 1);
-            float a = uTime / speed;
+            float a = uTime * speed;
             mat2 rm = mat2(
               cos(a), -sin(a),
               sin(a), cos(a)

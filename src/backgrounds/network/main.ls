@@ -52,7 +52,7 @@
           }
 
           void main() {
-            float t = (uTime + 2586.9363) * 2. / speed, f, d;
+            float t = (uTime + 2586.9363) * 2. * speed, f, d;
             vec3 uv3 = aspect_ratio(uResolution, 0);
             vec2 uv = fract(vec2(uv3) * size) - 0.5;
             vec2 id = floor(vec2(uv3) * size);

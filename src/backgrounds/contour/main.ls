@@ -37,7 +37,7 @@
 
           void main() {
             vec3 color = vec3(0., 0., 0.), duv, uv = aspect_ratio(uResolution, 1);
-            float e, f, t = uTime / speed, s = 6. / scale;
+            float e, f, t = uTime * speed, s = 6. / scale;
             for(float i=-1.;i<2.;i++) {
               duv = s * (uv + vec3(uv.z * .2, 0., 0.) * i);
               e = 20. * fbm(t * .1 + duv + fbm(duv * 0.01));
