@@ -11,6 +11,6 @@ block body
   #canvas-container
   include /editor.pug
   //-script(src="/js/bk/" + name + ".js")
-  script(src="/backgrounds/" + mod.name + "/main.js")
+  script(src="/backgrounds/" + mod.id + "/main.js")
   script.
-    initEditor("#{mod.name}");
+    initEditor("#{mod.id}");
