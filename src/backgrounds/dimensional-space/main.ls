@@ -2,6 +2,7 @@
   require! <[glslify]>
   mod = do
     debug: true
+    id: \dimensional-space
     name: "Dimensional Space"
     type: \background
     desc: "Spotlight style gradient in two colors"

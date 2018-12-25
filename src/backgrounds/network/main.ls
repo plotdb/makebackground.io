@@ -1,6 +1,7 @@
 (->
   require! <[glslify]>
   mod = do
+    id: \network
     name: "Network"
     type: \background
     desc: "web-like interconnection between nodes for your technology project"

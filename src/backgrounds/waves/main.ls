@@ -1,6 +1,7 @@
 (->
   require! <[glslify]>
   mod = do
+    id: \waves
     name: "Waves"
     type: \background
     desc: "Elegant flowing waves with simple colors and composition"

@@ -1,6 +1,7 @@
 (->
   require! <[glslify]>
   mod = do
+    id: \polygon
     name: "Polygon"
     type: \background
     desc: "Morphing polygons with gradient colors"

@@ -4,6 +4,7 @@
   glslify = require('glslify');
   mod = {
     debug: true,
+    id: 'rosy-cloud',
     name: "Spotlight Gradient",
     type: 'background',
     desc: "Spotlight style gradient in two colors",

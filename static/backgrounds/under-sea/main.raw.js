@@ -3,6 +3,7 @@
   var glslify, mod;
   glslify = require('glslify');
   mod = {
+    id: 'under-sea',
     name: "Under the Sea",
     type: 'background',
     desc: "Dive into the tropical coral reef...",

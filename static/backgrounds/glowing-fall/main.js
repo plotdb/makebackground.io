@@ -4,6 +4,7 @@
   var glslify, mod;
   glslify = require('glslify');
   mod = {
+    id: 'glowing-fall',
     name: "Glowing Fall",
     type: 'background',
     desc: "Glorious falling sparkles",

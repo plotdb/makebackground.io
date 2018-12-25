@@ -3,6 +3,7 @@
   var glslify, mod;
   glslify = require('glslify');
   mod = {
+    id: 'under-cloud',
     name: "Under the Clouds",
     type: 'background',
     desc: "Fly high into the sky and surf around with clouds",

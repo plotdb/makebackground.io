@@ -1,6 +1,7 @@
 (->
   require! <[glslify]>
   mod = do
+    id: \paper-contour
     name: "Paper Cut Contour"
     type: \background
     desc: "Contour curve in paper cut style with gradient colors"

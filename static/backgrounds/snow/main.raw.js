@@ -3,6 +3,7 @@
   var glslify, mod;
   glslify = require('glslify');
   mod = {
+    id: 'snow',
     name: "Snow",
     type: 'background',
     desc: "Snow fall in winter time",

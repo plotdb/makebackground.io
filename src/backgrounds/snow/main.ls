@@ -1,6 +1,7 @@
 (->
   require! <[glslify]>
   mod = do
+    id: \snow
     name: "Snow"
     type: \background
     desc: "Snow fall in winter time"

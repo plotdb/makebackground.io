@@ -1,6 +1,7 @@
 (->
   require! <[glslify]>
   mod = do
+    id: \flying-elves
     name: 'Flying Elves'
     type: \background
     desc: "Sparkling particles like elves flying in the woods"

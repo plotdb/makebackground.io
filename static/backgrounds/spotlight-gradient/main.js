@@ -4,6 +4,7 @@
   var glslify, mod;
   glslify = require('glslify');
   mod = {
+    id: 'spotlight-gradient',
     name: "Spotlight Gradient",
     type: 'background',
     desc: "Spotlight style gradient in two colors",

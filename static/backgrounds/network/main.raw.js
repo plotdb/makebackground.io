@@ -3,6 +3,7 @@
   var glslify, mod;
   glslify = require('glslify');
   mod = {
+    id: 'network',
     name: "Network",
     type: 'background',
     desc: "web-like interconnection between nodes for your technology project",

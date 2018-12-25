@@ -1,6 +1,7 @@
 (->
   require! <[glslify]>
   mod = do
+    id: \contour
     name: \Contour
     type: \background
     desc: "Map style contour texture for your next vintage style project"

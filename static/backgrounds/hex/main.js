@@ -4,6 +4,7 @@
   var mod;
   mod = {
     debug: true,
+    id: 'hex',
     name: 'hex',
     type: 'background',
     desc: "contour line background",

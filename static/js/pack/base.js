@@ -3741,7 +3741,7 @@ function in$(x, xs){
         console.log("register error: ", mod);
         return this.load.target && this.load.target.callback ? this.load.target.callback(true) : void 8;
       }
-      this.mods[mod.name] = mod;
+      this.mods[mod.id] = mod;
       if (!this.load.target) {
         return;
       }
@@ -3798,7 +3798,7 @@ function in$(x, xs){
     initMod: function(mod){
       var promise, this$ = this;
       promise = !mod.inited
-        ? (console.log("init mod..."), Promise.resolve().then(function(){
+        ? Promise.resolve().then(function(){
           mod.inited = true;
           return mod.init({
             three: {
@@ -3822,7 +3822,7 @@ function in$(x, xs){
               }
             }
           });
-        }))
+        })
         : Promise.resolve();
       return promise.then(function(){
         this$.mod = mod;

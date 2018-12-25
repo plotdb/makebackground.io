@@ -1,6 +1,7 @@
 (->
   require! <[glslify]>
   mod = do
+    id: \glowing-fall
     name: "Glowing Fall"
     type: \background
     desc: "Glorious falling sparkles"

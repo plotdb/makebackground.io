@@ -1,11 +1,12 @@
 (->
   require! <[glslify]>
   mod = do
-    name: "Spotlight Gradient"
+    id: \trianglify
+    name: "Trianglify"
     type: \background
-    desc: "Spotlight style gradient in two colors"
-    tags: <[fire flame flare campfire glowing dust particles]>
-    slug: "cyan-spotlight-gradient"
+    desc: "Morphing triangles in gradient colors"
+    tags: <[polygon triangle trianglify grid mesh]>
+    slug: "trianglify-polygon-gradient"
     license: \CC0
     lib: [<[js https://unpkg.com/delaunator@3.0.2/delaunator.min.js]>]
     edit:

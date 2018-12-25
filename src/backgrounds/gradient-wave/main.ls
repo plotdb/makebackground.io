@@ -1,6 +1,7 @@
 (->
   require! <[glslify]>
   mod = do
+    id: \gradient-wave
     name: 'Gradient Wave'
     type: \background
     desc: "Moving wave with gradient colors"

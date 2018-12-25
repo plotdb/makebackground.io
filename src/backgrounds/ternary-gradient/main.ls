@@ -1,6 +1,7 @@
 (->
   require! <[glslify]>
   mod = do
+    id: \ternary-gradient
     name: "Ternary Gradient"
     type: \background
     desc: "Smooth Gradient with three colors from different directions."

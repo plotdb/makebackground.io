@@ -1,6 +1,7 @@
 (->
   require! <[glslify]>
   mod = do
+    id: \spotlight-gradient
     name: "Spotlight Gradient"
     type: \background
     desc: "Spotlight style gradient in two colors"

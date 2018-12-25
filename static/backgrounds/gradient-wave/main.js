@@ -4,6 +4,7 @@
   var glslify, mod;
   glslify = require('glslify');
   mod = {
+    id: 'gradient-wave',
     name: 'Gradient Wave',
     type: 'background',
     desc: "Moving wave with gradient colors",

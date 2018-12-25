@@ -2,6 +2,7 @@
   require! <[glslify]>
   mod = do
     debug: true
+    id: \glowing-connection
     name: "Glowing Connection"
     type: \background
     desc: "Connected particles with glowing lines in-between"

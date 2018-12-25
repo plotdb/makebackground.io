@@ -4,6 +4,7 @@
   var glslify, mod;
   glslify = require('glslify');
   mod = {
+    id: 'ternary-gradient',
     name: "Ternary Gradient",
     type: 'background',
     desc: "Smooth Gradient with three colors from different directions.",

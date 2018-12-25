@@ -3,6 +3,7 @@
 (function(){
   var mod;
   mod = {
+    id: 'autumn-leaves',
     name: 'Autumn Leaves',
     type: 'background',
     desc: "falling leaves in autumn season",

@@ -4,6 +4,7 @@
   var glslify, mod;
   glslify = require('glslify');
   mod = {
+    id: 'polygon',
     name: "Polygon",
     type: 'background',
     desc: "Morphing polygons with gradient colors",

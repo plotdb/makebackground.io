@@ -3,6 +3,7 @@
 (function(){
   var mod;
   mod = {
+    id: 'above-clouds',
     name: 'Above Clouds',
     type: 'background',
     desc: "Like flying high above the clouds",

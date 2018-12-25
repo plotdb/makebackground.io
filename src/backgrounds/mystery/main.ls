@@ -1,6 +1,7 @@
 (->
   require! <[glslify]>
   mod = do
+    id: \mystery
     name: 'Mystery'
     type: \background
     desc: "Mysterious clouds spin around"

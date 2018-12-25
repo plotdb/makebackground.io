@@ -1,6 +1,7 @@
 (->
   require! <[glslify]>
   mod = do
+    id: \smooth-contour
     name: 'Smooth Contour'
     type: \background
     desc: "Smooth contour line with magical circular pattern."

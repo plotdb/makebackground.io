@@ -1,6 +1,7 @@
 (->
   require! <[glslify]>
   mod = do
+    id: \burning
     name: "Burning"
     type: \background
     desc: "Campfire-like flame and glowing particles"

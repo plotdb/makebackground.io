@@ -2,6 +2,7 @@
 (function(){
   var mod;
   mod = {
+    id: 'cloudy-sky',
     name: "Cloud in the Sky",
     type: 'background',
     desc: "Cartoon style clouds flowing across the blue sky",

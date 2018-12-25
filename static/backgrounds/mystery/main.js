@@ -4,6 +4,7 @@
   var glslify, mod;
   glslify = require('glslify');
   mod = {
+    id: 'mystery',
     name: 'Mystery',
     type: 'background',
     desc: "Mysterious clouds spin around",

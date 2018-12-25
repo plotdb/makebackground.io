@@ -45,7 +45,7 @@
       if !mod or !mod.name =>
         console.log "register error: ", mod
         return if @load.target and @load.target.callback => @load.target.callback true
-      @mods[mod.name] = mod
+      @mods[mod.id] = mod
       if !@load.target => return
       clearTimeout @load.target.timeout
       @load.target.callback null, mod
@@ -80,7 +80,7 @@
 
     init-mod: (mod) ->
       promise = if !mod.inited =>
-        console.log "init mod..."
+        #console.log "init mod..."
         Promise.resolve!then ~>
           mod.inited = true
           mod.init do

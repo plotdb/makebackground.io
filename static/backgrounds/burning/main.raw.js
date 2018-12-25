@@ -3,6 +3,7 @@
   var glslify, mod;
   glslify = require('glslify');
   mod = {
+    id: 'burning',
     name: "Burning",
     type: 'background',
     desc: "Campfire-like flame and glowing particles",

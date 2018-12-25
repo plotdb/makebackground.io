@@ -1,6 +1,7 @@
 (->
   require! <[glslify]>
   mod = do
+    id: \under-cloud
     name: "Under the Clouds"
     type: \background
     desc: "Fly high into the sky and surf around with clouds"

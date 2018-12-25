@@ -3,6 +3,7 @@
   var glslify, mod;
   glslify = require('glslify');
   mod = {
+    id: 'paper-contour',
     name: "Paper Cut Contour",
     type: 'background',
     desc: "Contour curve in paper cut style with gradient colors",
