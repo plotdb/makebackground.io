@@ -3997,13 +3997,13 @@ function import$(obj, src){
         min: 1,
         max: 1920,
         step: 1,
-        'default': 1200
+        'default': window.innerWidth
       }, mod.edit.width) || {};
       mod.edit.height = import$({
         min: 1,
         max: 1280,
         step: 1,
-        'default': 630
+        'default': window.innerHeight
       }, mod.edit.height) || {};
       initSlider(document.querySelector('.editor .speed-option'), 'speed', mod.edit.speed);
       initSlider(document.querySelector('.editor .width-option'), 'width', mod.edit.width);
