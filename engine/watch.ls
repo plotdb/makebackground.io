@@ -206,7 +206,7 @@ base = do
               try
                 eval(code)
                 if module.{}exports.debug => return delete obj[it.0]
-                meta.push module.exports{name, desc, slug, tags} <<< {id: it.0}
+                meta.push module.exports{id, name, desc, slug, tags} <<< {id: it.0}
               catch e
                 console.log e
                 # nothing.

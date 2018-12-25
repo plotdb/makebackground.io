@@ -1,11 +1,16 @@
 //- module
 extends /base.pug
+block vars
+  - var url = "https://makebackground.io/bk/" + mod.id + "/";
+  - var thumbnail = "https://makebackground.io/backgrounds/" + mod.id + "/thumbnail.jpg";
+  - var title = mod.name + " / " + title;
+  - var desc = mod.desc + " / " + desc
 block body
   #micro-nav
     a.title(href="/#gallery") #[i.fa.fa-chevron-left] MAKEBACKGROUND.IO
   #canvas-container
   include /editor.pug
   //-script(src="/js/bk/" + name + ".js")
-  script(src="/backgrounds/" + name + "/main.js")
+  script(src="/backgrounds/" + mod.name + "/main.js")
   script.
-    initEditor("#{name}");
+    initEditor("#{mod.name}");
