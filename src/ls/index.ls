@@ -10,11 +10,16 @@
     ModManager.load name
       .then ->
         renderer.init-mod it
-        setTimeout (->
-          renderer.root.classList.add \show
-          renderers[1 - idx].root.classList.remove \show
-          setTimeout (-> renderers[1 - idx].stop!), 1000
-        ), options.delay
+        ((pidx) ->
+          setTimeout (->
+            renderer.root.classList.add \show
+            renderers[1 - pidx].root.classList.remove \show
+            setTimeout (->
+              if renderers.curIdx == 1 - pidx => return # prevent race condition
+              renderers[1 - pidx].stop!
+            ), 1000
+          ), options.delay
+        ) idx
       .catch -> console.log "error: ", it
 
   skip = false

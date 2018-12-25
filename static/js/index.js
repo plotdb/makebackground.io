@@ -18,13 +18,18 @@
     renderer.options.scale = options.scale;
     return ModManager.load(name).then(function(it){
       renderer.initMod(it);
-      return setTimeout(function(){
-        renderer.root.classList.add('show');
-        renderers[1 - idx].root.classList.remove('show');
+      return function(pidx){
         return setTimeout(function(){
-          return renderers[1 - idx].stop();
-        }, 1000);
-      }, options.delay);
+          renderer.root.classList.add('show');
+          renderers[1 - pidx].root.classList.remove('show');
+          return setTimeout(function(){
+            if (renderers.curIdx === 1 - pidx) {
+              return;
+            }
+            return renderers[1 - pidx].stop();
+          }, 1000);
+        }, options.delay);
+      }(idx);
     })['catch'](function(it){
       return console.log("error: ", it);
     });
