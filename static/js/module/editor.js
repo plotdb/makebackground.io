@@ -115,13 +115,13 @@
         min: 1,
         max: 1920,
         step: 1,
-        'default': window.innerWidth
+        'default': 1200
       }, mod.edit.width) || {};
       mod.edit.height = import$({
         min: 1,
         max: 1280,
         step: 1,
-        'default': window.innerHeight
+        'default': 630
       }, mod.edit.height) || {};
       initSlider(document.querySelector('.editor .speed-option'), 'speed', mod.edit.speed);
       initSlider(document.querySelector('.editor .width-option'), 'width', mod.edit.width);

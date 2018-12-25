@@ -62,8 +62,10 @@
         options.innerHTML = ''
         editor.mod = mod
         mod.edit.speed  = {min: 0.01, max: 10, step: 0.01, default: 1} <<< mod.edit.speed or {}
-        mod.edit.width  = {min: 1, max: 1920, step: 1, default: window.innerWidth} <<< mod.edit.width or {}
-        mod.edit.height = {min: 1, max: 1280, step: 1, default: window.innerHeight} <<< mod.edit.height or {}
+        mod.edit.width  = {min: 1, max: 1920, step: 1, default: 1200} <<< mod.edit.width or {}
+        mod.edit.height = {min: 1, max: 1280, step: 1, default: 630} <<< mod.edit.height or {}
+        #mod.edit.width  = {min: 1, max: 1920, step: 1, default: window.innerWidth} <<< mod.edit.width or {}
+        #mod.edit.height = {min: 1, max: 1280, step: 1, default: window.innerHeight} <<< mod.edit.height or {}
         init-slider document.querySelector('.editor .speed-option'), \speed, mod.edit.speed
         init-slider document.querySelector('.editor .width-option'), \width, mod.edit.width
         init-slider document.querySelector('.editor .height-option'), \height, mod.edit.height
