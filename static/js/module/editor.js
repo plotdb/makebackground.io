@@ -226,26 +226,29 @@
       contentElem: document.querySelector('#palette-picker .clusterize-content'),
       rows_in_block: 50
     });
-    document.querySelector('.editor .download .btn[data-type="png"]').addEventListener('click', function(e){
-      var canvas, dataurl;
-      canvas = document.querySelector('#canvas-container canvas');
-      renderer.render();
-      dataurl = canvas.toDataURL("image/png");
-      return smiltool.urlToDataurl(dataurl, canvas.width, canvas.height).then(function(it){
-        return smiltool.dataurlToBlob(it);
-      }).then(function(blob){
-        var url, x$, y$, z$;
-        url = URL.createObjectURL(blob);
-        x$ = document.querySelector('#download img');
-        x$.setAttribute('src', url);
-        x$.style.display = 'block';
-        y$ = document.querySelector('#download video');
-        y$.style.display = 'none';
-        document.querySelector('#download .result').style.height = 200 + "px";
-        z$ = document.querySelector('#download .btn');
-        z$.setAttribute('href', url);
-        z$.setAttribute('download', (editor.mod.name || 'output') + "." + 'png');
-        return $('#download').modal('show');
+    Array.from(document.querySelectorAll('.editor .download a[data-type="static"]')).map(function(node){
+      return node.addEventListener('click', function(e){
+        var format, canvas, dataurl;
+        format = this.getAttribute('data-format') || 'png';
+        canvas = document.querySelector('#canvas-container canvas');
+        renderer.render();
+        dataurl = canvas.toDataURL("image/" + format);
+        return smiltool.urlToDataurl(dataurl, canvas.width, canvas.height, "image/" + format).then(function(it){
+          return smiltool.dataurlToBlob(it);
+        }).then(function(blob){
+          var url, x$, y$, z$;
+          url = URL.createObjectURL(blob);
+          x$ = document.querySelector('#download img');
+          x$.setAttribute('src', url);
+          x$.style.display = 'block';
+          y$ = document.querySelector('#download video');
+          y$.style.display = 'none';
+          document.querySelector('#download .result').style.height = 200 + "px";
+          z$ = document.querySelector('#download .btn');
+          z$.setAttribute('href', url);
+          z$.setAttribute('download', (editor.mod.name || 'output') + "." + format);
+          return $('#download').modal('show');
+        });
       });
     });
     Array.from(document.querySelectorAll('.editor .download a[data-type="webm"]')).map(function(node){

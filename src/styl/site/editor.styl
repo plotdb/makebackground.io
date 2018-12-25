@@ -33,11 +33,18 @@
 
 .editor .btn-group
   flexbox()
-  .btn, .dropdown
+  .btn, .dropup
     flex(1 1 auto)
-  .dropdown .btn
+  .dropup a
+    cursor: pointer
+  .dropup .btn
     width: 100%
-    border-left: 0
+    border-radius: 0
+    border-left-width: 0
+  .dropup:first-child .btn
+    border-radius: 3px 0 0 3px
+    border-left-width: 1px
+  .dropup:last-child .btn
     border-radius: 0 3px 3px 0
 
 .editor

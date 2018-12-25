@@ -22,9 +22,9 @@ include /module/palette-picker.pug
     +slider
 .editor.float
   .title
-    big: b "Contour"
+    big: b "No Name"
     span &nbsp;/&nbsp;
-    span map-style contour line background.
+    span default background without name.
   .inner
     .row
       .col-sm-3.palette-option
@@ -44,9 +44,13 @@ include /module/palette-picker.pug
       .col-sm-3
         label Download
         .btn-group.download
-          .btn.btn-sm.btn-outline-dark(data-type="png") PNG
-          .dropdown
-            .btn.btn-sm.btn-outline-dark.dropdown-toggle(href="#",data-toggle="dropdown") WebM
+          .dropup
+            .btn.btn-sm.btn-outline-dark.dropdown-toggle(href="#",data-toggle="dropdown") Static
+            .dropdown-menu
+              a.dropdown-item(data-type="static",data-format="png") PNG
+              a.dropdown-item(data-type="static",data-format="jpeg") JPG
+          .dropup
+            .btn.btn-sm.btn-outline-dark.dropdown-toggle(href="#",data-toggle="dropdown") Live
             .dropdown-menu
               a.dropdown-item Chrome Only #[i.fa.fa-flask]
               .dropdown-divider

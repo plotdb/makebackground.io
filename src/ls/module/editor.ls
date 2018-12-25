@@ -137,25 +137,28 @@
       contentElem: document.querySelector('#palette-picker .clusterize-content')
       rows_in_block: 50
 
-    document.querySelector '.editor .download .btn[data-type="png"]' .addEventListener \click, (e) ->
-      canvas = document.querySelector('#canvas-container canvas')
-      renderer.render!
-      dataurl = canvas.toDataURL "image/png"
-      smiltool.url-to-dataurl dataurl, canvas.width, canvas.height
-        .then ->
-          smiltool.dataurl-to-blob it
-        .then (blob) ->
-          url = URL.createObjectURL blob
-          document.querySelector('#download img')
-            ..setAttribute \src, url
-            ..style.display = \block
-          document.querySelector('#download video')
-            ..style.display = \none
-          document.querySelector('#download .result').style.height = "#{200}px"
-          document.querySelector('#download .btn')
-            ..setAttribute \href, url
-            ..setAttribute \download, "#{editor.mod.name or 'output'}.#{'png'}"
-          $(\#download).modal \show
+    Array.from(document.querySelectorAll '.editor .download a[data-type="static"]').map (node) ->
+      node.addEventListener \click, (e) ->
+        format = @getAttribute(\data-format) or \png
+        canvas = document.querySelector('#canvas-container canvas')
+        renderer.render!
+        dataurl = canvas.toDataURL "image/#format"
+        smiltool.url-to-dataurl dataurl, canvas.width, canvas.height, "image/#format"
+          .then ->
+            smiltool.dataurl-to-blob it
+          .then (blob) ->
+            url = URL.createObjectURL blob
+            document.querySelector('#download img')
+              ..setAttribute \src, url
+              ..style.display = \block
+            document.querySelector('#download video')
+              ..style.display = \none
+            document.querySelector('#download .result').style.height = "#{200}px"
+            document.querySelector('#download .btn')
+              ..setAttribute \href, url
+              ..setAttribute \download, "#{editor.mod.name or 'output'}.#{format}"
+            $(\#download).modal \show
+
     Array.from(document.querySelectorAll '.editor .download a[data-type="webm"]').map (node)->
       node.addEventListener \click, (e) ->
         duration = (+node.getAttribute(\data-dur) or 4) * 1000
