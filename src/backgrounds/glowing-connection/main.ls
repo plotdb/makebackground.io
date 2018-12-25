@@ -1,6 +1,7 @@
 (->
   require! <[glslify]>
   mod = do
+    debug: true
     name: "Glowing Connection"
     type: \background
     desc: "Connected particles with glowing lines in-between"
@@ -87,6 +88,6 @@
     destroy: ->
 
   if module? => module.exports = mod
-  if ModManager => ModManager.register mod
+  if ModManager? => ModManager.register mod
   return mod
 )!

@@ -1,5 +1,6 @@
 (->
   mod = do
+    debug: true
     name: \hex
     type: \background
     desc: "contour line background"
@@ -115,6 +116,6 @@
 
 
   if module? => module.exports = mod
-  if ModManager => ModManager.register mod
+  if ModManager? => ModManager.register mod
   return mod
 )!

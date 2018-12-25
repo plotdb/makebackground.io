@@ -5,5 +5,8 @@ require! <[../engine/aux]>
 engine.app.get \/bk/:name/, (req, res) ->
   res.render 'background.pug', {name: req.params.name}
 
+engine.app.get \/bk/:name/:slug, (req, res) ->
+  res.render 'background.pug', {name: req.params.name}
+
 engine.app.get \/bk/:name/dev, (req, res) ->
   res.render 'background-dev.pug', {name: req.params.name}

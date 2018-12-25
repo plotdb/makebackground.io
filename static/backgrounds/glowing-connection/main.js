@@ -4,6 +4,7 @@
   var glslify, mod;
   glslify = require('glslify');
   mod = {
+    debug: true,
     name: "Glowing Connection",
     type: 'background',
     desc: "Connected particles with glowing lines in-between",
@@ -99,7 +100,7 @@
   if (typeof module != 'undefined' && module !== null) {
     module.exports = mod;
   }
-  if (ModManager) {
+  if (typeof ModManager != 'undefined' && ModManager !== null) {
     ModManager.register(mod);
   }
   return mod;

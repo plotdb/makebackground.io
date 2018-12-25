@@ -4,6 +4,7 @@
   var glslify, mod;
   glslify = require('glslify');
   mod = {
+    debug: true,
     name: "Spotlight Gradient",
     type: 'background',
     desc: "Spotlight style gradient in two colors",
@@ -48,7 +49,7 @@
   if (typeof module != 'undefined' && module !== null) {
     module.exports = mod;
   }
-  if (ModManager) {
+  if (typeof ModManager != 'undefined' && ModManager !== null) {
     ModManager.register(mod);
   }
   return mod;

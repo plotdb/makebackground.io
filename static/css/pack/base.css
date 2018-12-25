@@ -10056,32 +10056,10 @@ h6.tag {
   border: 6px solid #fff;
   box-shadow: 0 8px 20px rgba(0,0,0,0.2), inset 0 2px 4px rgba(0,0,0,0.2);
   border-radius: 4px;
+  overflow: hidden;
 }
-#galleryx .list {
-  max-width: 961px;
-  margin: 30px auto;
-  background: #999;
-  padding: 0 0 1px 1px;
-}
-#galleryx .list .item {
-  display: inline-block;
-  padding: 1px 1px 0 0;
-  text-align: center;
-  width: 240px;
-  height: 240px;
-  margin: 0 0 1px;
-  vertical-align: middle;
-}
-#galleryx .list .item .name {
-  display: none;
-}
-#galleryx .list .item .thumb {
+#gallery .list .item .thumb img {
   width: 100%;
-  height: 240px;
-  border-radius: 0px;
-  background-color: #f9fafb;
-  background-position: center center;
-  background-size: cover;
 }
 @media (max-width: 480px) {
   #gallery .list .item .thumb {

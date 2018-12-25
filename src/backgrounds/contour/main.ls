@@ -57,6 +57,6 @@
     destroy: ->
 
   if module? => module.exports = mod
-  if ModManager => ModManager.register mod
+  if ModManager? => ModManager.register mod
   return mod
 )!

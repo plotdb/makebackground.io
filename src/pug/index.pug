@@ -3,6 +3,7 @@ block vars
   - var url = "https://makebackground.io/"
 block body
   include list.pug
+  - var metas = json("static/backgrounds/meta.json")
   #landing
     #landing-demo #[div] #[div]
     .gradient
@@ -23,10 +24,11 @@ block body
     +nbr(2)
 
     .list
-      each name in ["waves", "burning", "autumn-leaves", "under-cloud", "glowing-fall", "mystery", "flying-elves", "polygon", "paper-contour", "spotlight-gradient", "above-clouds", "cloudy-sky", "gradient-wave", "snow", "network", "under-sea", "trianglify", "ternary-gradient", "contour", "smooth-contour"]
-        a.item(href="/bk/" + name + "/")
-          .thumb(style="background-image:url(/backgrounds/" + name + "/index.jpg)")
-          .name= name
+      each item in metas
+        a.item(href="/bk/" + item.id + "/" + item.slug)
+          .thumb(style="background-image:url(/backgrounds/" + item.id + "/index.jpg)")
+            img(src="/backgrounds/" + item.id + "/index.jpg",alt=item.tags.join(' '))
+          .name= item.name
     +nbr(4)
     .text-center
       div Need more? Help us by sharing it!

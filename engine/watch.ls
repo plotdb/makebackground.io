@@ -14,6 +14,7 @@ log = (error, stdout, stderr) -> if "#{stdout}\n#{stderr}".trim! => console.log 
 
 pug-extapi = do
   md: -> markdown.toHTML it
+  json: (file) -> JSON.parse(fs.read-file-sync(file).toString!)
   yaml: -> js-yaml.safe-load fs.read-file-sync it
   yamls: (dir) ->
     ret = fs.readdir-sync dir
@@ -160,6 +161,7 @@ base = do
           des = src.replace(/src\/backgrounds/, 'static/backgrounds').replace(/.ls/, '.js')
           mkdir-recurse path.dirname(des)
           code = lsc.compile(fs.read-file-sync(src)toString!,{bare:true})
+          fs.write-file-sync des.replace(/\.js$/, '.raw.js'), code
           s = new stream.Readable!
           s.push code
           s.push null
@@ -186,29 +188,36 @@ base = do
       @log logs
 
     merge: (logs) ->
-      obj = {}
-      dirs = fs.readdir-sync \static/backgrounds/
-        .map -> [it, "static/backgrounds/#it"]
-        .filter -> fs.exists-sync(it.1) and fs.stat-sync(it.1).is-directory!
-      config = JSON.parse(fs.read-file-sync \src/backgrounds/config.json .toString!)
-      dirs.sort (a,b) -> config.order.indexOf(b.0) - config.order.indexOf(a.0)
-      dirs
-        .map ->
-          obj[it.0] = {}
-          if fs.exists-sync "#{it.1}/main.js" =>
-            code = fs.read-file-sync("#{it.1}/main.js").toString!
-            module = {}
-            try
-              eval(code)
-              if module.{}exports.debug => return delete obj[it.0]
-            catch e
-              # nothing.
-            obj[it.0].js = code
-          if fs.exists-sync "#{it.1}/index.html" =>
-            obj[it.0].html = fs.read-file-sync("#{it.1}/index.html").toString!
-      fs.write-file-sync \static/backgrounds/background.js, "var background = #{JSON.stringify(obj)}"
-      logs.push "[BUILD] pack backgrounds.js"
-
+      if @merge.timer => clearTimeout @merge.timer
+      @merge.timer = setTimeout (~>
+        clearTimeout @merge.timer
+        [obj,meta] = [{}, []]
+        dirs = fs.readdir-sync \static/backgrounds/
+          .map -> [it, "static/backgrounds/#it"]
+          .filter -> fs.exists-sync(it.1) and fs.stat-sync(it.1).is-directory!
+        config = JSON.parse(fs.read-file-sync \src/backgrounds/config.json .toString!)
+        dirs.sort (a,b) -> config.order.indexOf(a.0) - config.order.indexOf(b.0)
+        dirs
+          .map ->
+            obj[it.0] = {}
+            if fs.exists-sync "#{it.1}/main.raw.js" =>
+              code = fs.read-file-sync("#{it.1}/main.raw.js").toString!
+              module = {}
+              try
+                eval(code)
+                if module.{}exports.debug => return delete obj[it.0]
+                meta.push module.exports{name, desc, slug, tags} <<< {id: it.0}
+              catch e
+                console.log e
+                # nothing.
+              obj[it.0].js = code
+            if fs.exists-sync "#{it.1}/index.html" =>
+              obj[it.0].html = fs.read-file-sync("#{it.1}/index.html").toString!
+        fs.write-file-sync \static/backgrounds/meta.json, JSON.stringify(meta)
+        fs.write-file-sync \static/backgrounds/background.js, "var background = #{JSON.stringify(obj)}"
+        logs.push "[BUILD] pack backgrounds.js / meta.json"
+        @log logs
+      ), 500
     log: (logs) ->
       if logs.length => console.log logs.join(\\n)
 

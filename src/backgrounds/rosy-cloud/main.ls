@@ -1,6 +1,7 @@
 (->
   require! <[glslify]>
   mod = do
+    debug: true
     name: "Spotlight Gradient"
     type: \background
     desc: "Spotlight style gradient in two colors"
@@ -48,6 +49,6 @@
     destroy: ->
 
   if module? => module.exports = mod
-  if ModManager => ModManager.register mod
+  if ModManager? => ModManager.register mod
   return mod
 )!

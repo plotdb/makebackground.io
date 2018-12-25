@@ -80,7 +80,7 @@
   if (typeof module != 'undefined' && module !== null) {
     module.exports = mod;
   }
-  if (ModManager) {
+  if (typeof ModManager != 'undefined' && ModManager !== null) {
     ModManager.register(mod);
   }
   return mod;

@@ -3,6 +3,7 @@
 (function(){
   var mod;
   mod = {
+    debug: true,
     name: 'hex',
     type: 'background',
     desc: "contour line background",
@@ -138,7 +139,7 @@
   if (typeof module != 'undefined' && module !== null) {
     module.exports = mod;
   }
-  if (ModManager) {
+  if (typeof ModManager != 'undefined' && ModManager !== null) {
     ModManager.register(mod);
   }
   return mod;
