@@ -64,6 +64,30 @@
     }
     return skip = false;
   });
+  window.subscribe = function(){
+    var node, email, ret;
+    node = document.querySelector('#subscribe');
+    node.classList.remove('done', 'fail');
+    node.classList.add('loading');
+    email = document.querySelector('#email').value;
+    ret = /^[^@]+@[^.]+\.(.+)$/.exec(email || '');
+    if (!ret || !email) {
+      return;
+    }
+    return $.ajax({
+      url: '/d/newsletter-subscription',
+      method: 'PUT',
+      data: {
+        email: email
+      }
+    }).then(function(){
+      node.classList.remove('loading');
+      return node.classList.add('done');
+    }).fail(function(){
+      node.classList.remove('loading');
+      return node.classList.add('fail');
+    });
+  };
 })();
 function import$(obj, src){
   var own = {}.hasOwnProperty;

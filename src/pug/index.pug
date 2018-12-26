@@ -44,48 +44,47 @@ block body
       span.green about this service
       h2 Live Background Generator You've Never Seen Before
     .sep.huge-gap
-    p Have you ever see live backgrounds in some amazing websites or landing pages? Live backgrounds can impress your customers, and bring your design to the next level. But it's not always easy to make, even if you have sophisticated softwares like Adobe After Effect or Blender.
+    p Have you ever seen live backgrounds in some amazing landing pages? Proper animation always impresses your users while it's not always easy to make, even if you have sophisticated tools like Adobe After Effect or Blender.
 
-    p #[span.green Makebackground.io] provides 20 carefully crafted animated backgrounds in both #[span.green PNG] and #[span.green Webm] format for supporting both #[span.green static wallpaper] and #[span.green motion graphics] to fully power your projects with stunning, aesthetic backgrounds, with guideline in mind when we built it:
+    p #[span.green Makebackground.io] provides 20 carefully crafted animated backgrounds in #[span.green PNG] and #[span.green WebM] format for both #[span.green static wallpaper] and #[span.green motion graphics] to fully power your projects with stunning, aesthetic backgrounds.
+    p Our main features:
     ul
-      li Make It Quick and Beautiful
       li On the Web, on the Fly
-      li Easily Customizable for Your Own Style
-      li Optimized, with WebGL
+      li High Quality, Aesthetic Images
+      li Easily Customizable with Your Design
+      li For Both Live Backgrounds / Wallpapers
 
-    p To further power up websites with optimized payload size, we also plan to release source codes for all these images with friendly API for web developers. Just Stay tune!
+    p We wil also release API for our animation once ready. Just Stay tune!
 
     +nbr(2)
     h2 Technical Consideration
     .sep
-    p To optimize rendering we use WebGL, a widely adopted technology in nowaday browsers. However, some old browsers don't support WebGL such as older version (<=10) of Microsoft Internet Explorer. Performance may also vary across browsers due to their different implementation or their running environment.
-
-    p For now we only support Webm video generation with Google Chrome browser, but you can still convert webm to mp4 using other tools. We will support more formats (like #[span.green MP4] or #[span.green GIF]) and browsers for video generation.
+    p We use WebGL to optimize rendering, a widely adopted technology in nowaday browsers. However, some old browsers don't support WebGL such as older version (<=10) of Microsoft Internet Explorer. Performance may also vary across browsers due to their different implementation or their running environment.
     br
-    h4 Browser Compatibility
-    p Webm video format is currently supported by browsers including Google Chrome, Mozilla Firefox, Opera and (partially) Microsoft Edge. Unfortunately Safari doesn't support it.
+    h4 WebM Video Format
+    p For now we only support WebM generation with Google Chrome, but you can still convert WebM to mp4 using other tools. We will support more formats (like #[span.green MP4] or #[span.green GIF]) and browsers for video generation in the future.
+    br
+    h4 Playback Compatibility
+    p WebM Playback is currently supported by browsers including Google Chrome, Mozilla Firefox, Opera and partially supported in Microsoft Edge. Unfortunately Safari doesn't support it.
 
     br
     h2 License
     .sep
     p tl;dr - #[span.green free for both personal and commercial use].
-    p We expect makebackground.io to grow and become sustainable by itself, while it's for now a "proof of concept" and not even a MVP. Thus, all generated images / videos are free for both personal or commercial use. This is subject to change in the future, but you #[span.green keep the right] if you download them before we change the rule.
-    p Additionally, we also plan to open the source code used to generate all these backgrounds; it will, then, be dual license - free for personal use, charge for commercial use. We will make it more clearer once we are ready for it.
-    //-p You can check the #[a(href="/license/") license page] for more detail about licensing.
+    p Makebackground.io for now is a "proof of concept", thus all generated images / videos are free for both personal or commercial use. This is subject to change in the future, but you #[span.green keep the right] if you download them before we change the rule.
+    p We also plan to open the source used to generate these images; it's expected to be dual license then -  We will make it more clearer once we are ready for it.
 
     +nbr(2) 
-
     h2 Resources
     .sep
-    p WebGL and Shader language is quite complicated comparing to plain JavaScript, but you may still want to learn more about them. We curated a #[a(href="#") awesome-webgl] list for you to learn more about it, including libraries, tutorials, and people that are also working on creative art.
-    p Animation is always an interesting topic for people who want to make interactive content. We also provide online icon animation with #[a(href="https://loading.io") loading.io]. It also provides open sourced solution including #[a(href="https://loading.io/animation/") loading css] and #[a(href="https://loading.io/transition") transition.css].
+    p Making animation is always fun and there are so much possibilities to explore, however there are also lots of technologies to learn. This site is built with WebGL and GLSL language, and is greatly inspired by this online book "#[a(href="https://thebookofshaders.com/") The Book of Shaders]", you should check it out if you'd like to also do things with Shaders.
+    p Except rasterized images, sometimes we still need vector-based ones. One of our product "#[a(href="https://loading.io/icon/") loading.io]" is a good start for that - it ships customizable icons animated with CSS Animation/SMIL in formats like GIF, APNG or SVG. It also provides animated background tile generation "#[a(href="https://loading.io/pattern/") Loading Pattern]", which is in vector format, too.
 
-    p We expect to integrate #[a(href="https://maketext.io") maketext.io] for a more sophisticated animation builder, before that you may want to take a look of it.
 
     +nbr(2)
     h2 Contact
     .sep
-    p We want to build this service to its best, but there are always bugs or glitches. Feel free to contact us via #[b contact@makebackground.io] by mail, or leave your words in the disqus widget below. We always appreciate your feedback and support, by which we could make this service better together.
+    p We want to build this service to its best, but there are always bugs or glitches. Feel free to contact us by leaving your words in the Disqus widget below! We always appreciate your feedback and support, by which we could make this service better together.
     br
     #subscribe.card
       .card-body
