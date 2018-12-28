@@ -7710,7 +7710,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: Abel;
-  font-size: 20px;
+  font-size: 16px;
   line-height: 1.57em;
 }
 h1,
@@ -10507,7 +10507,7 @@ h6.tag {
   margin: auto;
   width: 90%;
   max-width: 640px;
-  height: 400px;
+  height: 420px;
   text-align: center;
 }
 #download.modal .card .footer .btn {
