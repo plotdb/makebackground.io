@@ -1,0 +1,16 @@
+extends /base.pug
+block vars
+ - var mod = {"id":"network","name":"Network","desc":"web-like interconnection between nodes for your technology project","slug":"blue-network-connection-graph","tags":["network","graph","social","media","internet","map","blue","connection"]};
+  - var url = "https://makebackground.io/bk/" + mod.id + "/";
+  - var thumbnail = "https://makebackground.io/backgrounds/" + mod.id + "/thumbnail.jpg";
+  - var title = mod.name + " / " + title;
+  - var description = mod.desc + " / " + description
+block body
+  #micro-nav
+    a.title(href="/#gallery") #[i.fa.fa-chevron-left] MAKEBACKGROUND.IO
+  #canvas-container
+  include /editor.pug
+  //-script(src="/js/bk/" + name + ".js")
+  script(src="/backgrounds/" + mod.id + "/main.js")
+  script.
+    initEditor("#{mod.id}");

@@ -10,7 +10,18 @@
     .card-footer
       a.btn.btn-lg.btn-outline-success.mr-2(href="#",download="") Download
       .btn.btn-lg.btn-outline-secondary(onclick="$('#download').modal('hide')") Close
-
+#loadingio.modal
+  .card(style="height:460px")
+    .card-body.text-left(style="font-size:1.25em;display:flex;align-items:center;justify-content:center")
+      div
+        div for better formats support:
+        h3 Please head to #[a(href="https://loading.io/background/") loading.io]
+        hr
+        p We used a Chrome-exclusive tech for animation generation here which had several limitations, such as limitations in quality, formats, and the results are not seamless repeatable.
+        p Meanwhile, we have upgraded loading.io's editor with advanced features and formats support. To provide better results and supports to our users, we decided to migrate effects in makebackground.io to loading.io.
+        p.mb-0 You can still download static image and an one sec sample WebM video here, but for more options and formats, please go directly to #[a(href="https://loading.io/background/") loading.io].
+    .card-footer
+      .btn.btn-lg.btn-outline-secondary(onclick="$('#loadingio').modal('hide')") Close
 
 include /module/palette-picker.pug
 #editor-option-sample(style="display:none")
@@ -55,7 +66,6 @@ include /module/palette-picker.pug
               a.dropdown-item Chrome Only #[i.fa.fa-flask]
               .dropdown-divider
               a.dropdown-item(data-type="webm",data-dur="1",href="#") 1 sec
-              a.dropdown-item(data-type="webm",data-dur="2",href="#") 2 sec
-              a.dropdown-item(data-type="webm",data-dur="4",href="#") 4 sec
-              a.dropdown-item(data-type="webm",data-dur="8",href="#") 8 sec
+              .dropdown-divider
+              .clickable.dropdown-item(style="border-left:0",onclick="$('#loadingio').modal('show')") More ...
     #editor-custom-options.row
