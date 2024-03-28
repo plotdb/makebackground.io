@@ -1,7 +1,8 @@
-db
 node_modules
-.*
 secret.ls
 !.gitignore
 npm-debug.log
-config/nginx/local.config
+.*.swp
+.swp
+secret.*
+.DS_Store
