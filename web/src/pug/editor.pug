@@ -19,7 +19,7 @@
         hr
         p We used a Chrome-exclusive tech for animation generation here which had several limitations, such as limitations in quality, formats, and the results are not seamless repeatable.
         p Meanwhile, we have upgraded loading.io's editor with advanced features and formats support. To provide better results and supports to our users, we decided to migrate effects in makebackground.io to loading.io.
-        p.mb-0 You can still download static image and an one sec sample WebM video here, but for more options and formats, please go directly to #[a(href="https://loading.io/background/") loading.io].
+        p.mb-0 You can still download static images here, but for more options and formats, please go directly to #[a(href="https://loading.io/background/") loading.io].
     .card-footer
       .btn.btn-lg.btn-outline-secondary(onclick="$('#loadingio').modal('hide')") Close
 
@@ -60,7 +60,8 @@ include /module/palette-picker.pug
             .dropdown-menu
               a.dropdown-item(data-type="static",data-format="png") PNG
               //-a.dropdown-item(data-type="static",data-format="jpeg") JPG
-          .dropup
+          .btn.btn-sm.btn-outline-dark(style="border-left:0",onclick="$('#loadingio').modal('show')") More ...
+          //-.dropup
             .btn.btn-sm.btn-outline-dark.dropdown-toggle(href="#",data-toggle="dropdown") Live
             .dropdown-menu
               a.dropdown-item Chrome Only #[i.fa.fa-flask]
