@@ -12,6 +12,9 @@
     "node": "=10.4.0",
     "npm": "=6.1.0"
   },
+  "scripts": {
+    "start": "npx server -r web -o true"
+  },
   "devDependencies": {},
   "dependencies": {
     "@zbryikt/template": "^2.3.45"
