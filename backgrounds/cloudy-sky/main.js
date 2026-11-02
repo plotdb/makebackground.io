@@ -49,7 +49,7 @@
       groupList = [];
       matList = [];
       count = 100;
-      new THREE.SVGLoader().load('/assets/img/bk/cloud.svg', function(paths){
+      new THREE.SVGLoader().load('assets/img/bk/cloud.svg', function(paths){
         var i$, to$, k, g, idx, color, mat, j$, to1$, i, path, shapes, k$, to2$, j, shape, geom, mesh, results$ = [];
         for (i$ = 0, to$ = count; i$ < to$; ++i$) {
           k = i$;
