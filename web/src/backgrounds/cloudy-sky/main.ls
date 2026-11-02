@@ -32,7 +32,7 @@
 
       count = 100
 
-      new THREE.SVGLoader!load '/assets/img/bk/cloud.svg', (paths) ->
+      new THREE.SVGLoader!load 'assets/img/bk/cloud.svg', (paths) ->
         for k from 0 til count =>
           g = new THREE.Group!
           idx = Math.floor(Math.random! * 3)

@@ -1,6 +1,6 @@
 extends /base.pug
 block vars
-  - var url = "https://makebackground.io/"
+  - var url = "https://plotdb.github.io/makebackground.io/"
 block body
   include list.pug
   - var metas = json("static/backgrounds/meta.json")
@@ -13,11 +13,11 @@ block body
     #quick-picker
       br
       for item in ["burning", "under-sea", "glowing-fall", "flying-elves", "network"]
-        .thumb(style="background-image:url(/backgrounds/" + item + "/index.jpg)",data-name=item)
+        .thumb(style="background-image:url(backgrounds/" + item + "/index.jpg)",data-name=item)
 
       .text-center
         div: small .. more ..
-        img(src="/assets/img/icon/down.svg",style="margin-top: -10px")
+        img(src="assets/img/icon/down.svg",style="margin-top: -10px")
   #gallery
     +nbr(3)
     .text-center: big Pick your favor background to customize it..
@@ -25,9 +25,9 @@ block body
 
     .list
       each item in metas
-        a.item(href="/bk/" + item.id + "/" + item.slug)
-          .thumb(style="background-image:url(/backgrounds/" + item.id + "/index.jpg)")
-            img(src="/backgrounds/" + item.id + "/index.jpg",alt=item.tags.join(' '))
+        a.item(href="bk/" + item.id + "/" + item.slug)
+          .thumb(style="background-image:url(backgrounds/" + item.id + "/index.jpg)")
+            img(src="backgrounds/" + item.id + "/index.jpg",alt=item.tags.join(' '))
           .name= item.name
     +nbr(4)
   //-
@@ -36,9 +36,9 @@ block body
       +nbr(2)
       .row.w-75.mx-auto
         .col-sm
-          a.btn.btn-block.btn-outline-primary.mr-2.mb-2(href="https://www.facebook.com/sharer/sharer.php?u=https://makebackground.io",target="_blank") share with facebook #[i.fa.fa-facebook]
+          a.btn.btn-block.btn-outline-primary.mr-2.mb-2(href="https://www.facebook.com/sharer/sharer.php?u=https://plotdb.github.io/makebackground.io",target="_blank") share with facebook #[i.fa.fa-facebook]
         .col-sm
-          a.btn.btn-block.btn-outline-primary(href="https://twitter.com/share?url=https://makebackground.io&text=super-fast%20live%20background%20generator%20for%20modern%20age",target="_blank") share with twitter #[i.fa.fa-twitter]
+          a.btn.btn-block.btn-outline-primary(href="https://twitter.com/share?url=https://plotdb.github.io/makebackground.io&text=super-fast%20live%20background%20generator%20for%20modern%20age",target="_blank") share with twitter #[i.fa.fa-twitter]
 
   #info: .inner
     .text-center: h2 About This Service
@@ -48,8 +48,8 @@ block body
     p loading.io provides backgrounds in both vector and raster formats, offering advanced controls such as frame blending, rates, speed, and duration. If you're in search of animated backgrounds, this is a resource you won't want to overlook.
     br
     br
-    .text-center: h2 Next Steps
-    p Given loading.io's comprehensive feature set, which supersedes most of makebackground.io's capabilities, we are contemplating a strategic shift for Makebackground.io. While we prepare for this transition, Makebackground.io will remain operational in its current form. Stay tuned for updates!
+    .text-center: h2 Archive
+    p makebackground.io ran from 2018 to 2026. The service has been retired and this page is kept as an archive of the original site. Animated backgrounds with more formats are available on #[a(href="https://loading.io/background/") loading.io].
 
 
     //-
@@ -110,10 +110,10 @@ block body
       #disqus_thread
       script.
         var disqus_config = function () {
-        this.page.url = "https://makebackground.io/";
+        this.page.url = "https://plotdb.github.io/makebackground.io/";
         this.page.identifier = "/";
         };
       include /module/disqus.pug
 
   include module/footer.pug
-  script(src="/js/index.js")
+  script(src="js/index.js")

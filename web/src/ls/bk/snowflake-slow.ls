@@ -28,7 +28,7 @@
 
       mod.obj.count = count = 500
 
-      new THREE.SVGLoader!load '/assets/img/bk/snow.svg', (paths) ->
+      new THREE.SVGLoader!load 'assets/img/bk/snow.svg', (paths) ->
         for k from 0 til count =>
           g = new THREE.Group!
           color = [0xffffff,0xeeeeee,0xdddddd][Math.floor(Math.random! * 3)]

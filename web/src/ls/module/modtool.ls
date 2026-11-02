@@ -43,7 +43,7 @@
           rej!
         ), 10000
         node: document.createElement("script")
-      @load.target.node.src = "/backgrounds/#name/main.js"
+      @load.target.node.src = "backgrounds/#name/main.js"
       document.body.appendChild(@load.target.node)
 
     register: (mod) ->

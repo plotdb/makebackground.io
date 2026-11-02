@@ -3,11 +3,11 @@
 
 @font-face
   font-family: Abel
-  src: url(/assets/fonts/system/Abel-Regular.ttf)
+  src: url(../assets/fonts/system/Abel-Regular.ttf)
 
 @font-face
   font-family: Abeezee
-  src: url(/assets/fonts/system/ABeeZee-Regular.ttf)
+  src: url(../assets/fonts/system/ABeeZee-Regular.ttf)
 
 html,body
   width: 100%
@@ -31,3 +31,15 @@ h1
 @import 'modal/index.styl'
 @import 'component/index.styl'
 @import 'site/index.styl'
+
+#archive-note
+  position: fixed
+  top: 0
+  right: 0
+  z-index: 9999
+  padding: 2px 10px
+  font-size: 11px
+  color: rgba(255,255,255,.85)
+  background: rgba(0,0,0,.45)
+  border-bottom-left-radius: 4px
+  pointer-events: none

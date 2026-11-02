@@ -86,7 +86,7 @@
           }, 10000),
           node: document.createElement("script")
         });
-        this$.load.target.node.src = "/backgrounds/" + name + "/main.js";
+        this$.load.target.node.src = "backgrounds/" + name + "/main.js";
         return document.body.appendChild(this$.load.target.node);
       });
     },

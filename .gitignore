@@ -6,3 +6,5 @@ npm-debug.log
 .swp
 secret.*
 .DS_Store
+.worktree
+context/cached

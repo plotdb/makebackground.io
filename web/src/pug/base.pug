@@ -3,33 +3,34 @@ doctype html
 - var navbar = true
 - var debug = false
 - var version = "0"
-- var thumbnail = "https://makebackground.io/assets/img/thumbnail.jpg"
+- var thumbnail = "https://plotdb.github.io/makebackground.io/assets/img/thumbnail.jpg"
 - var thumbtype = "image/jpg"
 - var thumb_width = "1200"
 - var thumb_height = "630"
-- var favicon = "/assets/img/favicon.png"
+- var favicon = "assets/img/favicon.png"
 - var title = "Make Live Wallpaper and Background Online Free"
 - var description = "create and make your own live, customized backgrounds / wallpapers in seconds for free."
 - var rootid = ""
 - var rootclass = ""
+//- site paths are relative to <base>, so the site works under any path ( e.g. gh-pages sub path ).
+//- pages in sub folders override this with the path back to site root.
+- var basehref = "./"
 html(lang="en")
   include /module/mixin/index.pug
   block vars
   head(prefix="og: http://ogp.me/ns#")
+    base(href=basehref)
     include /module/head.pug
-    +css("/css/index.css")
+    +css("css/index.css")
     block head
-    +script("/js/global.js")
-    +script("/js/pack/base.js")
-    +script("/js/pack/three.js")
+    +script("js/global.js")
+    +script("js/pack/base.js")
+    +script("js/pack/three.js")
   body(id=rootid,class=rootclass)
     #loading.ld-over-full-inverse: .ld.ld-ball.ld-bounce
     //-if navbar
       include /nav.pug
-    include /auth/panel.pug
+    #archive-note makebackground.io (2018 – 2026) · archived
     //-#notifications
       .notify(ng-repeat="n in notifications",ng-class="'notify-'+n.type",ng-cloak) {{n.message}}
     block body
-    if !debug
-      include /module/ga.pug
-      include /module/facebook.pug

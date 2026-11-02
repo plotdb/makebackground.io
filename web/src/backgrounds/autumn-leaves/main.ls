@@ -33,7 +33,7 @@
 
       mod.obj.count = count = 500
 
-      new THREE.SVGLoader!load '/assets/img/bk/leaf.svg', (paths) ->
+      new THREE.SVGLoader!load 'assets/img/bk/leaf.svg', (paths) ->
         for k from 0 til count =>
           g = new THREE.Group!
           subg = new THREE.Group!

@@ -3,20 +3,15 @@
   "name": "makebackground",
   "description": "makebackground website",
   "version": "0.0.1",
-  "homepage": "https://github.com/zbryikt/makebackground",
+  "homepage": "https://plotdb.github.io/makebackground.io/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zbryikt/makebackground"
-  },
-  "engines": {
-    "node": "=10.4.0",
-    "npm": "=6.1.0"
+    "url": "https://github.com/plotdb/makebackground.io"
   },
   "scripts": {
     "start": "npx server -r web -o true"
   },
-  "devDependencies": {},
-  "dependencies": {
-    "@zbryikt/template": "^2.3.45"
+  "devDependencies": {
+    "@zbryikt/template": "^2.5.0"
   }
 }

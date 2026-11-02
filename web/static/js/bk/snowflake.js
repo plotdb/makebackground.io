@@ -24,7 +24,7 @@ mat = new THREE.ShaderMaterial({
     },
     texture: {
       type: 't',
-      value: THREE.ImageUtils.loadTexture('/assets/img/bk/snow.svg')
+      value: THREE.ImageUtils.loadTexture('assets/img/bk/snow.svg')
     }
   },
   vertexShader: "varying vec2 vUv;\nuniform float time;\nvoid main() {\n  vUv = uv;\n  vec3 pos = position;\n  pos.y = pos.y - time;\n  gl_PointSize = position.z * 0.1 + 200.;\n  gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.);\n}",

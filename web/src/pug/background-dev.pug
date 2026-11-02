@@ -2,12 +2,12 @@
 extends /base.pug
 block body
   #micro-nav
-    a.title(href="/#gallery") #[i.fa.fa-chevron-left] MAKEBACKGROUND.IO
+    a.title(href="#gallery") #[i.fa.fa-chevron-left] MAKEBACKGROUND.IO
   #container
   include /editor.pug
-  script(src="/js/module/dev.js")
-  script(src="/js/bk/" + name + ".js")
-  //-script(src="/backgrounds/" + name + "/main.js")
+  script(src="js/module/dev.js")
+  script(src="js/bk/" + name + ".js")
+  //-script(src="backgrounds/" + name + "/main.js")
   script.
     var renderer = new ModRenderer("#container");
     var mod = null;
